@@ -1,0 +1,57 @@
+#' Create shapefile containing Metapop population centroids
+#' 
+#' Creates a shapefile (.shp, and associated .shx and .dbf files) containing a 
+#' point representing the centroid of each population. Attributes of each point 
+#' include the population's name (\code{pop}), and and the mean population size 
+#' at each time step.
+#' 
+#' @param res An object containing the results of a RAMAS Metapop simulation. 
+#'   This object can be created by using \code{\link{mpresults}}.
+#' @param coords An object containing population coordinates. This object can be
+#'   created by using \code{\link{mpcoords}}
+#' @param outfile The desired output filename (including full path, and without 
+#'   file extension).
+#' @param start The value of the first timestep. If timesteps are not in 
+#'   increments of 1, it may be best to use \code{start=1}, in which case 'time'
+#'   in the resulting shapefile's attribute table will refer to the timestep 
+#'   number.
+#' @return \code{NULL}. Three files are created: outfile.shp, outfile.shx and
+#'   outfile.dbf.
+#' @keywords spatial
+#' @seealso \code{\link{mpcoords}}
+#' @export
+#' @examples
+#' mp <- system.file('litspe.mp', package='mptools')
+#' res <- mpresults(mp)
+#' asc <- system.file('litspe_2000.asc', package='mptools')
+#' coords <- mpcoords(mp, asc, 9.975)
+#' tmp <- tempfile() 
+#' mp2shp(res, coords, tmp, start=2000) # file will be created in tempdir()
+mp2shp <- function(res, coords, outfile, start) {
+  require('sp')
+  require('rgdal')
+  errmsg <- NULL
+  if (file.exists(paste(outfile, 'shp', sep='.'))) {
+    errmsg <- c(errmsg, sprintf('\nFile %s.shp already exists.', outfile))
+  }
+  if (file.exists(paste(outfile, 'shx', sep='.'))) {
+    errmsg <- c(errmsg, sprintf('\nFile %s.shx already exists.', outfile))
+  }
+  if (file.exists(paste(outfile, 'dbf', sep='.'))) {
+    errmsg <- c(errmsg, sprintf('\nFile %s.dbf already exists.', outfile))
+  }
+  if(length(errmsg)) stop(errmsg)
+  sites <- coords[, c('pop', 'x', 'y')]
+  N <- as.data.frame(t(res$results[, 'mean', -1]))
+  names(N) <- start + seq_along(N) - 1
+  if(!identical(row.names(N), sites$pop)) stop('Something went wrong and triggered this vague error... contact johnbaums@gmail.com.')
+  shp <- cbind(sites, N)
+  coordinates(shp) <- ~x+y
+  writeOGR(shp, dirname(outfile), basename(outfile), 'ESRI Shapefile') 
+  
+  if(file.exists(paste0(outfile, '.shp'))) {
+    message(sprintf('File %s.shp created.', outfile))
+  } else {
+    message(sprintf('There was a problem creating %s.shp.', outfile))
+  } 
+}

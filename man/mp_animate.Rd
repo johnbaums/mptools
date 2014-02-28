@@ -1,0 +1,87 @@
+\name{mp_animate}
+\alias{mp_animate}
+\title{Animate the output of a RAMAS Metapop simulation.}
+\usage{
+mp_animate(res, coords, habitat, outfile, zlim, axes = FALSE,
+  col.regions = NULL, col.pts = NULL, height = 800, width = 820,
+  interval = 0.05, pt.cex = 0.85)
+}
+\arguments{
+  \item{res}{An object containing the results of a RAMAS
+  Metapop simulation.  This object can be created by using
+  \code{\link{mpresults}}.}
+
+  \item{coords}{An object containing population
+  coordinates. This object can be created by using
+  \code{\link{mpcoords}}.}
+
+  \item{habitat}{Either a file path containing habitat
+  grids (names of grid files must end in an underscore
+  followed by a number, e.g.  litspe_2000.asc), or a
+  RasterStack or RasterBrick object. The number of files,
+  or Raster* layers, should equal the number of simulation
+  time steps.  If a file path is provided, files are
+  ordered by the numeric component of their names.}
+
+  \item{outfile}{A character string giving the desired
+  output path and filename.}
+
+  \item{zlim}{A numeric vector of length 2 giving the lower
+  and upper limits of the color scale indicating habitat
+  quality.}
+
+  \item{axes}{Logical. Should axes be drawn?}
+
+  \item{col.regions}{A \code{\link{colorRampPalette}}
+  function that will be used to generate the colour ramp
+  for grids. If \code{NULL}, a default colour ramp based on
+  \code{\link{terrain.colors}} is used.}
+
+  \item{col.points}{A \code{\link{colorRampPalette}}
+  function that will be used to generate the colour ramp
+  for points. These colours will be interpolated into 100
+  colours, which indicate relative mean population size,
+  ranging from 1 (first element of the colour ramp) to the
+  maximum mean population size that exists in the
+  simulation output. If \code{NULL}, a default colour ramp
+  ranging from white to black is used.}
+
+  \item{height}{Numeric. The height of the animation, in
+  pixels. Default is 800.}
+
+  \item{width}{Numeric. The width of the animation, in
+  pixels. Default is 820.}
+
+  \item{interval}{The time interval of the animation, in
+  seconds. Default is 0.05, i.e. 20 frames per second.}
+}
+\value{
+\code{NULL}. The animation is saved as an animated .gif
+file at the specified path (\code{outfile}).
+}
+\description{
+Mean population size is indicated by point color, and is
+overlaid on temporally-dynamic grids of, e.g., habitat
+suitability.
+}
+\examples{
+mp <- system.file('litspe.mp', package='mptools')
+res <- mpresults(mp)
+asc <- system.file('litspe_2000.asc', package='mptools')
+coords <- mpcoords(mp, asc, 9.975)
+tmp <- file.path(tempdir(), 'example.gif')
+
+# Provide a file path containing habitat grids
+mp_animate(res, coords, habitat=system.file(package='mptools'), outfile=tmp, zlim=c(0, 1225))
+
+# Provide a RasterStack containing habitat grids.
+grids <- list.files(system.file(package='mptools'), patt='_[0-9]+\\\\\\\\.asc$', full.names=TRUE)
+library(raster)
+s <- stack(grids)
+mp_animate(res, coords, habitat=s, outfile=tmp)
+}
+\seealso{
+\code{\link{mp2shp}}
+}
+\keyword{spatial}
+

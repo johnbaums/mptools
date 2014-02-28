@@ -1,0 +1,30 @@
+\name{ths}
+\alias{ths}
+\title{Extract THS from a folder of RAMAS Metapop .ptc files}
+\usage{
+ths(ptc)
+}
+\arguments{
+  \item{ptc}{A character string containing the path to a
+  directory containing the .ptc files of interest. This
+  should contain no .ptc other than those to be included in
+  the extraction. Order will be taken from the numeric
+  component of filenames.}
+}
+\value{
+A numeric vector with length equal to the number of .ptc
+files in the directory specified by \code{ptc}.
+}
+\description{
+Extracts Total Habitat Suitability from RAMAS .ptc file.
+}
+\note{
+This has been tested for RAMAS version 5.1, and may produce
+unexpected results for other versions. Please verify that
+the returned coordinates are sensible by referring to the
+plot that is returned by this function.
+}
+\seealso{
+\code{\link{mpresults}}
+}
+
