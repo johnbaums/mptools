@@ -86,7 +86,7 @@ function(mp) {
                              metapop):(grep('Time to cross', metapop)-1)]
   minmaxterm <- strsplit(minmaxterm[-1], ' ')
   minmaxterm <- apply(do.call(rbind, minmaxterm), 2, as.numeric)
-  if(nrow(pop.details)==1) dim(minmaxterm) <- c(1, 3)
+  if(length(minmaxterm)==3) dim(minmaxterm) <- c(1, 3)
   colnames(minmaxterm) <- c('min', 'max', 'terminal')
   EMA <- mean(minmaxterm[, 'min'])
   SDMA <- sd(minmaxterm[, 'min'])
