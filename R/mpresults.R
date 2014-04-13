@@ -86,10 +86,11 @@ function(mp) {
                              metapop):(grep('Time to cross', metapop)-1)]
   minmaxterm <- strsplit(minmaxterm[-1], ' ')
   minmaxterm <- apply(do.call(rbind, minmaxterm), 2, as.numeric)
+  if(nrow(pop.details)==1) dim(minmaxterm) <- c(1, 3)
   colnames(minmaxterm) <- c('min', 'max', 'terminal')
   EMA <- mean(minmaxterm[, 'min'])
   SDMA <- sd(minmaxterm[, 'min'])
   list(results=res, minmaxterm=minmaxterm, EMA=EMA, SDMA=SDMA,
-       timestamp=as.POSIXlt(sim.res[1], format="Simulation results %m/%d/%Y %X"), 
+       timestamp=as.POSIXlt(sim.res[1], format="Simulation results %d/%m/%Y %X"), 
        iters=as.numeric(sub('(\\d*).*', '\\1', sim.res[2])))
 }
