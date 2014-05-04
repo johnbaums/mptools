@@ -11,7 +11,7 @@
 KvsTime <- function(kch, filename, layout=c(5, 10), ...) {
   require(zoo)
   require(lattice)
-  if (!grepl('\\.pdf$', filename)) filename <- paste0(file, '.pdf')
+  if (!grepl('\\.pdf$', filename)) filename <- paste0(filename, '.pdf')
   pdf(filename, paper='a4', width=8, height=11)
   print(xyplot(zoo(kch), layout=layout, 
                scales=list(alternating=FALSE, tck=c(1, 0), cex=0.8, rot=0),
