@@ -2,7 +2,7 @@
 \alias{KvsTime}
 \title{Plot carrying capacity vs time}
 \usage{
-KvsTime(meta, kch, filename, layout = c(5, 10), ...)
+KvsTime(meta, kch, filename, samelims = FALSE, layout = c(5, 10), ...)
 }
 \arguments{
   \item{meta}{The R object holding population info returned
@@ -13,6 +13,9 @@ KvsTime(meta, kch, filename, layout = c(5, 10), ...)
 
   \item{filename}{A character string giving the filename
   (with extension ".pdf") to save the plot to.}
+
+  \item{samelims}{(logical) If \code{TRUE}, the y-axis
+  limits will be constant across plots.}
 
   \item{layout}{The number of columns and row of plots
   (default = 5 columns, 10 rows).}

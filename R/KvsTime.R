@@ -23,10 +23,13 @@ KvsTime <- function(meta, kch, filename, samelims=FALSE, layout=c(5, 10), ...) {
                font = ifelse(hasInitN, 2, 1)[which.panel])
   }
   pdf(filename, paper='a4', width=8, height=11)
-  print(xyplot(zoo(kch), layout=layout, 
-               scales=list(alternating=FALSE, tck=c(1, 0), cex=0.8, rot=0),
-               ylab='Carrying capacity', strip=Strip, col=1, 
-               ylim=mapply(c, 0, apply(kch, 2, max), SIMPLIFY=FALSE), 
-               ...))
+  scl <- list(alternating=FALSE, tck=c(1, 0), cex=0.8, rot=0)
+  if (isTRUE(samelims)) {
+    scl$y <- list(relation = "same")
+  } else {
+    scl$y <- list(limits=mapply(c, 0, apply(kch, 2, max), SIMPLIFY=FALSE))
+  }
+  print(xyplot(zoo(kch), layout=layout, scales=scl,
+               ylab='Carrying capacity', strip=Strip, col=1, ...))
   dev.off()
 }
