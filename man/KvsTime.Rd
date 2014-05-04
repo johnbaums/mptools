@@ -2,7 +2,8 @@
 \alias{KvsTime}
 \title{Plot carrying capacity vs time}
 \usage{
-KvsTime(meta, kch, filename, samelims = FALSE, layout = c(5, 10), ...)
+KvsTime(meta, kch, filename, samelims = FALSE, plotN = FALSE, results,
+  layout = c(5, 10), ...)
 }
 \arguments{
   \item{meta}{The R object holding population info returned
@@ -16,6 +17,14 @@ KvsTime(meta, kch, filename, samelims = FALSE, layout = c(5, 10), ...)
 
   \item{samelims}{(logical) If \code{TRUE}, the y-axis
   limits will be constant across plots.}
+
+  \item{plotN}{(logical) If \code{TRUE}, mean population
+  abundance will be plotted (solid lines) in addition to
+  carrying capacity (dashed lines).}
+
+  \item{results}{(required only if \code{plotN} is
+  \code{TRUE}) The R object holding simulation results
+  returned by \link{mpresults}.}
 
   \item{layout}{The number of columns and row of plots
   (default = 5 columns, 10 rows).}
