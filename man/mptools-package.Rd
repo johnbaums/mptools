@@ -13,8 +13,8 @@ Tools to extract RAMAS Metapop metadata and simulation results, and back-transfo
 \tabular{ll}{
 Package: \tab mptools\cr
 Type: \tab Package\cr
-Version: \tab 1.10\cr
-Date: \tab 2014-02-27\cr
+Version: \tab 1.20\cr
+Date: \tab 2014-05-04\cr
 License: \tab do with it what you will.\cr
 LazyLoad: \tab yes\cr
 }
