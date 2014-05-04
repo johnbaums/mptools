@@ -2,9 +2,12 @@
 \alias{KvsTime}
 \title{Plot carrying capacity vs time}
 \usage{
-KvsTime(kch, filename, layout = c(5, 10), ...)
+KvsTime(meta, kch, filename, layout = c(5, 10), ...)
 }
 \arguments{
+  \item{meta}{The R object holding population info returned
+  by \link{mpmeta}.}
+
   \item{kch}{The R object holding kch data returned by
   \link{mpkch}.}
 
