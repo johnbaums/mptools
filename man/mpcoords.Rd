@@ -46,4 +46,3 @@ coords <- mpcoords(mp, asc, 9.975)
 \seealso{
 \code{\link{mp2shp}}
 }
-

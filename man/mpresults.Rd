@@ -40,8 +40,8 @@ This has been tested for RAMAS version 5.1, and may produce
 unexpected results for other versions.
 }
 \examples{
-f <- system.file('litspe.mp', package='mptools')
-res <- mpresults(f)
+mp <- system.file('litspe.mp', package='mptools')
+res <- mpresults(mp)
 str(res)
 
 # look at the simulation results for the first array slice (NB: this slice is
@@ -69,4 +69,3 @@ res$results[, 4, ] # or res$results[, 'max', ]
 \seealso{
 \code{\link{mpmeta}}
 }
-

@@ -45,4 +45,3 @@ mp2shp(res, coords, tmp, start=2000) # file will be created in tempdir()
 \code{\link{mpcoords}}
 }
 \keyword{spatial}
-

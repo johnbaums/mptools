@@ -57,8 +57,8 @@ in the standard deviation matrix.}
 Extract population details from RAMAS Metapop .mp files.
 }
 \examples{
-f <- system.file('litspe.mp', package='mptools')
-res <- mpmeta(f)
+mp <- system.file('litspe.mp', package='mptools')
+res <- mpmeta(mp)
 head(res)
 }
 \seealso{

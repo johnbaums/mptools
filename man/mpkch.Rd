@@ -7,7 +7,6 @@ mpkch(meta, path)
 \arguments{
   \item{meta}{The R object holding Metapop metadata
   returned by \link{mpmeta}.}
-
   \item{path}{A character string giving the full path to
   the directory containing .kch files referred to in object
   \code{meta}.}
@@ -20,4 +19,3 @@ row).
 \description{
 Extract KCH time series for each RAMAS Metapop population.
 }
-

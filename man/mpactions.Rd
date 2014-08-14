@@ -58,4 +58,3 @@ and \code{linear.upperN}.}
 Extract management action details from RAMAS Metapop .mp
 files.
 }
-

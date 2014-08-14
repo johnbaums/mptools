@@ -59,6 +59,7 @@ mp_animate <- function (res, coords, habitat, outfile, zlim, axes = FALSE, col.r
   require(animation)
   require(rasterVis)
   require(sp)
+  require(grid)
   if (!is(habitat, "Raster")) {
     if (is.character(habitat)) {
       f <- list.files(habitat, pattern = "_[0-9]+\\.(asc|tif|grd)$", 

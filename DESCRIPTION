@@ -1,11 +1,11 @@
 Package: mptools
 Type: Package
 Title: RAMAS Metapop tools
-Version: 1.20
-Date: 2014-05-04
+Version: 1.21
+Date: 2014-08-15
 Depends: R (>= 2.15.0), rgdal (>= 0.8-9), sp (>= 1.0-9), animation (>= 2.2), lattice (>= 0.20-29), zoo (>= 1.7-11)
-Author: John Baumgartner
-Maintainer: John Baumgartner <johnbb@student.unimelb.edu.au>
-Description: Extraction of metadata and simulation results from RAMAS Metapop .mp files.
-License: do with it what you will.
+Author: John Baumgartner <johnbaums@gmail.com>
+Maintainer: John Baumgartner <johnbaums@gmail.com>
+Description: Extraction and presentation of metadata and simulation results from RAMAS Metapop .mp files.
+License: GPL (>= 2)
 LazyLoad: yes

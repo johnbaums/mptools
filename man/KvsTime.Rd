@@ -38,4 +38,3 @@ capacity over time.
 \description{
 Plot each population's carrying capacity vs time.
 }
-

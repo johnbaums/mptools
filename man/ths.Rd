@@ -27,4 +27,3 @@ plot that is returned by this function.
 \seealso{
 \code{\link{mpresults}}
 }
-
