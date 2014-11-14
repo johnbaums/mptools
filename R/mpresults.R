@@ -54,14 +54,14 @@
 mpresults <-
 function(mp) {
   message(sprintf('Extracting simulation results from file %s...', mp))
-  metapop <- readLines(mp)[-1]
+  metapop <- readLines(mp)[-(1:6)]
   if(!length(grep('Simulation results', metapop))) {
     stop(sprintf('There are no simulation results in %s.', mp), call.=FALSE)
   }
   if(!length(grep('\\-End of file\\-', metapop[length(metapop)]))) {
     stop(sprintf('Expected final line of %s to contain "-End of file-"', mp))
   }
-  pops <- metapop[44:(grep('^Migration$', metapop) - 1)]
+  pops <- metapop[39:(grep('^Migration$', metapop) - 1)]
   pop.names <- read.csv(text=pops, stringsAsFactors=FALSE, header=FALSE)[, 1]
   sim.res <- metapop[grep('^Simulation results', 
                           metapop):(grep('^Occupancy', metapop)-1)]

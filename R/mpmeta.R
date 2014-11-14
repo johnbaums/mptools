@@ -47,12 +47,12 @@
 mpmeta <- function (mp) {
   message(sprintf("Extracting population metadata from file %s...", 
                   mp))
-  metapop <- readLines(mp)[-1]
+  metapop <- readLines(mp)[-(1:6)]
   if (!length(grep("\\-End of file\\-", metapop[length(metapop)]))) {
     stop(sprintf("Expected final line of %s to contain \"-End of file-\"", 
                  mp))
   }
-  pops <- metapop[44:(grep('^Migration$', metapop) - 1)]
+  pops <- metapop[39:(grep('^Migration$', metapop) - 1)]
   if(count.fields(textConnection(pops[1]), sep = ',') != 28)
     warning('It looks like you might have used a custom RAMAS dll. Only the standard set of 28 fields are returned.')
   pop.details <- read.csv(text = pops, stringsAsFactors = FALSE, 

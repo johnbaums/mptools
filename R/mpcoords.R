@@ -28,19 +28,19 @@
 #' coords <- mpcoords(mp, asc, 9.975)
 mpcoords <- function (mp, asc, cell.length, plot = TRUE) 
 {
-  metapop <- readLines(mp)[-1]
+  metapop <- readLines(mp)[-(1:6)]
   if (!length(grep("\\-End of file\\-", metapop[length(metapop)]))) {
     stop(sprintf("Expected final line of %s to contain \"-End of file-\"", 
                  mp))
   }
-  pops <- metapop[(grep(28, count.fields(mp, sep = ",", 
-                                         blank.lines.skip = FALSE))[1] - 1):(grep("^Migration", 
-                                                                                  metapop)[1] - 1)]
+  
+  pops <- metapop[39:(grep('^Migration$', metapop) - 1)]
   pops <- read.csv(text = pops, stringsAsFactors = FALSE, 
                    header = FALSE)[, 1:3]
   
   header <- read.table(asc, nrows = 6, row.names = 1)
-  x0 <- header[grep("xll", row.names(header), ignore.case = TRUE),] # I think RAMAS treats both xllcorner and xllcenter as the cell centre (same for yll)
+  x0 <- header[grep("xll", row.names(header), ignore.case = TRUE),] 
+  # I think RAMAS treats both xllcorner and xllcenter as the cell centre (same for yll)
   y0 <- header[grep("yll", row.names(header), ignore.case = TRUE),]
   cellsize <- header[grep("cellsize", row.names(header), ignore.case = TRUE), ]
   nr <- header[grep("nrows", row.names(header), ignore.case = TRUE), ]
