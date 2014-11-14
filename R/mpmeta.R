@@ -54,7 +54,8 @@ mpmeta <- function (mp) {
   }
   pops <- metapop[39:(grep('^Migration$', metapop) - 1)]
   if(count.fields(textConnection(pops[1]), sep = ',') != 28)
-    warning('It looks like you might have used a custom RAMAS dll. Only the standard set of 28 fields are returned.')
+    warning('It looks like you might have used a custom RAMAS dll. Only the standard set of 28 fields are returned.',
+            call.=FALSE)
   pop.details <- read.csv(text = pops, stringsAsFactors = FALSE, 
                           header = FALSE)[, 1:27]
   colnames(pop.details) <- c("popName", "xMetapop", "yMetapop", 
