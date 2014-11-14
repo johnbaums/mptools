@@ -61,15 +61,8 @@ function(mp) {
   if(!length(grep('\\-End of file\\-', metapop[length(metapop)]))) {
     stop(sprintf('Expected final line of %s to contain "-End of file-"', mp))
   }
-  pops <- metapop[(grep(28, count.fields(mp, sep=',', blank.lines.skip=FALSE))[1]-1):(grep('^Migration', metapop)[1]-1)]
-  pop.details <- read.csv(text=pops, stringsAsFactors=FALSE, header=FALSE)
-  pop.details <- pop.details[,-(ncol(pop.details))]
-  colnames(pop.details) <- c('popName', 'xMetapop', 'yMetapop', 'initN',
-    'ddType', 'Rmax', 'K', 'Ksd', 'allee', 'kch', 'ddDispSourcePopN',
-    'cat1LocalMulti', 'cat1LocatProb', 'includeInTotal', 'stageMatrix', 'relFec',
-    'relSurv', 'localThr', 'cat2LocalMulti', 'cat2LocatProb', 'sdMatrix',
-    'ddDispTargetPopK', 'tSinceCat1', 'tSinceCat2', 'relDisp', 'relVarFec',
-    'relVarSurv')
+  pops <- metapop[44:(grep('^Migration$', metapop) - 1)]
+  pop.names <- read.csv(text=pops, stringsAsFactors=FALSE, header=FALSE)[, 1]
   sim.res <- metapop[grep('^Simulation results', 
                           metapop):(grep('^Occupancy', metapop)-1)]
   res <- strsplit(sim.res[-(1:3)], ' ') 
@@ -81,7 +74,7 @@ function(mp) {
   res <- aperm(res.t, c(2, 1, 3))
   dimnames(res) <- list(NULL, 
                         c('mean', 'sd', 'min', 'max'),
-                        c('ALL', pop.details$popName))
+                        c('ALL', pop.names))
   minmaxterm <- metapop[grep('^Min.  Max.  Ter.$', 
                              metapop):(grep('Time to cross', metapop)-1)]
   minmaxterm <- strsplit(minmaxterm[-1], ' ')
@@ -91,6 +84,7 @@ function(mp) {
   EMA <- mean(minmaxterm[, 'min'])
   SDMA <- sd(minmaxterm[, 'min'])
   list(results=res, minmaxterm=minmaxterm, EMA=EMA, SDMA=SDMA,
-       timestamp=as.POSIXlt(sim.res[1], format="Simulation results %d/%m/%Y %X"), 
+       timestamp=sub('Simulation results ', '', 
+                     grep('^Simulation results', metapop, value=TRUE)), 
        iters=as.numeric(sub('(\\d*).*', '\\1', sim.res[2])))
 }

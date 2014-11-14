@@ -52,16 +52,16 @@ mpmeta <- function (mp) {
     stop(sprintf("Expected final line of %s to contain \"-End of file-\"", 
                  mp))
   }
-  pops <- metapop[(grep(28, count.fields(mp, sep = ",", blank.lines.skip = FALSE))[1] - 
-                     1):(grep("^Migration", metapop)[1] - 1)]
+  pops <- metapop[44:(grep('^Migration$', metapop) - 1)]
+  if(count.fields(textConnection(pops[1]), sep = ',') != 28)
+    warning('It looks like you might have used a custom RAMAS dll. Only the standard set of 28 fields are returned.')
   pop.details <- read.csv(text = pops, stringsAsFactors = FALSE, 
-                          header = FALSE)
-  pop.details <- pop.details[, -(ncol(pop.details))]
+                          header = FALSE)[, 1:27]
   colnames(pop.details) <- c("popName", "xMetapop", "yMetapop", 
                              "initN", "ddType", "Rmax", "K", "Ksd", "allee", "kch", 
-                             "ddDispSourcePopN", "cat1LocalMulti", "cat1LocatProb", 
+                             "ddDispSourcePopN", "cat1LocalMulti", "cat1LocalProb", 
                              "includeInTotal", "stageMatrix", "relFec", "relSurv", 
-                             "localThr", "cat2LocalMulti", "cat2LocatProb", "sdMatrix", 
+                             "localThr", "cat2LocalMulti", "cat2LocalProb", "sdMatrix", 
                              "ddDispTargetPopK", "tSinceCat1", "tSinceCat2", "relDisp", 
                              "relVarFec", "relVarSurv")
   pop.details
