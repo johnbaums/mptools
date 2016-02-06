@@ -39,7 +39,7 @@
 #'   included in the definition of N, when calculating \code{thr1}, \code{thr2},
 #'   \code{linear.lowerN} and \code{linear.upperN}.}
 #' @export
-mpactions <- function(mp) {
+actions <- function(mp) {
   message(sprintf("Extracting population management action info from file %s...", 
                   mp))
   metapop <- readLines(mp)[-1]
@@ -69,16 +69,27 @@ mpactions <- function(mp) {
   metapop$quantity <- factor(metapop$quantity, 0:1, c('number', 'proportion'))
   metapop$number <- ifelse(metapop$quantity == 'proportion', NA, metapop$quantity)
   metapop$proportion <- ifelse(metapop$quantity == 'proportion', metapop$proportion, NA)
-  metapop$condition <- factor(metapop$condition, 0:4, c('none', 'N<thr1', 'N>thr2', 'N<thr1_and_N>thr2', 'linear'))
-  metapop$thr1 <- ifelse(metapop$condition %in% c('none', 'N>thr2', 'linear'), NA, metapop$thr1)
-  metapop$thr2 <- ifelse(metapop$condition %in% c('none', 'N<thr1', 'linear'), NA, metapop$thr2)
+  metapop$condition <- 
+    factor(metapop$condition, 0:4, 
+           c('none', 'N<thr1', 'N>thr2', 'N<thr1_and_N>thr2', 'linear'))
+  metapop$thr1 <- 
+    ifelse(metapop$condition %in% c('none', 'N>thr2', 'linear'), NA, metapop$thr1)
+  metapop$thr2 <- 
+    ifelse(metapop$condition %in% c('none', 'N<thr1', 'linear'), NA, metapop$thr2)
   metapop$linear.to <- ifelse(metapop$condition != 'linear', NA, metapop$linear.to)
-  metapop$linear.lowerN <- ifelse(metapop$condition != 'linear', NA, metapop$linear.lowerN)
-  metapop$linear.upperN <- ifelse(metapop$condition != 'linear', NA, metapop$linear.upperN)  
-  metapop$N.comprises.stages <- ifelse(metapop$condition == 'none', NA, metapop$N.comprises.stages)  
-  metapop$N.comprises.pops <- ifelse(metapop$condition == 'none', NA, metapop$N.comprises.pops)  
-  metapop$N.comprises.stages <- factor(metapop$N.comprises.stages, 0:2, c('each stage', 'all selected stages', 'all stages'))
-  metapop$N.comprises.pops <- factor(metapop$N.comprises.stages, c(0, 2), c('each pop', 'all pops'))
+  metapop$linear.lowerN <- 
+    ifelse(metapop$condition != 'linear', NA, metapop$linear.lowerN)
+  metapop$linear.upperN <- 
+    ifelse(metapop$condition != 'linear', NA, metapop$linear.upperN)  
+  metapop$N.comprises.stages <- 
+    ifelse(metapop$condition == 'none', NA, metapop$N.comprises.stages)  
+  metapop$N.comprises.pops <- 
+    ifelse(metapop$condition == 'none', NA, metapop$N.comprises.pops)  
+  metapop$N.comprises.stages <- 
+    factor(metapop$N.comprises.stages, 0:2, 
+           c('each stage', 'all selected stages', 'all stages'))
+  metapop$N.comprises.pops <- 
+    factor(metapop$N.comprises.stages, c(0, 2), c('each pop', 'all pops'))
   
   metapop
 }

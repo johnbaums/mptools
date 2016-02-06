@@ -8,26 +8,23 @@
 #'    component of filenames.
 #' @return A numeric vector with length equal to the number of .ptc files in the 
 #'    directory specified by \code{ptc}.
-#' @seealso \code{\link{mpresults}}
+#' @seealso \code{\link{results}}
 #' @note This has been tested for RAMAS version 5.1, and may produce unexpected
 #'   results for other versions. Please verify that the returned coordinates are
 #'   sensible by referring to the plot that is returned by this function.
 #' @export
 ths <- function(ptc) {
-  ptcs <- list.files(ptc, patt='\\.ptc$', ignore.case=TRUE, full.names=TRUE)
+  ptcs <- list.files(ptc, pattern='\\.ptc$', ignore.case=TRUE, full.names=TRUE)
   ptcs <- ptcs[order(as.numeric(gsub('\\D', '', basename(ptcs))))]
-  
-  # Define function to extract total habitat suitability from a ptc file
   get.ths <- function(ptc) {
     txt <- readLines(ptc)[-1]
     if(any(grepl('^Results:', txt))) {
       txt <- txt[-(1:grep('^Results:', txt))]
       txt <- txt[-(1:(tail(which(sapply(gregexpr(',', txt), length) == 25), 1) + 2))]
-      #txt <- txt[1:(match(4, sapply(gregexpr(' ', txt), length)) - 1)]
       txt <- txt[1:(which(sapply(gregexpr(' ', txt), length) < 6)[1] - 1)]
       HS <- apply(do.call(rbind, strsplit(txt, ' ')), 2, as.numeric)
     } else {
-      HS <- matrix(0, nc=7)
+      HS <- matrix(0, ncol=7)
     }
     if (!is.matrix(HS)) HS[1] else sum(HS[, 1])
   }

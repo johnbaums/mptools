@@ -7,7 +7,7 @@
 #' @return A \code{data.frame} containing one row per population, with columns: 
 #'   \item{popName}{The name of the population.} \item{xMetapop, yMetapop}{The spatial
 #'   coordinates of the population centroid, in RAMAS's coordinate system (see
-#'   \link{mpcoords}).} \item{initN}{The initial abundance.}
+#'   \link{mp2xy}).} \item{initN}{The initial abundance.}
 #'   \item{ddType}{The density dependence type.} \item{Rmax}{The maximum
 #'   growth rate.} \item{K}{The initial carrying capacity.}
 #'   \item{Ksd}{The standard deviation in K, if applicable.}
@@ -38,13 +38,13 @@
 #'   population, relative to those given in the standard deviation matrix.}
 #'   \item{relVarSurv}{Variation in survival rates of this population, relative
 #'   to those given in the standard deviation matrix.}
-#' @seealso \code{\link{mpresults}}
+#' @seealso \code{\link{results}}
 #' @export
 #' @examples
 #' f <- system.file('litspe.mp', package='mptools')
-#' res <- mpmeta(f)
+#' res <- meta(f)
 #' head(res)
-mpmeta <- function (mp) {
+meta <- function (mp) {
   message(sprintf("Extracting population metadata from file %s...", 
                   mp))
   metapop <- readLines(mp)[-(1:6)]
@@ -54,16 +54,16 @@ mpmeta <- function (mp) {
   }
   pops <- metapop[39:(grep('^Migration$', metapop) - 1)]
   if(count.fields(textConnection(pops[1]), sep = ',') != 28)
-    warning('It looks like you might have used a custom RAMAS dll. Only the standard set of 28 fields are returned.',
+    warning('It looks like you might have used a custom RAMAS dll.', 
+            ' Only the standard set of 27 fields are returned.',
             call.=FALSE)
   pop.details <- read.csv(text = pops, stringsAsFactors = FALSE, 
                           header = FALSE)[, 1:27]
-  colnames(pop.details) <- c("popName", "xMetapop", "yMetapop", 
-                             "initN", "ddType", "Rmax", "K", "Ksd", "allee", "kch", 
-                             "ddDispSourcePopN", "cat1LocalMulti", "cat1LocalProb", 
-                             "includeInTotal", "stageMatrix", "relFec", "relSurv", 
-                             "localThr", "cat2LocalMulti", "cat2LocalProb", "sdMatrix", 
-                             "ddDispTargetPopK", "tSinceCat1", "tSinceCat2", "relDisp", 
-                             "relVarFec", "relVarSurv")
+  colnames(pop.details) <- 
+    c('popName', 'xMetapop', 'yMetapop', 'initN', 'ddType', 'Rmax', 'K', 'Ksd', 
+      'allee', 'kch', 'ddDispSourcePopN', 'cat1LocalMulti', 'cat1LocalProb', 
+      'includeInTotal', 'stageMatrix', 'relFec', 'relSurv', 'localThr', 
+      'cat2LocalMulti', 'cat2LocalProb', 'sdMatrix', 'ddDispTargetPopK', 
+      'tSinceCat1', 'tSinceCat2', 'relDisp', 'relVarFec', 'relVarSurv')
   pop.details
 }

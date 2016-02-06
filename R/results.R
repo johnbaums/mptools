@@ -14,24 +14,29 @@
 #'   the number of populations. The third dimension is named according to 
 #'   population names (numeric component only).} \item{minmaxterm}{A matrix 
 #'   containing the minimum and maximum (across years), and terminal occupancy 
-#'   for each iteration.} \item{EMA}{The mean minimum abundance (i.e. the mean, 
+#'   for each iteration.} \item{qe_thr}{The quasi-extinction threshold. When the
+#'   total abundance is beneath \code{qe_thr}, the metapopulation is considered
+#'   to be quasi-extinct.} \item{qe_prob}{The probability and cumulative
+#'   probability of exceeding the quasi-extinction threshold (\code{qe_thr}) at
+#'   each time step.} \item{EMA}{The mean minimum abundance (i.e. the mean,
 #'   across iterations, of the minimum abundance for each simulation 
 #'   trajectory).} \item{SDMA}{The standard deviation of minimum abundance (i.e.
 #'   the sd, across iterations, of the minimum abundance for each simulation 
 #'   trajectory).} \item{timestamp}{A POSIXlt object representing the date and 
-#'   time at which the simulation was completed.} \item{iters}{The number of 
-#'   iterations performed.}
-#' @seealso \code{\link{mpmeta}}
+#'   time at which the simulation was completed.} \item{n_pops}{The number of
+#'   populations in the simulation.} \item{duration}{The number of time steps in
+#'   the simulation} \item{n_iters}{The number of iterations performed.}
+#' @seealso \code{\link{meta}}
 #' @note This has been tested for RAMAS version 5.1, and may produce unexpected 
 #'   results for other versions.
 #' @export
 #' @examples 
 #' f <- system.file('litspe.mp', package='mptools')
-#' res <- mpresults(f)
+#' res <- results(f)
 #' str(res)
 #' 
 #' # look at the simulation results for the first array slice (NB: this slice is
-#' all pops combined):
+#' # all pops combined):
 #' res$results[,, 1]
 #' # equivalently, subset by name:
 #' res$results[,, 'ALL']
@@ -40,7 +45,7 @@
 #' dimnames(res$results)[[3]] # population names
 #' 
 #' # return a matrix of mean population sizes, where columns represent
-#' populations and rows are time steps:
+#' # populations and rows are time steps:
 #' res$results[, 1, ] # or res$results[, 'mean', ]
 #' 
 #' # sd across iterations:
@@ -51,9 +56,13 @@
 #' 
 #' # max pop sizes across iterations:
 #' res$results[, 4, ] # or res$results[, 'max', ] 
-mpresults <-
-function(mp) {
+results <- function(mp) {
   message(sprintf('Extracting simulation results from file %s...', mp))
+  v <- readLines(mp)[1]
+  title <- readLines(mp)[2]
+  comment <- paste(readLines(mp)[3:6], collapse='\n')
+  if(!grepl('\\(5', v)) 
+    warning('mp not created with Metapop version 5; results may be inaccurate.')
   metapop <- readLines(mp)[-(1:6)]
   if(!length(grep('Simulation results', metapop))) {
     stop(sprintf('There are no simulation results in %s.', mp), call.=FALSE)
@@ -65,6 +74,7 @@ function(mp) {
   pop.names <- read.csv(text=pops, stringsAsFactors=FALSE, header=FALSE)[, 1]
   sim.res <- metapop[grep('^Simulation results', 
                           metapop):(grep('^Occupancy', metapop)-1)]
+  n_iters <- as.numeric(sub('(\\d*).*', '\\1', sim.res[2]))
   res <- strsplit(sim.res[-(1:3)], ' ') 
   pop.ind <- grep('Pop', res)  
   res <- do.call(rbind, res[-pop.ind])
@@ -75,6 +85,8 @@ function(mp) {
   dimnames(res) <- list(NULL, 
                         c('mean', 'sd', 'min', 'max'),
                         c('ALL', pop.names))
+  n_pops <- ncol(res)-1
+  n_steps <- nrow(res)
   minmaxterm <- metapop[grep('^Min.  Max.  Ter.$', 
                              metapop):(grep('Time to cross', metapop)-1)]
   minmaxterm <- strsplit(minmaxterm[-1], ' ')
@@ -83,8 +95,60 @@ function(mp) {
   colnames(minmaxterm) <- c('min', 'max', 'terminal')
   EMA <- mean(minmaxterm[, 'min'])
   SDMA <- sd(minmaxterm[, 'min'])
-  list(results=res, minmaxterm=minmaxterm, EMA=EMA, SDMA=SDMA,
-       timestamp=sub('Simulation results ', '', 
-                     grep('^Simulation results', metapop, value=TRUE)), 
-       iters=as.numeric(sub('(\\d*).*', '\\1', sim.res[2])))
+  n_manage <- as.numeric(gsub('\\D', '', metapop[grep('pop mgmnt', metapop)]))
+  qext_thr <- as.numeric(metapop[grep('pop mgmnt', metapop) + n_manage + 1])
+  expl_thr <- as.numeric(metapop[grep('pop mgmnt', metapop) + n_manage + 2])
+  
+  cross <- read.table(text=metapop[
+    grep('Time to cross', metapop) + 
+      ceiling(seq_len(n_steps)/as.numeric(
+        metapop[grep('pop mgmnt', metapop) + n_manage + 3]))],
+    col.names=c('quasi_extinction', 'explosion'))
+  qext_prob <- cross$quasi_extinction/n_iters
+  qext_cumprob <- cumsum(qext_prob)
+  out <- list(
+    title=title,
+    comment=comment,
+    results=res, minmaxterm=minmaxterm, 
+    qe_thr=qext_thr,
+    qe_prob=data.frame(
+      time=seq_len(n_steps),
+      prob=qext_prob, cumulative_prob=qext_cumprob),
+    EMA=EMA, SDMA=SDMA,
+    timestamp=sub('Simulation results ', '', 
+                  grep('^Simulation results', metapop, value=TRUE)), 
+    n_pops=n_pops, duration=n_steps, n_iters=n_iters)
+  class(out) <- 'mpresults'
+  out
+}
+
+#' Print a metapop results object
+#'
+#'Print summary information about a RAMAS Metapop simulation.
+#'
+#' @param x An mpresults object
+#' @param ... ignored
+#' @details The print method for \code{mpresults} objects shows only summary
+#'   information. To see the full structure of \code{mpresults} object \code{x},
+#'   see \code{str(x)}. Individual elements can be accessed as for a normal 
+#'   \code{list}.
+#' @seealso \code{\link{results}}
+#' @method print mpresults
+#' @export
+print.mpresults <- function(x, ...) {
+  stamp <- sprintf('Simulation completed at %s', x$timestamp)
+  n <- sprintf('%s populations; %s time steps; %s iterations',
+               x$n_pops, x$duration, x$n_iters) 
+  x$title <- gsub('^\\s+|\\s+$|(?<=\\s)\\s+', '', x$title, perl=TRUE)
+  if(x$title=='') x$title <- 'Untitled model'
+  x$comment <- gsub('^\\s+|\\s+$|(?<=\\s)\\s+', '', x$comment, perl=TRUE)
+  cat('results:\n---\n')
+  pre <- paste(strwrap(c(x$title, strsplit(x$comment, '\n')[[1]]), width=60), 
+               collapse='\n')
+  cat(pre, '\n', '---', '\n', sep='')
+  cat(stamp, '\n', n, '\n\n', sep='')
+  print.default(
+    c(EMA=x$EMA, `Extinction risk`=mean(x$minmaxterm[, 'min']==0)),
+    print.gap=2L)
+  invisible(x)
 }
