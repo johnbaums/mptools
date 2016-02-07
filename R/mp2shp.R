@@ -23,9 +23,9 @@
 #' @importFrom rgdal writeOGR
 #' @export
 #' @examples
-#' mp <- system.file('litspe.mp', package='mptools')
+#' mp <- system.file('example.mp', package='mptools')
 #' res <- results(mp)
-#' asc <- system.file('litspe_2000.asc', package='mptools')
+#' asc <- system.file('example_001.asc', package='mptools')
 #' coords <- mp2xy(mp, asc, 9.975)
 #' tmp <- tempfile() 
 #' mp2shp(res, coords, tmp, start=2000) # file will be created in tempdir()

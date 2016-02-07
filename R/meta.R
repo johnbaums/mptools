@@ -41,7 +41,7 @@
 #' @seealso \code{\link{results}}
 #' @export
 #' @examples
-#' f <- system.file('litspe.mp', package='mptools')
+#' f <- system.file('example.mp', package='mptools')
 #' res <- meta(f)
 #' head(res)
 meta <- function (mp) {
