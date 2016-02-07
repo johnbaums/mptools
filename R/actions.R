@@ -3,7 +3,6 @@
 #' Extract management action details from RAMAS Metapop .mp files.
 #' 
 #' @param mp A character string containing the path to a RAMAS Metapop .mp file.
-#'   E.g. file='/path/to/metapop.mp'
 #' @return A \code{data.frame} containing one row per management action, with 
 #'   columns: \item{do.action}{Logical. Will the action be performed 
 #'   (\code{TRUE}) or ignored (\code{FALSE}).} \item{action}{Factor. The type of

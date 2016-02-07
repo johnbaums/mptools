@@ -7,8 +7,7 @@
 actions(mp)
 }
 \arguments{
-\item{mp}{A character string containing the path to a RAMAS Metapop .mp file.
-E.g. file='/path/to/metapop.mp'}
+\item{mp}{A character string containing the path to a RAMAS Metapop .mp file.}
 }
 \value{
 A \code{data.frame} containing one row per management action, with 
