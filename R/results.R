@@ -155,7 +155,7 @@ print.mpresults <- function(x, ...) {
   cat(pre, '\n', '---', '\n', sep='')
   cat(stamp, '\n', n, '\n\n', sep='')
   print.default(
-    c(EMA=x$EMA, `Extinction risk`=mean(x$minmaxterm[, 'min']==0)),
+    c(EMA=x$EMA, `Extinction risk`=mean(x$iter_min==0)),
     print.gap=2L)
   invisible(x)
 }
