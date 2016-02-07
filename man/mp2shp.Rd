@@ -4,7 +4,7 @@
 \alias{mp2shp}
 \title{Create shapefile containing Metapop population centroids}
 \usage{
-mp2shp(mp, coords, outfile, start)
+mp2shp(mp, coords, outfile, start, s_p4s, t_p4s)
 }
 \arguments{
 \item{mp}{A RAMAS Metapop .mp file containing simulation results.}

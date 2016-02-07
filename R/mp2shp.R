@@ -18,7 +18,7 @@
 #'   outfile.dbf.
 #' @keywords spatial
 #' @seealso \code{\link{mp2xy}}
-#' @importFrom sp coordinates
+#' @importFrom sp coordinates CRS proj4string spTransform
 #' @importFrom rgdal writeOGR
 #' @export
 #' @examples
@@ -27,7 +27,7 @@
 #' coords <- mp2xy(mp, r, 9.975)
 #' tmp <- tempfile() 
 #' mp2shp(mp, coords, tmp, start=2000) # file will be created in tempdir()
-mp2shp <- function(mp, coords, outfile, start) {
+mp2shp <- function(mp, coords, outfile, start, s_p4s, t_p4s) {
   errmsg <- NULL
   if (file.exists(paste(outfile, 'shp', sep='.'))) {
     errmsg <- c(errmsg, sprintf('\nFile %s.shp already exists.', outfile))
@@ -39,6 +39,10 @@ mp2shp <- function(mp, coords, outfile, start) {
     errmsg <- c(errmsg, sprintf('\nFile %s.dbf already exists.', outfile))
   }
   if(length(errmsg)) stop(errmsg)
+  tryCatch(sp::CRS(s_p4s), error=function(e) 
+    stop('proj4string not recognised: ', s_p4s, call.=FALSE))
+  tryCatch(sp::CRS(t_p4s), error=function(e) 
+    stop('proj4string not recognised: ', t_p4s, call.=FALSE))
   res <- results(mp)
   sites <- coords[, c('pop', 'x', 'y')]
   N <- as.data.frame(t(res$results[, 'mean', -1]))
@@ -47,6 +51,8 @@ mp2shp <- function(mp, coords, outfile, start) {
     stop('Something went wrong. Please contact the package maintainer.')
   shp <- cbind(sites, N)
   sp::coordinates(shp) <- ~x+y
+  if(!missing('s_p4s')) sp::proj4string(shp) <- s_p4s
+  if(!missing('t_p4s')) shp <- sp::spTransform(shp, sp::CRS(t_p4s))
   rgdal::writeOGR(shp, dirname(outfile), basename(outfile), 'ESRI Shapefile') 
   if(file.exists(paste0(outfile, '.shp'))) {
     message(sprintf('File %s.shp created.', outfile))
