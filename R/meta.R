@@ -45,6 +45,7 @@
 #' res <- meta(f)
 #' head(res)
 meta <- function (mp) {
+  if(!file.exists(mp)) stop(mp, ' doesn\'t exist.', call.=FALSE)
   message(sprintf("Extracting population metadata from file %s...", 
                   mp))
   metapop <- readLines(mp)[-(1:6)]

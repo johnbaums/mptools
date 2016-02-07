@@ -40,6 +40,7 @@
 #'   \code{linear.lowerN} and \code{linear.upperN}.}
 #' @export
 actions <- function(mp) {
+  if(!file.exists(mp)) stop(mp, ' doesn\'t exist.', call.=FALSE)
   message(sprintf("Extracting population management action info from file %s...", 
                   mp))
   metapop <- readLines(mp)[-1]

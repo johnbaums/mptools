@@ -1,7 +1,7 @@
 Package: mptools
 Type: Package
 Title: RAMAS Metapop tools
-Version: 0.1.1.9000
+Version: 0.1.2.9000
 Depends:R (>= 3.2.0)
 Imports:
     rgdal,

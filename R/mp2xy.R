@@ -27,6 +27,7 @@
 #' asc <- system.file('example_001.asc', package='mptools')
 #' coords <- mp2xy(mp, asc, 9.975)
 mp2xy <- function (mp, asc, cell.length, plot = TRUE) {
+  if(!file.exists(mp)) stop(mp, ' doesn\'t exist.', call.=FALSE)
   metapop <- readLines(mp)[-(1:6)]
   if (!length(grep("\\-End of file\\-", metapop[length(metapop)]))) {
     stop(sprintf("Expected final line of %s to contain \"-End of file-\"", 

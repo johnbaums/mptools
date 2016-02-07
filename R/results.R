@@ -57,6 +57,7 @@
 #' # max pop sizes across iterations:
 #' res$results[, 4, ] # or res$results[, 'max', ] 
 results <- function(mp) {
+  if(!file.exists(mp)) stop(mp, ' doesn\'t exist.', call.=FALSE)
   message(sprintf('Extracting simulation results from file %s...', mp))
   v <- readLines(mp)[1]
   title <- readLines(mp)[2]
