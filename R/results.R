@@ -12,20 +12,23 @@
 #'   containing mean, sd, min and max of population size across iterations at 
 #'   each time step (i.e. each row), and the number of array slices is equal to 
 #'   the number of populations. The third dimension is named according to 
-#'   population names (numeric component only).} \item{minmaxterm}{A matrix 
-#'   containing the minimum and maximum (across years), and terminal occupancy 
-#'   for each iteration.} \item{qe_thr}{The quasi-extinction threshold. When the
-#'   total abundance is beneath \code{qe_thr}, the metapopulation is considered
-#'   to be quasi-extinct.} \item{qe_prob}{The probability and cumulative
-#'   probability of exceeding the quasi-extinction threshold (\code{qe_thr}) at
-#'   each time step.} \item{EMA}{The mean minimum abundance (i.e. the mean,
-#'   across iterations, of the minimum abundance for each simulation 
-#'   trajectory).} \item{SDMA}{The standard deviation of minimum abundance (i.e.
-#'   the sd, across iterations, of the minimum abundance for each simulation 
-#'   trajectory).} \item{timestamp}{A POSIXlt object representing the date and 
-#'   time at which the simulation was completed.} \item{n_pops}{The number of
-#'   populations in the simulation.} \item{duration}{The number of time steps in
-#'   the simulation} \item{n_iters}{The number of iterations performed.}
+#'   population names (numeric component only).} \item{iter_min}{A sorted vector
+#'   of minimum abundance, across time steps, for each iteration.} 
+#'   \item{iter_max}{A sorted vector of maximum abundance, across time steps, 
+#'   for each iteration.} \item{iter_terminal}{A sorted vector of terminal 
+#'   abundance for each iteration.} \item{qe_thr}{The quasi-extinction
+#'   threshold. When the total abundance is beneath \code{qe_thr}, the
+#'   metapopulation is considered to be quasi-extinct.} \item{qe_prob}{The
+#'   probability and cumulative probability of exceeding the quasi-extinction
+#'   threshold (\code{qe_thr}) at each time step.} \item{EMA}{The mean minimum
+#'   abundance (i.e. the mean, across iterations, of the minimum abundance for
+#'   each simulation trajectory).} \item{SDMA}{The standard deviation of minimum
+#'   abundance (i.e. the sd, across iterations, of the minimum abundance for 
+#'   each simulation trajectory).} \item{timestamp}{A POSIXlt object 
+#'   representing the date and time at which the simulation was completed.} 
+#'   \item{n_pops}{The number of populations in the simulation.} 
+#'   \item{duration}{The number of time steps in the simulation} 
+#'   \item{n_iters}{The number of iterations performed.}
 #' @seealso \code{\link{meta}}
 #' @note This has been tested for RAMAS version 5.1, and may produce unexpected 
 #'   results for other versions.
@@ -110,7 +113,10 @@ results <- function(mp) {
   out <- list(
     title=title,
     comment=comment,
-    results=res, minmaxterm=minmaxterm, 
+    results=res, 
+    iter_min=minmaxterm[, 1],
+    iter_max=minmaxterm[, 2],
+    iter_terminal=minmaxterm[, 3],
     qe_thr=qext_thr,
     qe_prob=data.frame(
       time=seq_len(n_steps),
