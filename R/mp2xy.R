@@ -8,7 +8,7 @@
 #' @param mp A character string containing the path to a RAMAS Metapop .mp file.
 #'   E.g. file='/path/to/metapop.mp'
 #' @param asc A character string containing the path to any of the ASCII grids 
-#'   that were used by RAMAS Spatial Data for patch identificaion. E.g. 
+#'   that were used by RAMAS Spatial Data for patch identification. E.g. 
 #'   file='/path/to/grid.asc'
 #' @param cell.length Numeric. The cell length of the grid, as specified in 
 #'   RAMAS Spatial Data (note: this may be different to the native resolution of
