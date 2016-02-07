@@ -5,8 +5,7 @@
 #' include the population's name (\code{pop}), and and the mean population size 
 #' at each time step.
 #' 
-#' @param res An object containing the results of a RAMAS Metapop simulation. 
-#'   This object can be created by using \code{\link{results}}.
+#' @param mp A RAMAS Metapop .mp file containing simulation results.
 #' @param coords An object containing population coordinates. This object can be
 #'   created by using \code{\link{mp2xy}}
 #' @param outfile The desired output filename (including full path, and without 
@@ -24,12 +23,11 @@
 #' @export
 #' @examples
 #' mp <- system.file('example.mp', package='mptools')
-#' res <- results(mp)
-#' asc <- system.file('example_001.asc', package='mptools')
-#' coords <- mp2xy(mp, asc, 9.975)
+#' r <- system.file('example_001.asc', package='mptools')
+#' coords <- mp2xy(mp, r, 9.975)
 #' tmp <- tempfile() 
-#' mp2shp(res, coords, tmp, start=2000) # file will be created in tempdir()
-mp2shp <- function(res, coords, outfile, start) {
+#' mp2shp(mp, coords, tmp, start=2000) # file will be created in tempdir()
+mp2shp <- function(mp, coords, outfile, start) {
   errmsg <- NULL
   if (file.exists(paste(outfile, 'shp', sep='.'))) {
     errmsg <- c(errmsg, sprintf('\nFile %s.shp already exists.', outfile))
@@ -41,6 +39,7 @@ mp2shp <- function(res, coords, outfile, start) {
     errmsg <- c(errmsg, sprintf('\nFile %s.dbf already exists.', outfile))
   }
   if(length(errmsg)) stop(errmsg)
+  res <- results(mp)
   sites <- coords[, c('pop', 'x', 'y')]
   N <- as.data.frame(t(res$results[, 'mean', -1]))
   names(N) <- start + seq_along(N) - 1

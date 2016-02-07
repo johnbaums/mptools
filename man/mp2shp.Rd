@@ -4,11 +4,10 @@
 \alias{mp2shp}
 \title{Create shapefile containing Metapop population centroids}
 \usage{
-mp2shp(res, coords, outfile, start)
+mp2shp(mp, coords, outfile, start)
 }
 \arguments{
-\item{res}{An object containing the results of a RAMAS Metapop simulation. 
-This object can be created by using \code{\link{results}}.}
+\item{mp}{A RAMAS Metapop .mp file containing simulation results.}
 
 \item{coords}{An object containing population coordinates. This object can be
 created by using \code{\link{mp2xy}}}
@@ -33,11 +32,10 @@ at each time step.
 }
 \examples{
 mp <- system.file('example.mp', package='mptools')
-res <- results(mp)
-asc <- system.file('example_001.asc', package='mptools')
-coords <- mp2xy(mp, asc, 9.975)
+r <- system.file('example_001.asc', package='mptools')
+coords <- mp2xy(mp, r, 9.975)
 tmp <- tempfile() 
-mp2shp(res, coords, tmp, start=2000) # file will be created in tempdir()
+mp2shp(mp, coords, tmp, start=2000) # file will be created in tempdir()
 }
 \seealso{
 \code{\link{mp2xy}}
