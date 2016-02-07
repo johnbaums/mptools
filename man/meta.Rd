@@ -50,7 +50,7 @@ A \code{data.frame} containing one row per population, with columns:
 Extract population details from RAMAS Metapop .mp files.
 }
 \examples{
-f <- system.file('litspe.mp', package='mptools')
+f <- system.file('example.mp', package='mptools')
 res <- meta(f)
 head(res)
 }

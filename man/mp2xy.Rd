@@ -37,8 +37,8 @@ This has been tested for RAMAS version 5.1, and may produce unexpected
   sensible by referring to the plot that is returned by this function.
 }
 \examples{
-mp <- system.file('litspe.mp', package='mptools')
-asc <- system.file('litspe_2000.asc', package='mptools')
+mp <- system.file('example.mp', package='mptools')
+asc <- system.file('example_001.asc', package='mptools')
 coords <- mp2xy(mp, asc, 9.975)
 }
 \seealso{

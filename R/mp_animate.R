@@ -9,7 +9,7 @@
 #'   created by using \code{\link{mp2xy}}.
 #' @param habitat Either a file path containing habitat grids (names of grid 
 #'   files must end in an underscore followed by a number, e.g. 
-#'   litspe_2000.asc), or a RasterStack or RasterBrick object. The number of 
+#'   example_001.asc), or a RasterStack or RasterBrick object. The number of 
 #'   files, or Raster* layers, should equal the number of simulation time steps.
 #'   If a file path is provided, files are ordered by the numeric component of 
 #'   their names.
@@ -45,9 +45,9 @@
 #' @importFrom lattice panel.levelplot.raster
 #' @export
 #' @examples 
-#' mp <- system.file('litspe.mp', package='mptools')
+#' mp <- system.file('example.mp', package='mptools')
 #' res <- results(mp)
-#' asc <- system.file('litspe_2000.asc', package='mptools')
+#' asc <- system.file('example_001.asc', package='mptools')
 #' coords <- mp2xy(mp, asc, 9.975)
 #' tmp <- file.path(tempdir(), 'example.gif')
 #' 

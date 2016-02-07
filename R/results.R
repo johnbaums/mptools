@@ -31,7 +31,7 @@
 #'   results for other versions.
 #' @export
 #' @examples 
-#' f <- system.file('litspe.mp', package='mptools')
+#' f <- system.file('example.mp', package='mptools')
 #' res <- results(f)
 #' str(res)
 #' 
@@ -85,7 +85,7 @@ results <- function(mp) {
   dimnames(res) <- list(NULL, 
                         c('mean', 'sd', 'min', 'max'),
                         c('ALL', pop.names))
-  n_pops <- ncol(res)-1
+  n_pops <- dim(res)[3] - 1
   n_steps <- nrow(res)
   minmaxterm <- metapop[grep('^Min.  Max.  Ter.$', 
                              metapop):(grep('Time to cross', metapop)-1)]

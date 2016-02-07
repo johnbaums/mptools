@@ -42,7 +42,7 @@ This has been tested for RAMAS version 5.1, and may produce unexpected
   results for other versions.
 }
 \examples{
-f <- system.file('litspe.mp', package='mptools')
+f <- system.file('example.mp', package='mptools')
 res <- results(f)
 str(res)
 
