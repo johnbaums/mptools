@@ -47,8 +47,8 @@
 #' @examples 
 #' mp <- system.file('example.mp', package='mptools')
 #' res <- results(mp)
-#' asc <- system.file('example_001.asc', package='mptools')
-#' coords <- mp2xy(mp, asc, 9.975)
+#' r <- system.file('example_001.asc', package='mptools')
+#' coords <- mp2xy(mp, r, 9.975)
 #' tmp <- file.path(tempdir(), 'example.gif')
 #' 
 #' # Provide a file path containing habitat grids
