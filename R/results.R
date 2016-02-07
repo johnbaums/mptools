@@ -34,8 +34,8 @@
 #'   results for other versions.
 #' @export
 #' @examples 
-#' f <- system.file('example.mp', package='mptools')
-#' res <- results(f)
+#' mp <- system.file('example.mp', package='mptools')
+#' res <- results(mp)
 #' str(res)
 #' 
 #' # look at the simulation results for the first array slice (NB: this slice is

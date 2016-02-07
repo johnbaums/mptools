@@ -41,10 +41,10 @@
 #' @seealso \code{\link{results}}
 #' @export
 #' @examples
-#' f <- system.file('example.mp', package='mptools')
-#' res <- meta(f)
+#' mp <- system.file('example.mp', package='mptools')
+#' res <- meta(mp)
 #' head(res)
-meta <- function (mp) {
+meta <- function(mp) {
   if(!file.exists(mp)) stop(mp, ' doesn\'t exist.', call.=FALSE)
   message(sprintf("Extracting population metadata from file %s...", 
                   mp))
