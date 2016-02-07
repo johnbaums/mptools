@@ -36,4 +36,11 @@ A pdf file with a plot for each population showing carrying capacity
 \description{
 Plot each population's carrying capacity and abundance over time.
 }
+\examples{
+mp <- system.file('example.mp', package='mptools')
+met <- meta(mp)
+knt(met, kch(met, dirname(mp)), f <- tempfile(fileext='.pdf'), plotN=TRUE, 
+    results=results(mp))
+file.show(f)
+}
 

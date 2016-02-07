@@ -20,6 +20,12 @@
 #' @importFrom zoo zoo
 #' @importFrom lattice xyplot panel.rect panel.text
 #' @export
+#' @examples
+#' mp <- system.file('example.mp', package='mptools')
+#' met <- meta(mp)
+#' knt(met, kch(met, dirname(mp)), f <- tempfile(fileext='.pdf'), plotN=TRUE, 
+#'     results=results(mp))
+#' file.show(f)
 knt <- function(meta, kch, filename, samelims=FALSE, plotN=FALSE, results, 
                     layout=c(5, 10), ...) {
   if (!grepl('\\.pdf$', filename)) filename <- paste0(filename, '.pdf')

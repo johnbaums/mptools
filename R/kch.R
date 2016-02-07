@@ -6,6 +6,9 @@
 #' @param path A character string giving the full path to the directory containing .kch files referred to in object \code{meta}.
 #' @return A \code{matrix} containing one column per population, giving the carrying capacity at each time step (i.e. each row).
 #' @export
+#' @examples
+#' mp <- system.file('example.mp', package='mptools')
+#' k <- kch(meta=meta(mp), path=dirname(mp))
 kch <- function (meta, path) {
   f <- list.files(path, full.names=TRUE, pattern='\\.kch$', ignore.case=TRUE)
   kchs <- path.expand(file.path(path, meta$kch))

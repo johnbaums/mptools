@@ -17,4 +17,8 @@ A \code{matrix} containing one column per population, giving the carrying capaci
 \description{
 Extract KCH time series for each RAMAS Metapop population.
 }
+\examples{
+mp <- system.file('example.mp', package='mptools')
+k <- kch(meta=meta(mp), path=dirname(mp))
+}
 
