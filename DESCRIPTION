@@ -1,7 +1,7 @@
 Package: mptools
 Type: Package
 Title: RAMAS Metapop tools
-Version: 0.1.3.9000
+Version: 0.2.0.9000
 Depends:R (>= 3.2.0)
 Imports:
     rgdal,
@@ -10,7 +10,8 @@ Imports:
     animation,
     lattice,
     zoo,
-    rasterVis
+    rasterVis,
+    latticeExtra
 Authors@R: person('John', 'Baumgartner', email='johnbaums@gmail.com', 
                   role = c("aut", "cre"))    
 Description: Extraction and presentation of metadata and simulation results from

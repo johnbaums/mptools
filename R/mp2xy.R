@@ -21,6 +21,10 @@
 #' @note This has been tested for RAMAS version 5.1, and may produce unexpected
 #'   results for other versions. Please verify that the returned coordinates are
 #'   sensible by referring to the plot that is returned by this function.
+#' @importFrom raster raster cellStats
+#' @importFrom rasterVis levelplot
+#' @importFrom latticeExtra layer
+#' @importFrom sp sp.points SpatialPoints
 #' @export
 #' @examples
 #' mp <- system.file('example.mp', package='mptools')
@@ -48,8 +52,14 @@ mp2xy <- function (mp, asc, cell.length, plot = TRUE) {
   scl <- cellsize/cell.length
   pops$x <- (x0 - 0.5 * cellsize) + scl * pops$x_mp
   pops$y <- (y1 + 0.5 * cellsize) - scl * pops$y_mp
-  if (plot) 
-    plot(pops$y ~ pops$x, pch = 19, cex = 0.1, xlab = "x", 
-         ylab = "y", asp = 1, main = basename(mp))
+  if (plot) {
+    p <- rasterVis::levelplot(
+      raster::raster(asc), col.regions=colorRampPalette(rev(terrain.colors(100))), 
+      margin=FALSE, at=seq(raster::cellStats(raster::raster(asc), min), 
+                           raster::cellStats(raster::raster(asc), max), len=100)) + 
+      latticeExtra::layer(sp::sp.points(sp::SpatialPoints(pops[, c('x', 'y')]), 
+                                        pch=21, col=1), data=list(pops=pops))
+    print(p)
+  }
   return(pops)
 }
