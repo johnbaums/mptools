@@ -4,34 +4,32 @@
 \alias{knt}
 \title{Plot carrying capacity and abundance trajectories}
 \usage{
-knt(meta, kch, filename, samelims = FALSE, plotN = FALSE, results,
-  layout = c(5, 10), ...)
+knt(meta, kch, pops, samelims = FALSE, show_N = FALSE, results,
+  plot = TRUE, ...)
 }
 \arguments{
 \item{meta}{The R object holding population info returned by \link{meta}.}
 
 \item{kch}{The R object holding kch data returned by \link{kch}.}
 
-\item{filename}{A character string giving the filename (with extension
-".pdf") to save the plot to.}
+\item{pops}{(Optional) A character vector of population names. The
+metapopulation will be subset to these populations before plotting.}
 
 \item{samelims}{(logical) If \code{TRUE}, the y-axis limits will be constant
 across plots.}
 
-\item{plotN}{(logical) If \code{TRUE}, mean population abundance will be
+\item{show_N}{(logical) If \code{TRUE}, mean population abundance will be
 plotted (solid lines) in addition to carrying capacity (dashed lines).}
 
 \item{results}{(required only if \code{plotN} is \code{TRUE}) The R object
 holding simulation results returned by \link{results}.}
 
-\item{layout}{The number of columns and row of plots (default = 5 columns, 10
-rows).}
+\item{plot}{Should the resulting lattice object be plotted?}
 
-\item{...}{Additional arguments to \link{xyplot}.}
+\item{...}{Additional arguments to \link{lattice::xyplot}, e.g., \code{layout}.}
 }
 \value{
-A pdf file with a plot for each population showing carrying capacity
-  over time.
+A lattice object is returned invisibly.
 }
 \description{
 Plot each population's carrying capacity and abundance over time.
@@ -39,8 +37,17 @@ Plot each population's carrying capacity and abundance over time.
 \examples{
 mp <- system.file('example.mp', package='mptools')
 met <- meta(mp)
-knt(met, kch(met, dirname(mp)), f <- tempfile(fileext='.pdf'), plotN=TRUE, 
-    results=results(mp))
+
+# Subset of populations
+knt(met, pops=c('Pop 169', 'Pop 170', 'Pop 174', 'Pop 175'), 
+    kch(met, dirname(mp)), show_N=TRUE, results=results(mp),
+    layout=c(2, 2), samelims=TRUE)
+    
+# All populations - set layout appropriately!
+pdf(f <- tempfile(fileext='.pdf'))
+knt(met, kch(met, dirname(mp)), show_N=TRUE, results=results(mp), 
+    layout=c(5, 6))
+dev.off()
 file.show(f)
 }
 
