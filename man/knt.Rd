@@ -4,8 +4,7 @@
 \alias{knt}
 \title{Plot carrying capacity and abundance trajectories}
 \usage{
-knt(meta, kch, pops, samelims = FALSE, show_N = FALSE, results,
-  plot = TRUE, ...)
+knt(meta, kch, pops, samelims = FALSE, show_N = FALSE, results, ...)
 }
 \arguments{
 \item{meta}{The R object holding population info returned by \link{meta}.}
@@ -24,12 +23,10 @@ plotted (solid lines) in addition to carrying capacity (dashed lines).}
 \item{results}{(required only if \code{plotN} is \code{TRUE}) The R object
 holding simulation results returned by \link{results}.}
 
-\item{plot}{Should the resulting lattice object be plotted?}
-
 \item{...}{Additional arguments to \link{lattice::xyplot}, e.g., \code{layout}.}
 }
 \value{
-A lattice object is returned invisibly.
+A lattice object is returned invisibly, and plotted if not assigned.
 }
 \description{
 Plot each population's carrying capacity and abundance over time.

@@ -12,9 +12,8 @@
 #'   plotted (solid lines) in addition to carrying capacity (dashed lines).
 #' @param results (required only if \code{plotN} is \code{TRUE}) The R object
 #'   holding simulation results returned by \link{results}.
-#' @param plot Should the resulting lattice object be plotted?
 #' @param ... Additional arguments to \link{lattice::xyplot}, e.g., \code{layout}.
-#' @return A lattice object is returned invisibly.
+#' @return A lattice object is returned invisibly, and plotted if not assigned.
 #' @importFrom zoo zoo
 #' @importFrom lattice xyplot panel.rect panel.text
 #' @export
@@ -33,8 +32,7 @@
 #'     layout=c(5, 6))
 #' dev.off()
 #' file.show(f)
-knt <- function(meta, kch, pops, samelims=FALSE, show_N=FALSE, results, 
-                plot=TRUE, ...) {
+knt <- function(meta, kch, pops, samelims=FALSE, show_N=FALSE, results, ...) {
   if(!missing(pops)) {
     if(any(!pops %in% meta$popName)) {
       warning('Some populations not in meta:\n', 
@@ -85,6 +83,5 @@ knt <- function(meta, kch, pops, samelims=FALSE, show_N=FALSE, results,
     p <- lattice::xyplot(zoo::zoo(kch), scales=scl, 
                          ylab='Carrying capacity', strip=Strip, col=1, ...)
   }
-  if(isTRUE(plot)) print(p)
   p
 }
