@@ -73,7 +73,7 @@ mp_animate <- function (res, coords, habitat, outfile, zlim, axes=FALSE,
              ' containing .asc, .tif, or .grd files.", call.=FALSE)
       f <- f[order(gsub(".*_([0-9]+)\\.(asc|tif|grd)$", 
                         "\\1", f))]
-      message(sprintf("Creating RasterStack from files found in %s", habitat))
+      message("Creating RasterStack from files found in:\n", habitat)
       habitat <- raster::stack(f)
     }
     else stop("habitat must be either a Raster* object or a file path', 

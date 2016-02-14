@@ -46,8 +46,7 @@
 #' head(res)
 meta <- function(mp) {
   if(!file.exists(mp)) stop(mp, ' doesn\'t exist.', call.=FALSE)
-  message(sprintf("Extracting population metadata from file %s...", 
-                  mp))
+  message("Extracting population metadata from file:\n", mp)
   metapop <- readLines(mp)[-(1:6)]
   if (!length(grep("\\-End of file\\-", metapop[length(metapop)]))) {
     stop(sprintf("Expected final line of %s to contain \"-End of file-\"", 

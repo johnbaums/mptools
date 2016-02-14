@@ -55,8 +55,8 @@ mp2shp <- function(mp, coords, outfile, start, s_p4s, t_p4s) {
   if(!missing('t_p4s')) shp <- sp::spTransform(shp, sp::CRS(t_p4s))
   rgdal::writeOGR(shp, dirname(outfile), basename(outfile), 'ESRI Shapefile') 
   if(file.exists(paste0(outfile, '.shp'))) {
-    message(sprintf('File %s.shp created.', outfile))
+    message(outfile, '.shp created.')
   } else {
-    message(sprintf('There was a problem creating %s.shp.', outfile))
+    warning(sprintf('There was a problem creating %s.shp.', outfile))
   } 
 }

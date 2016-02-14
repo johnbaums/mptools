@@ -40,8 +40,7 @@
 #' @export
 actions <- function(mp) {
   if(!file.exists(mp)) stop(mp, ' doesn\'t exist.', call.=FALSE)
-  message(sprintf("Extracting population management action info from file %s...", 
-                  mp))
+  message("Extracting population management action info from file:\n", mp)
   metapop <- readLines(mp)[-1]
   if (!length(grep("\\-End of file\\-", metapop[length(metapop)]))) {
     stop(sprintf("Expected final line of %s to contain \"-End of file-\"", 

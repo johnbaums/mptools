@@ -29,6 +29,6 @@ ths <- function(ptc) {
     if (!is.matrix(HS)) HS[1] else sum(HS[, 1])
   }
   
-  message(sprintf('Calculating total habitat suitability from ptc files in %s', ptc))    
+  message('Calculating total habitat suitability from ptc files in:\n', ptc)
   sapply(ptcs, get.ths, USE.NAMES=FALSE)
 }
