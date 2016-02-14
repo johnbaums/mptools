@@ -14,12 +14,19 @@
 #'   increments of 1, it may be best to use \code{start=1}, in which case 'time'
 #'   in the resulting shapefile's attribute table will refer to the timestep 
 #'   number.
+#' @param s_p4s (Optional) The coordinate reference system of the source
+#'   cordinates given in \code{coords}. These can be supplied as a \code{CRS} 
+#'   object or as a proj4 string.
+#' @param t_p4s (Optional) The target coordinate reference system to which
+#'   coordinates will be projected, if supplied. These can be supplied as a
+#'   \code{CRS} object or as a proj4 string.
 #' @return \code{NULL}. Three files are created: outfile.shp, outfile.shx and
 #'   outfile.dbf.
 #' @keywords spatial
 #' @seealso \code{\link{mp2xy}}
 #' @importFrom sp coordinates CRS proj4string spTransform
 #' @importFrom rgdal writeOGR
+#' @importFrom raster crs
 #' @export
 #' @examples
 #' mp <- system.file('example.mp', package='mptools')
@@ -39,10 +46,6 @@ mp2shp <- function(mp, coords, outfile, start, s_p4s, t_p4s) {
     errmsg <- c(errmsg, sprintf('\nFile %s.dbf already exists.', outfile))
   }
   if(length(errmsg)) stop(errmsg)
-  tryCatch(sp::CRS(s_p4s), error=function(e) 
-    stop('proj4string not recognised: ', s_p4s, call.=FALSE))
-  tryCatch(sp::CRS(t_p4s), error=function(e) 
-    stop('proj4string not recognised: ', t_p4s, call.=FALSE))
   res <- results(mp)
   sites <- coords[, c('pop', 'x', 'y')]
   N <- as.data.frame(t(res$results[, 'mean', -1]))
@@ -51,8 +54,18 @@ mp2shp <- function(mp, coords, outfile, start, s_p4s, t_p4s) {
     stop('Something went wrong. Please contact the package maintainer.')
   shp <- cbind(sites, N)
   sp::coordinates(shp) <- ~x+y
-  if(!missing('s_p4s')) sp::proj4string(shp) <- s_p4s
-  if(!missing('t_p4s')) shp <- sp::spTransform(shp, sp::CRS(t_p4s))
+  if(!missing('s_p4s')) {
+    tryCatch(raster::crs(s_p4s), error=function(e) 
+      stop('proj4string not recognised: ', s_p4s, call.=FALSE))
+    sp::proj4string(shp) <- s_p4s 
+  }
+  if(!missing('t_p4s')) {
+    if(missing('s_p4s'))
+       stop('If t_p4s is supplied, s_p4s must also be supplied', call.=FALSE)
+    tryCatch(raster::crs(t_p4s), error=function(e) 
+      stop('proj4string not recognised: ', t_p4s, call.=FALSE))
+    shp <- sp::spTransform(shp, sp::CRS(t_p4s)) 
+  }
   rgdal::writeOGR(shp, dirname(outfile), basename(outfile), 'ESRI Shapefile') 
   if(file.exists(paste0(outfile, '.shp'))) {
     message(normalizePath(outfile, '/', mustWork=FALSE), '.shp created.')

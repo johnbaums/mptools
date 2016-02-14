@@ -19,6 +19,14 @@ file extension).}
 increments of 1, it may be best to use \code{start=1}, in which case 'time'
 in the resulting shapefile's attribute table will refer to the timestep 
 number.}
+
+\item{s_p4s}{(Optional) The coordinate reference system of the source
+cordinates given in \code{coords}. These can be supplied as a \code{CRS} 
+object or as a proj4 string.}
+
+\item{t_p4s}{(Optional) The target coordinate reference system to which
+coordinates will be projected, if supplied. These can be supplied as a
+\code{CRS} object or as a proj4 string.}
 }
 \value{
 \code{NULL}. Three files are created: outfile.shp, outfile.shx and
