@@ -40,6 +40,6 @@ r <- system.file('example_001.asc', package='mptools')
 coords <- mp2xy(mp, r, 9.975)
 }
 \seealso{
-\code{\link{mp2shp}}
+\code{\link{mp2sp}}
 }
 

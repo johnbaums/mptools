@@ -36,7 +36,7 @@
 #' @return \code{NULL}. The animation is saved as an animated .gif file at the
 #'   specified path (\code{outfile}).
 #' @keywords spatial
-#' @seealso \code{\link{mp2shp}}
+#' @seealso \code{\link{mp2sp}}
 #' @importFrom raster stack extent nlayers
 #' @importFrom animation saveGIF ani.options
 #' @importFrom rasterVis levelplot

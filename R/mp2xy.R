@@ -15,7 +15,7 @@
 #' @return A \code{data.frame} containing the names of all populations referred 
 #'   to in the .mp file, as well as their coordinates (in both Metapop and 
 #'   original coordinate systems).
-#' @seealso \code{\link{mp2shp}}
+#' @seealso \code{\link{mp2sp}}
 #' @note This has been tested for RAMAS version 5.1, and may produce unexpected
 #'   results for other versions. Please verify that the returned coordinates are
 #'   sensible by referring to the plot that is returned by this function.

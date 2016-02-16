@@ -78,7 +78,7 @@ s <- stack(grids)
 mp_animate(res, coords, habitat=s, outfile=tmp, zlim=c(0, 1225))
 }
 \seealso{
-\code{\link{mp2shp}}
+\code{\link{mp2sp}}
 }
 \keyword{spatial}
 
