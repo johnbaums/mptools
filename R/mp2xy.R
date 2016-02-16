@@ -50,9 +50,9 @@ mp2xy <- function (mp, r, cell.length, plot = TRUE) {
   pops$y <- (y1 + 0.5 * cellsize) - scl * pops$y_mp
   if (plot) {
     p <- rasterVis::levelplot(
-      r, col.regions=colorRampPalette(rev(terrain.colors(100))), 
+      r, col.regions=colorRampPalette(rev(terrain.colors(1000))), 
       margin=FALSE, colorkey=list(height=0.6),
-      at=seq(raster::cellStats(r, min), raster::cellStats(r, max), len=100)) + 
+      at=seq(raster::cellStats(r, min), raster::cellStats(r, max), len=1001)) + 
       latticeExtra::layer(sp::sp.points(sp::SpatialPoints(pops[, c('x', 'y')]), 
                                         pch=21, col=1), data=list(pops=pops))
     print(p)
