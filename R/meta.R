@@ -7,7 +7,7 @@
 #' @return A \code{data.frame} containing one row per population, with columns: 
 #'   \item{popName}{The name of the population.} \item{xMetapop, yMetapop}{The spatial
 #'   coordinates of the population centroid, in RAMAS's coordinate system (see
-#'   \link{mp2xy}).} \item{initN}{The initial abundance.}
+#'   \code{\link{mp2xy}}).} \item{initN}{The initial abundance.}
 #'   \item{ddType}{The density dependence type.} \item{Rmax}{The maximum
 #'   growth rate.} \item{K}{The initial carrying capacity.}
 #'   \item{Ksd}{The standard deviation in K, if applicable.}

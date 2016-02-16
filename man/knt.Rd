@@ -7,9 +7,10 @@
 knt(meta, kch, pops, samelims = FALSE, show_N = FALSE, results, ...)
 }
 \arguments{
-\item{meta}{The R object holding population info returned by \link{meta}.}
+\item{meta}{The R object holding population info returned by
+\code{\link{meta}}.}
 
-\item{kch}{The R object holding kch data returned by \link{kch}.}
+\item{kch}{The R object holding kch data returned by \code{\link{kch}}.}
 
 \item{pops}{(Optional) A character vector of population names. The
 metapopulation will be subset to these populations before plotting.}
@@ -20,10 +21,11 @@ across plots.}
 \item{show_N}{(logical) If \code{TRUE}, mean population abundance will be
 plotted (solid lines) in addition to carrying capacity (dashed lines).}
 
-\item{results}{(required only if \code{plotN} is \code{TRUE}) The R object
-holding simulation results returned by \link{results}.}
+\item{results}{(required only if \code{show_N} is \code{TRUE}) The R object
+holding simulation results returned by \code{\link{results}}.}
 
-\item{...}{Additional arguments to \link{lattice::xyplot}, e.g., \code{layout}.}
+\item{...}{Additional arguments to \code{lattice::\link[lattice]{xyplot}},
+e.g., \code{layout}.}
 }
 \value{
 A lattice object is returned invisibly, and plotted if not assigned.

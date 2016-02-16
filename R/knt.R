@@ -2,17 +2,19 @@
 #' 
 #' Plot each population's carrying capacity and abundance over time.
 #' 
-#' @param meta The R object holding population info returned by \link{meta}.
-#' @param kch The R object holding kch data returned by \link{kch}.
+#' @param meta The R object holding population info returned by
+#'   \code{\link{meta}}.
+#' @param kch The R object holding kch data returned by \code{\link{kch}}.
 #' @param pops (Optional) A character vector of population names. The
 #'   metapopulation will be subset to these populations before plotting.
 #' @param samelims (logical) If \code{TRUE}, the y-axis limits will be constant
 #'   across plots.
 #' @param show_N (logical) If \code{TRUE}, mean population abundance will be
 #'   plotted (solid lines) in addition to carrying capacity (dashed lines).
-#' @param results (required only if \code{plotN} is \code{TRUE}) The R object
-#'   holding simulation results returned by \link{results}.
-#' @param ... Additional arguments to \link{lattice::xyplot}, e.g., \code{layout}.
+#' @param results (required only if \code{show_N} is \code{TRUE}) The R object
+#'   holding simulation results returned by \code{\link{results}}.
+#' @param ... Additional arguments to \code{lattice::\link[lattice]{xyplot}},
+#'   e.g., \code{layout}.
 #' @return A lattice object is returned invisibly, and plotted if not assigned.
 #' @importFrom zoo zoo
 #' @importFrom lattice xyplot panel.rect panel.text
@@ -39,7 +41,7 @@ knt <- function(meta, kch, pops, samelims=FALSE, show_N=FALSE, results, ...) {
               setdiff(pops, meta$popName),
               call.=FALSE)
     }
-    meta <- subset(meta, popName %in% pops)
+    meta <- meta[meta$popName %in% pops, ]
     kch <- kch[, intersect(pops, colnames(kch))]
     if(any(!pops %in% colnames(kch))) {
       warning('Some populations not in kch:\n', 

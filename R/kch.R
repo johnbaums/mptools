@@ -2,9 +2,12 @@
 #' 
 #' Extract KCH time series for each RAMAS Metapop population.
 #' 
-#' @param meta The R object holding Metapop metadata returned by \link{meta}.
-#' @param path A character string giving the full path to the directory containing .kch files referred to in object \code{meta}.
-#' @return A \code{matrix} containing one column per population, giving the carrying capacity at each time step (i.e. each row).
+#' @param meta The R object holding Metapop metadata returned by
+#'   \code{\link{meta}}.
+#' @param path A character string giving the full path to the directory
+#'   containing .kch files referred to in object \code{meta}.
+#' @return A \code{matrix} containing one column per population, giving the
+#'   carrying capacity at each time step (i.e. each row).
 #' @export
 #' @examples
 #' mp <- system.file('example.mp', package='mptools')
