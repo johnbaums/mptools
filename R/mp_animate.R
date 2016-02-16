@@ -48,7 +48,7 @@
 #' mp <- system.file('example.mp', package='mptools')
 #' res <- results(mp)
 #' r <- system.file('example_001.asc', package='mptools')
-#' coords <- mp2xy(mp, r, 9.975)
+#' xy <- mp2xy(mp, r, 9.975)
 #' tmp <- file.path(tempdir(), 'example.gif')
 #' 
 #' # Provide a file path containing habitat grids
@@ -56,11 +56,11 @@
 #'            outfile=tmp, zlim=c(0, 1225))
 #' 
 #' # Provide a RasterStack containing habitat grids.
+#' library(raster)
 #' grids <- list.files(system.file(package='mptools'), pattern='_[0-9]+\\.asc$',
 #'                     full.names=TRUE)
-#' library(raster)
 #' s <- stack(grids)
-#' mp_animate(res, coords, habitat=s, outfile=tmp, zlim=c(0, 1225))
+#' mp_animate(res, coords=xy, habitat=s, outfile=tmp, zlim=c(0, 800))
 mp_animate <- function (res, coords, habitat, outfile, zlim, axes=FALSE, 
                         col.regions=NULL, col.pts=NULL, pt.cex=0.85,
                         height=800, width=820, interval=0.05) {
