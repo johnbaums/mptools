@@ -1,6 +1,6 @@
 Package: mptools
 Type: Package
-Version: 0.5.0
+Version: 0.5.0.9000
 Title: RAMAS Metapop Tools
 Description: Extract and present metadata and simulation results from RAMAS 
     Metapop .mp files.
