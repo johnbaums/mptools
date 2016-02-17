@@ -2,8 +2,6 @@
 output:
   md_document:
     variant: markdown_github
-bibliography: references.bib
-csl: methods-in-ecology-and-evolution.csl
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -19,13 +17,13 @@ opts_chunk$set(dev="svg", fig.path='README_files/')
 
 In recent years, spatially-explicit, coupled habitat-demographic models have
 been developed to acknowledge the importance of population processes when
-evaluating the impacts of habitat change
-[@Cadenhead2015;@Fordham2012;@Keith2008;@Keith2014;@Southwell2008]. Frequently,
-these coupled models use the Metapop module of RAMAS GIS [@Akcakaya2005] to
-relate spatially-dynamic habitat suitability to carrying capacity, and then
+evaluating the impacts of habitat change (Keith *et al.* 2008, 2014; Southwell
+*et al.* 2008; Fordham *et al.* 2012; Cadenhead *et al.* 2015). Frequently,
+these coupled models use the Metapop module of RAMAS GIS (Akçakaya & Root 2005)
+to relate spatially-dynamic habitat suitability to carrying capacity, and then 
 simulate metapopulation dynamics. Metapop saves settings, parameters values, and
-simulation results to a text file (with .mp extension). Unfortunately, there is
-limited flexibility within Metapop regarding presentation of results, and
+simulation results to a text file (with .mp extension). Unfortunately, there is 
+limited flexibility within Metapop regarding presentation of results, and 
 extraction of results via the GUI is awkward.
 
 **The `mptools` package provides several useful functions for extracting and
@@ -84,11 +82,11 @@ mp <- system.file('example.mp', package='mptools')
 ### `results()`: extract simulation results
 
 To extract the simulation results, we use the `results` function, pointing it to
-the .mp file. This extracts time series of the mean, minimum, maximum and
-standard deviation (across iterations) of abundance for each population; the
-minimum, maximum and terminal metapopulation abundance for each iteration; and
-calculates the expected minimum abundance [EMA; @McCarthy2001b] and the standard
-deviation of minimum abundance.
+the .mp file. This extracts time series of the mean, minimum, maximum and 
+standard deviation (across iterations) of abundance for each population; the 
+minimum, maximum and terminal metapopulation abundance for each iteration; and 
+calculates the expected minimum abundance (EMA; McCarthy & Thompson 2001) and
+the standard deviation of minimum abundance.
 
 ```{r res, message=FALSE}
 res <- results(mp=mp)
@@ -303,3 +301,23 @@ abundance is zero. The raster is coloured according to the carrying capacity of
 the cell.
 
 ### References
+
+Akçakaya, H. & Root, W. (2005). *RAMAS GIS: Linking spatial data with population viability analysis (version 5.0)*. Applied Biomathematics, Setauket, New York.
+
+Cadenhead, N.C., Kearney, M.R., Moore, D., McAlpin, S. & Wintle, B.A. (2015). Climate and fire scenario uncertainty dominate the evaluation of options for conserving the great desert skink. *Conservation Letters*.
+
+Fordham, D.A., Resit Akçakaya, H., Araújo, M.B., Elith, J., Keith, D.A., Pearson, R., Auld, T.D., Mellin, C., Morgan, J.W. & Regan, T.J. (2012). Plant extinction risk under climate change: Are forecast range shifts alone a good indicator of species vulnerability to global warming? *Global Change Biology*, **18**, 1357–1371.
+
+Keith, D.A., Akçakaya, H.R., Thuiller, W., Midgley, G.F., Pearson, R.G., Phillips, S.J., Regan, H.M., Araújo, M.B. & Rebelo, T.G. (2008). Predicting extinction risks under climate change: Coupling stochastic population models with dynamic bioclimatic habitat models. *Biology Letters*, **4**, 560.
+
+Keith, D.A., Mahony, M., Hines, H., Elith, J., Regan, T.J., Baumgartner, J.B., Hunter, D., Heard, G.W., Mitchell, N.J. & Parris, K.M. (2014). Detecting extinction risk from climate change by IUCN red list criteria. *Conservation Biology*, **28**, 810–819.
+
+McCarthy, M.A. & Thompson, C. (2001). Expected minimum population size as a measure of threat. *Animal Conservation*, **4**, 351–355.
+
+Southwell, D., Lechner, A., Coates, T. & Wintle, B. (2008). The sensitivity of population viability analysis to uncertainty about habitat requirements: Implications for the management of the endangered southern brown bandicoot. *Conservation Biology*, **22**, 1045–1054.
+
+[//]: # (Citations styled using the Methods in Ecology and Evolution style 
+written by Xiaodong Dang and provided by the Citation Style Language project
+under the Creative Commons Attribution-ShareAlike 3.0 Unported license
+[http://creativecommons.org/licenses/by-sa/3.0/ license] -
+http://citationstyles.org/)
