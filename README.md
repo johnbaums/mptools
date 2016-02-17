@@ -249,7 +249,7 @@ Fordham, D.A., Resit Akçakaya, H., Araújo, M.B., Elith, J., Keith, D.A., Pears
 
 Keith, D.A., Akçakaya, H.R., Thuiller, W., Midgley, G.F., Pearson, R.G., Phillips, S.J., Regan, H.M., Araújo, M.B. & Rebelo, T.G. (2008). Predicting extinction risks under climate change: Coupling stochastic population models with dynamic bioclimatic habitat models. *Biology Letters*, **4**, 560.
 
-Keith, D.A., Mahony, M., Hines, H., Elith, J., Regan, T.J., Baumgartner, J.B., Hunter, D., Heard, G.W., Mitchell, N.J. & Parris, K.M. (2014). Detecting extinction risk from climate change by IUCN red list criteria. *Conservation biology*, **28**, 810–819.
+Keith, D.A., Mahony, M., Hines, H., Elith, J., Regan, T.J., Baumgartner, J.B., Hunter, D., Heard, G.W., Mitchell, N.J. & Parris, K.M. (2014). Detecting extinction risk from climate change by IUCN red list criteria. *Conservation Biology*, **28**, 810–819.
 
 McCarthy, M.A. & Thompson, C. (2001). Expected minimum population size as a measure of threat. *Animal Conservation*, **4**, 351–355.
 
