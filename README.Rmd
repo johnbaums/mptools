@@ -82,11 +82,7 @@ mp <- system.file('example.mp', package='mptools')
 ### `results()`: extract simulation results
 
 To extract the simulation results, we use the `results` function, pointing it to
-the .mp file. This extracts time series of the mean, minimum, maximum and 
-standard deviation (across iterations) of abundance for each population; the 
-minimum, maximum and terminal metapopulation abundance for each iteration; and 
-calculates the expected minimum abundance (EMA; McCarthy & Thompson 2001) and
-the standard deviation of minimum abundance.
+the .mp file. 
 
 ```{r res, message=FALSE}
 res <- results(mp=mp)
@@ -100,11 +96,11 @@ metapopulation as a whole (in element `results`); the minimum (`iter_min`),
 maximum (`iter_max`) and final (`iter_terminal`) abundance across the time
 horizon, for each iteration; the probability of quasi-extinction (i.e., the
 proportion of iterations during which total abundance fell beneath a
-predetermined threshold, `qe_prob`); the mean (`EMA`) and standard deviation
-(`SDMA`) of minimum abundance. Additionally, some metadata about the simulation
-is provided: the date and time that the model was run (`timestamp`); and the
-number of populations (`n_pops`), time steps (`duration`), and iterations
-(`n_iters`).
+predetermined threshold, `qe_prob`); the mean of minimum abundance (`EMA`;
+McCarthy & Thompson 2001) and standard deviation (`SDMA`) of minimum abundance.
+Additionally, some metadata about the simulation is provided: the date and time
+that the model was run (`timestamp`); and the number of populations (`n_pops`),
+time steps (`duration`), and iterations (`n_iters`).
 
 For example, the mean, minimum, maximum and standard deviation of total
 population size at each time step (first six time steps shown here) is given by:
@@ -139,22 +135,22 @@ such that they describe the position relative to the top left corner of the
 grid. Such coordinates are returned by the `meta` function in the columns
 `xMetapop` and `yMetapop`. In order to relate simulation results to the true
 landscape, the original (untransformed) coordinates can be recovered with
-`mp2xy`. This requires one of the original grids used by Spatial Data, and
-knowledge of the cell length setting passed to that module. By default, `mp2xy`
-creates a plot of the points, overlaid upon the provided raster data.
+`mp2xy`. This requires one of the original grids used by Spatial Data (or its
+`Raster*` object representation), and knowledge of the cell length setting
+passed to that module. By default, `mp2xy` creates a plot of the points,
+overlaid upon the provided raster data.
 
 The raster grids that were originally used to define the patch structure are
-included with `mptools`. We refer to one these below.
+included with `mptools` as a `RasterStack` object, `habitat`. We refer to this 
+below.
 
 ```{r xy, echo=FALSE}
-r <- system.file('example_001.asc', package='mptools')
-xy <- mp2xy(mp=mp, r=r, cell.length=9.975, plot=FALSE)
+xy <- mp2xy(mp=mp, r=habitat, cell.length=9.975, plot=FALSE)
 head(xy)
 ```
 
 ```{r xy_echo, eval=FALSE}
-r <- system.file('example_001.asc', package='mptools')
-xy <- mp2xy(mp=mp, r=r, cell.length=9.975)
+xy <- mp2xy(mp=mp, r=habitat, cell.length=9.975)
 head(xy)
 ```
 
@@ -275,21 +271,16 @@ With `mp_animate`, we can create a gif animation showing temporal dynamics in
 habitat suitability and in carrying capacity. This can reveal lags in response
 to changing habitat suitability. 
 
-The function requires either: (1) a `RasterStack`, with layers in temporal
-order, or (2) a file path to a directory containing raster files that describe
-habitat change. In the latter case, filenames must end with an underscore,
-followed by a number that indicates the temporal position of the raster in the
-time series of habitat dynamics. The interval between successive rasters (i.e.,
-the time step) is assumed to be constant. Below, we pass a `RasterStack`,
-comprising rasters that are included with `mptools`.
+The function requires a `RasterStack` or `RasterBrick` with layers, describing
+habitat change, in temporal order. The interval between successive rasters (i.e.,
+the interval between time steps) is assumed to be constant. Below, we create a
+`RasterStack` rasters included with `mptools`, and pass it to `mp_animate`.
 
 ```{r animate, message=FALSE}
 library(raster)
-grids <- list.files(system.file(package='mptools'), pattern='_[0-9]+\\.asc$',
-                    full.names=TRUE)
-s <- stack(grids)
-mp_animate(res, coords=xy, habitat=s, outfile='README_files/dynamics.gif',
-           zlim=c(0, 800))
+spdf <- mp2sp(mp=mp, coords=xy, start=2000)
+mp_animate(spdf, habitat=habitat, outfile='README_files/dynamics.gif', 
+           zlim=c(0, 800), width=630, height=615)
 ```
 
 ![](README_files/dynamics.gif)
