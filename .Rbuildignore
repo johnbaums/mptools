@@ -6,3 +6,4 @@ references.bib
 methods-in-ecology-and-evolution.csl
 cran-comments.md
 ^\.travis\.yml$
+NEWS.md
