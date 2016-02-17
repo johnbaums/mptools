@@ -120,17 +120,6 @@ RAMAS Metapop simulations are often based on spatial grids describing the distri
 
 The raster grids that were originally used to define the patch structure are included with `mptools`. We refer to one these below.
 
-``` r
-r <- system.file('example_001.asc', package='mptools')
-xy <- mp2xy(mp=mp, r=r, cell.length=9.975)
-```
-
-![](README_files/xy-1.svg)<!-- -->
-
-``` r
-head(xy)
-```
-
     ##     pop    x_mp    y_mp       x        y
     ## 1 Pop 1 199.500 279.300 1326093 -4044288
     ## 2 Pop 2 189.525 289.275 1316118 -4054263
@@ -138,6 +127,14 @@ head(xy)
     ## 4 Pop 4 269.325 289.275 1395918 -4054263
     ## 5 Pop 5 279.300 289.275 1405893 -4054263
     ## 6 Pop 6 289.275 289.275 1415868 -4054263
+
+``` r
+r <- system.file('example_001.asc', package='mptools')
+xy <- mp2xy(mp=mp, r=r, cell.length=9.975)
+head(xy)
+```
+
+![](https://rawgit.com/johnbaums/mptools/master/README_files/xy-1.svg)
 
 Above we see that the `data.frame` returned by `mp2xy` includes the populations' names, their RAMAS coordinates, and their original coordinates. In this case, the original coordinates were defined by the Australian Albers equal area coordinate system.
 
@@ -152,7 +149,7 @@ spdf <- mp2sp(mp=mp, coords=xy, start=2000,
               s_p4s='+init=epsg:3577', t_p4s='+init=epsg:4326') 
 ```
 
-Above, we indicated that the source CRS is Australian Albers (EPSG 3577) and the target CRS is WGS 84 (EPSG 4326). (These could also be passed as `CRS` objects---see `?sp::CRS`---rather than as PROJ.4 strings.)
+Above, we indicated that the source CRS is Australian Albers (EPSG 3577) and the target CRS is WGS 84 (EPSG 4326). (These could also be passed as [`CRS` objects](http://www.inside-r.org/packages/cran/sp/docs/CRS) rather than as PROJ.4 strings.)
 
 We can plot the output using the default `plot` method:
 
@@ -170,7 +167,7 @@ spplot(subset(spdf, time==2000), zcol='N',
        col.regions=c('gray80', viridis(100)))
 ```
 
-![](README_files/plot_spplot-1.svg)<!-- -->
+![](https://rawgit.com/johnbaums/mptools/master/README_files/plot_spplot-1.svg)
 
 We can then write these data out to an ESRI shapefile or KML for use in, e.g., a GIS or Google Earth. For example, to write out as a shapefile, we can use:
 
@@ -221,7 +218,7 @@ knt(meta=met, kch=k, pops=c('Pop 169', 'Pop 170', 'Pop 174', 'Pop 175'),
     show_N=TRUE, results=res, samelims=TRUE, layout=c(2, 2))
 ```
 
-![](README_files/knt-1.svg)<!-- -->
+![](https://rawgit.com/johnbaums/mptools/master/README_files/knt-1.svg)
 
 ### `mp_animate()`: animate of habitat and abundance dynamics
 
@@ -234,7 +231,8 @@ library(raster)
 grids <- list.files(system.file(package='mptools'), pattern='_[0-9]+\\.asc$',
                     full.names=TRUE)
 s <- stack(grids)
-mp_animate(res, coords=xy, habitat=s, zlim=c(0, 800), outfile='README_files/dynamics.gif')
+mp_animate(res, coords=xy, habitat=s, outfile='README_files/dynamics.gif',
+           zlim=c(0, 800))
 ```
 
 ![](README_files/dynamics.gif)
