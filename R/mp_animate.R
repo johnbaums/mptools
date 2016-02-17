@@ -90,8 +90,9 @@ mp_animate <- function (res, coords, habitat, outfile, zlim, axes=FALSE,
   e <- raster::extent(habitat)
   message("Creating gif animation.")
   animation::saveGIF({
-    animation::ani.options(interval=interval, nmax=raster::nlayers(habitat), 
-                           outdir=normalizePath(dirname(outfile)))
+    oopt <- animation::ani.options(
+      interval=interval, nmax=raster::nlayers(habitat))
+    on.exit(animation::ani.options(oopt))
     par(mar=c(3, 3, 2, 0.5), mgp=c(2, 0.5, 0), cex.main=1)
     for (i in 1:raster::nlayers(habitat)) {
       coords.exist <- coords[coords$pop %in% names(which(Nscaled[i,] > 0)), ]
@@ -120,6 +121,10 @@ mp_animate <- function (res, coords, habitat, outfile, zlim, axes=FALSE,
                             0.05, pch=20, default.units="npc")
         }))
     }
-  }, movie.name=basename(outfile), ani.height=height, 
-  ani.width=width)
-  }
+  }, movie.name=basename(outfile), ani.height=height, ani.width=width)
+  if(!dirname(outfile)=='.') ok <- file.rename(basename(outfile), outfile)
+  if(ok) message('Animation written to ', outfile) else 
+    warning('Could not move animation to directory ', dirname(outfile), 
+            '. File is at ', file.path(getwd(), basename(outfile)))
+  invisible(NULL)
+}
