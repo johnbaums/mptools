@@ -3,4 +3,4 @@
 .RData
 example/
 *.Rproj
-nosync/
+inst/doc
