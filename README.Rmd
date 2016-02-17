@@ -15,6 +15,8 @@ opts_chunk$set(dev="svg", fig.path='README_files/')
 
 # mptools 
 
+[![Travis-CI Build Status](https://travis-ci.org/johnbaums/mptools.svg?branch=master)](https://travis-ci.org/johnbaums/mptools)
+
 In recent years, spatially-explicit, coupled habitat-demographic models have
 been developed to acknowledge the importance of population processes when
 evaluating the impacts of habitat change
