@@ -280,7 +280,7 @@ The function requires a `RasterStack` or `RasterBrick` with layers, describing h
 library(raster)
 spdf <- mp2sp(mp=mp, coords=xy, start=2000)
 mp_animate(spdf, habitat=habitat, outfile='README_files/dynamics.gif', 
-           zlim=c(0, 800), width=630, height=615)
+           zlim=c(0, 800), width=630, height=615, overwrite=TRUE)
 ```
 
 ![](README_files/dynamics.gif)
