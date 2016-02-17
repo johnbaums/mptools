@@ -1,7 +1,8 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-README.*
+^README\.Rmd$
 README_files
-cran-comments.md
+^cran-comments\.md$
 ^\.travis\.yml$
-NEWS.md
+^NEWS\.md$
+^\.Rhistory$
