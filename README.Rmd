@@ -21,15 +21,15 @@ In recent years, spatially-explicit, coupled habitat-demographic models have
 been developed to acknowledge the importance of population processes when
 evaluating the impacts of habitat change
 [@Cadenhead2015;@Fordham2012;@Keith2008;@Keith2014;@Southwell2008]. Frequently,
-these coupled models used the Metapop module of RAMAS GIS [@Akcakaya2005] to
+these coupled models use the Metapop module of RAMAS GIS [@Akcakaya2005] to
 relate spatially-dynamic habitat suitability to carrying capacity, and then
 simulate metapopulation dynamics. Metapop saves settings, parameters values, and
 simulation results to a text file (with .mp extension). Unfortunately, there is
 limited flexibility within Metapop regarding presentation of results, and
 extraction of results via the GUI is awkward.
 
-The `mptools` package provides several useful functions for extracting and
-processing data from RAMAS Metapop .mp files.
+**The `mptools` package provides several useful functions for extracting and
+processing data from RAMAS Metapop .mp files.**
 
 ## Examples
 
