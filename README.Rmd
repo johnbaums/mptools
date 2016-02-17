@@ -13,7 +13,7 @@ opts_chunk$set(dev="svg", fig.path='README_files/')
 
 # mptools 
 
-[![Travis-CI Build Status](https://travis-ci.org/johnbaums/mptools.svg?branch=master)](https://travis-ci.org/johnbaums/mptools)
+[![Travis-CI Build Status](https://travis-ci.org/johnbaums/mptools.svg?branch=master)](https://travis-ci.org/johnbaums/mptools) [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.46145.svg)](http://dx.doi.org/10.5281/zenodo.46145)
 
 In recent years, spatially-explicit, coupled habitat-demographic models have
 been developed to acknowledge the importance of population processes when

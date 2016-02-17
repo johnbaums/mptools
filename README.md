@@ -2,7 +2,7 @@
 mptools
 =======
 
-[![Travis-CI Build Status](https://travis-ci.org/johnbaums/mptools.svg?branch=master)](https://travis-ci.org/johnbaums/mptools)
+[![Travis-CI Build Status](https://travis-ci.org/johnbaums/mptools.svg?branch=master)](https://travis-ci.org/johnbaums/mptools) [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.46145.svg)](http://dx.doi.org/10.5281/zenodo.46145)
 
 In recent years, spatially-explicit, coupled habitat-demographic models have been developed to acknowledge the importance of population processes when evaluating the impacts of habitat change (Keith *et al.* 2008, 2014; Southwell *et al.* 2008; Fordham *et al.* 2012; Cadenhead *et al.* 2015). Frequently, these coupled models use the Metapop module of RAMAS GIS (Akçakaya & Root 2005) to relate spatially-dynamic habitat suitability to carrying capacity, and then simulate metapopulation dynamics. Metapop saves settings, parameters values, and simulation results to a text file (with .mp extension). Unfortunately, there is limited flexibility within Metapop regarding presentation of results, and extraction of results via the GUI is awkward.
 
