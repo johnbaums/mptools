@@ -6,12 +6,15 @@
 #' or, in more recent versions of RAMAS GIS, SpatialData.exe).
 #' 
 #' @param mp A character string containing the path to a RAMAS Metapop .mp file.
-#' @param r A character string containing the path to any of the raster files 
-#'   that were used by RAMAS Spatial Data for patch identification.
+#' @param r Either a character string containing the path to any of the raster
+#'   files that were used by RAMAS Spatial Data for patch identification, or a
+#'   \code{Raster*} object that was used for that purpose.
 #' @param cell.length Numeric. The cell length of the grid, as specified in 
 #'   RAMAS Spatial Data (note: this may be different to the native resolution of
 #'   the grids).
-#' @param plot Logical. Should the points be plotted? Default is \code{TRUE}.
+#' @param plot Logical. Should the points be plotted? If \code{r} is a 
+#'   \code{Raster*} object with more than one layer, the first layer will be 
+#'   plotted.
 #' @return A \code{data.frame} containing the names of all populations referred 
 #'   to in the .mp file, as well as their coordinates (in both Metapop and 
 #'   original coordinate systems).
@@ -25,11 +28,11 @@
 #' @importFrom sp sp.points SpatialPoints
 #' @importFrom utils read.csv
 #' @importFrom grDevices colorRampPalette terrain.colors
+#' @importFrom methods is
 #' @export
 #' @examples
 #' mp <- system.file('example.mp', package='mptools')
-#' r <- system.file('example_001.asc', package='mptools')
-#' coords <- mp2xy(mp, r, 9.975)
+#' coords <- mp2xy(mp, habitat, 9.975)
 mp2xy <- function (mp, r, cell.length, plot = TRUE) {
   if(!file.exists(mp)) stop(mp, ' doesn\'t exist.', call.=FALSE)
   metapop <- readLines(mp)[-(1:6)]
@@ -40,7 +43,7 @@ mp2xy <- function (mp, r, cell.length, plot = TRUE) {
   pops <- metapop[39:(grep('^Migration$', metapop) - 1)]
   pops <- utils::read.csv(text = pops, stringsAsFactors = FALSE, 
                    header = FALSE)[, 1:3]
-  r <- raster::raster(r)
+  if (!methods::is(r, "Raster")) r <- raster::raster(r)
   x0 <- raster::xmin(r)
   y0 <- raster::ymin(r)
   cellsize <- raster::xres(r)
@@ -52,12 +55,13 @@ mp2xy <- function (mp, r, cell.length, plot = TRUE) {
   pops$y <- (y1 + 0.5 * cellsize) - scl * pops$y_mp
   if (plot) {
     p <- rasterVis::levelplot(
-      r, col.regions=grDevices::colorRampPalette(rev(
-        grDevices::terrain.colors(1000))), 
+      r[[1]], col.regions=viridis::viridis(1000), 
       margin=FALSE, colorkey=list(height=0.6),
-      at=seq(raster::cellStats(r, min), raster::cellStats(r, max), len=1001)) + 
-      latticeExtra::layer(sp::sp.points(sp::SpatialPoints(pops[, c('x', 'y')]), 
-                                        pch=21, col=1), data=list(pops=pops))
+      at=seq(raster::cellStats(r[[1]], min), 
+             raster::cellStats(r[[1]], max), len=1001)) + 
+      latticeExtra::layer(sp::sp.points(
+        sp::SpatialPoints(pops[, c('x', 'y')]), col=1, fill='#ffffff80', pch=21), 
+        data=list(pops=pops))
     print(p)
   }
   return(pops)

@@ -9,14 +9,17 @@ mp2xy(mp, r, cell.length, plot = TRUE)
 \arguments{
 \item{mp}{A character string containing the path to a RAMAS Metapop .mp file.}
 
-\item{r}{A character string containing the path to any of the raster files 
-that were used by RAMAS Spatial Data for patch identification.}
+\item{r}{Either a character string containing the path to any of the raster
+files that were used by RAMAS Spatial Data for patch identification, or a
+\code{Raster*} object that was used for that purpose.}
 
 \item{cell.length}{Numeric. The cell length of the grid, as specified in 
 RAMAS Spatial Data (note: this may be different to the native resolution of
 the grids).}
 
-\item{plot}{Logical. Should the points be plotted? Default is \code{TRUE}.}
+\item{plot}{Logical. Should the points be plotted? If \code{r} is a 
+\code{Raster*} object with more than one layer, the first layer will be 
+plotted.}
 }
 \value{
 A \code{data.frame} containing the names of all populations referred 
@@ -36,8 +39,7 @@ This has been tested for RAMAS version 5.1, and may produce unexpected
 }
 \examples{
 mp <- system.file('example.mp', package='mptools')
-r <- system.file('example_001.asc', package='mptools')
-coords <- mp2xy(mp, r, 9.975)
+coords <- mp2xy(mp, habitat, 9.975)
 }
 \seealso{
 \code{\link{mp2sp}}

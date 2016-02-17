@@ -2,25 +2,23 @@
 #' 
 #' Animate temporal habitat and abundance dynamics on a gridded landscape.
 #'  
-#' @param res An object containing the results of a RAMAS Metapop simulation. 
-#'   This object can be created by using \code{\link{results}}.
-#' @param coords An object containing population coordinates. This object can be
-#'   created by using \code{\link{mp2xy}}.
-#' @param habitat Either a file path containing habitat grids (names of grid 
-#'   files must end in an underscore followed by a number, e.g. 
-#'   example_001.asc), or a RasterStack or RasterBrick object. The number of 
-#'   files, or Raster* layers, should equal the number of simulation time steps.
-#'   If a file path is provided, files are ordered by the numeric component of 
-#'   their names.
+#' @param dat A \code{SpatialPointsDataFrame} object returned by 
+#'   \code{\link{mp2xy}}.
+#' @param habitat A RasterStack or RasterBrick object. The number of Raster 
+#'   layers should equal the number of simulation time steps. Further, the 
+#'   layers should be ordered temporally, and should correspond to the levels of
+#'   \code{dat$time}. It is assumed that the time step between layers is 
+#'   consistent (i.e., the interval between animation frames is constant).
 #' @param outfile A character string giving the desired output path and 
 #'   filename.
 #' @param zlim A numeric vector of length 2 giving the lower and upper limits of
-#'   the color scale indicating habitat quality.
+#'   the color scale indicating habitat quality. If this is not provided, a 
+#'   pretty range will be calculated (though this will impact efficiency).
 #' @param axes Logical. Should axes be drawn?
 #' @param col.regions A \code{\link{colorRampPalette}} function that will be 
 #'   used to generate the colour ramp for grids. If \code{NULL}, a default 
 #'   colour ramp based on \code{\link{terrain.colors}} is used.
-#' @param col.pts A \code{\link{colorRampPalette}} function that will be used
+#' @param pt.col A \code{\link{colorRampPalette}} function that will be used
 #'   to generate the colour ramp for points. These colours will be interpolated 
 #'   into 100 colours, which indicate relative mean population size, ranging 
 #'   from 1 (first element of the colour ramp) to the maximum mean population 
@@ -29,9 +27,24 @@
 #' @param pt.cex Point size magnifier, relative to the default.
 #' @param height Numeric. The height of the animation, in pixels. Default is 
 #'   800.
-#' @param width Numeric. The width of the animation, in pixels. Default is 820.
+#' @param width Numeric. The width of the animation, in pixels. Default is 800.
 #' @param interval The time interval of the animation, in seconds. Default is 
 #'   0.05, i.e. 20 frames per second.
+#' @param label Should a time step counter be plotted?
+#' @param label.pos A vector of two numbers giving the normalised parent
+#'   coordinates at which the time step counter will be plotted. The first
+#'   number gives the x-coordinate (0 = left edge, 1 = right edge) and the
+#'   second gives the y-coordinate (0 = bottom edge, 1 = top edge). The default
+#'   value of \code{c(0.98, 0.05)} plots the label at the bottom right corner. 
+#'   Ignored if \code{label} is \code{FALSE}.
+#' @param label.just Justification of the time step counter label, relative to
+#'   \code{label.pos}. See the description of \code{just} at
+#'   \code{\link{grid.text}}. Ignored if \code{label} is \code{FALSE}.
+#' @param label.cex Size of the time step counter text. Ignored if \code{label}
+#'   is \code{FALSE}.
+#' @param label.font Font face of the time step counter text. See
+#'   \code{fontface} at \code{\link{gpar}} for available options. Ignored if
+#'   \code{label} is \code{FALSE}.
 #' @return \code{NULL}. The animation is saved as an animated .gif file at the
 #'   specified path (\code{outfile}).
 #' @details An animated gif is created, with points indicating the location of
@@ -45,103 +58,92 @@
 #'   cells.
 #' @keywords spatial
 #' @seealso \code{\link{mp2sp}}
-#' @importFrom raster stack extent nlayers
-#' @importFrom animation saveGIF ani.options
+#' @importFrom raster stack extent nlayers ymin ymax cellStats
+#' @importFrom animation ani.options im.convert
 #' @importFrom rasterVis levelplot
-#' @importFrom sp coordinates sp.points
+#' @importFrom sp sp.points
 #' @importFrom grid grid.segments unit gpar grid.text grid.points
-#' @importFrom lattice panel.levelplot.raster
-#' @importFrom grDevices colorRampPalette terrain.colors
+#' @importFrom grDevices colorRampPalette terrain.colors png
+#' @importFrom latticeExtra layer
 #' @importFrom graphics par
 #' @importFrom methods is
+#' @importFrom viridis viridis
 #' @export
 #' @examples 
+#' library(raster)
 #' mp <- system.file('example.mp', package='mptools')
-#' res <- results(mp)
-#' r <- system.file('example_001.asc', package='mptools')
-#' xy <- mp2xy(mp, r, 9.975)
+#' coords <- mp2xy(mp, habitat, 9.975)
+#' spdf <- mp2sp(mp, coords, start=2000)
 #' tmp <- file.path(tempdir(), 'example.gif')
 #' 
-#' # Provide a RasterStack containing habitat grids.
-#' library(raster)
-#' grids <- list.files(system.file(package='mptools'), pattern='_[0-9]+\\.asc$',
-#'                     full.names=TRUE)
-#' s <- stack(grids)
-#' mp_animate(res, coords=xy, habitat=s, outfile=tmp, zlim=c(0, 800))
-mp_animate <- function (res, coords, habitat, outfile, zlim, axes=FALSE, 
-                        col.regions=NULL, col.pts=NULL, pt.cex=0.85,
-                        height=800, width=820, interval=0.05) {
+#' # Here we subset the stack to every fifth time step, for efficiency. A full 
+#' # example is given at https://github.com/johnbaums/mptools.
+#' s <- habitat[[seq(1, nlayers(habitat), 5)]]
+#' # Accordingly, we'll need to subset the object holding the abundance data...
+#' spdf <- subset(spdf, time %in% unique(time)[seq(1, nlayers(habitat), 5)])
+#' mp_animate(spdf, habitat=s, outfile=tmp, zlim=c(0, 800), pt.cex=1.5, 
+#'            interval=0.1)
+mp_animate <- function(dat, habitat, outfile, zlim, axes=FALSE, 
+                       col.regions=NULL, pt.col=NULL, pt.cex=1, height=800, 
+                       width=800, interval=0.05, label=TRUE, 
+                       label.pos=c(0.98, 0.05), label.just='right', 
+                       label.cex=1.5, label.font=2) {
+  nl <- raster::nlayers(habitat)
+  if(nl != length(unique(dat$time))) 
+    stop('The number of unique levels of time in dat (',  
+         length(unique(dat$time)), ') should be the same as the number of ',
+         'layers of habitat (', nl, ').')
+  if(label) {
+    if(any(findInterval(label.pos, c(0, 1), rightmost.closed=TRUE) != 1))
+      stop('label.pos should be a vector of two numeric values giving the ',
+           'normalised parent coordinates (range: 0 to 1) at which time step ',
+           'label text will be plotted.', call.=FALSE)  
+    label.pos <- grid::unit(label.pos, 'npc')
+  }
   if(file.exists(outfile)) 
     stop('File ', outfile, ' already exists.', call.=FALSE)
   if(!dir.exists(dirname(outfile))) 
     stop('Directory ', dirname(outfile), ' does not exist.', call.=FALSE)
-  if (!methods::is(habitat, "Raster")) {
-    if (is.character(habitat)) {
-      f <- list.files(habitat, pattern="_[0-9]+\\.(asc|tif|grd)$", 
-                      full.names=TRUE)
-      if (length(f) == 0) 
-        stop("habitat must be either a Raster* object or a file path', 
-             ' containing .asc, .tif, or .grd files.", call.=FALSE)
-      f <- f[order(gsub(".*_([0-9]+)\\.(asc|tif|grd)$", 
-                        "\\1", f))]
-      message("Creating RasterStack from files found in:\n", habitat)
-      habitat <- raster::stack(f)
-    }
-    else stop("habitat must be either a Raster* object or a file path', 
-              ' containing .asc, .tif, or .grd files.", call.=FALSE)
+  if (!methods::is(habitat, "Raster")) 
+    stop('habitat must be a Raster* object.', call.=FALSE)
+  if (is.null(col.regions)) col.regions <- viridis::viridis
+  if (is.null(pt.col))
+    pt.col <- grDevices::colorRampPalette(c("white", "black"))
+  dat$N.scl <- ceiling(100 * dat$N/max(dat$N, na.rm=TRUE))
+  
+  message('Creating gif animation.')
+  ylims <- c(raster::ymin(raster::extent(habitat) * 1.2), raster::ymax(habitat))
+  if(is.null(zlim)) 
+    zlim <- range(pretty(c(0, max(raster::cellStats(habitat, max)))))
+  prefix <- paste(sample(letters, 6, replace=TRUE), collapse='')
+  grDevices::png(sprintf('%s/%s_%%0%sd.png', tempdir(), prefix, nchar(nl)), 
+                 type='cairo', width=width, height=height)
+  plot_t <- function(i, z) {
+    d <- subset(dat, time==z & N > 0)
+    p <- rasterVis::levelplot(
+      habitat[[i]], margin=FALSE, col.regions=col.regions, ylim=ylims,
+      at=seq(zlim[[1]], zlim[[2]], length.out=101), scales=list(draw=axes)) +
+      latticeExtra::layer(
+        sp::sp.points(d, pch=21, col=1, fill=pt.col(101)[d$N.scl + 1], 
+                      cex=pt.cex), 
+        data=list(d=d, pt.cex=pt.cex, pt.col=pt.col)) +
+      latticeExtra::layer(
+        grid::grid.text(z, label.pos[1], label.pos[2], just=label.just, 
+                        gp=grid::gpar(fontface=label.font, cex=label.cex),
+                        draw=label), 
+        data=list(z=z, label=label, label.pos=label.pos, 
+                  label.just=label.just, label.font=label.font, 
+                  label.cex=label.cex))
+    print(p)
   }
-  if (is.null(col.regions))   
-    col.regions <- grDevices::colorRampPalette(
-      c('#AAAAAA', rev(grDevices::terrain.colors(10))[-1]))
-  if (is.null(col.pts)) 
-    col.pts <- grDevices::colorRampPalette(c("white", "black"))
-  N <- res$results[, "mean", ][, -grep("ALL", dimnames(res$results)[[3]])]
-  Nmax <- max(N, na.rm=TRUE)
-  Nscaled <- ceiling(N * 100/Nmax)
-  sp::coordinates(coords) <- ~x+y
-  e <- raster::extent(habitat)
-  message("Creating gif animation.")
-  animation::saveGIF({
-    oopt <- animation::ani.options(
-      interval=interval, nmax=raster::nlayers(habitat))
-    opar <- graphics::par(mar=c(3, 3, 2, 0.5), mgp=c(2, 0.5, 0), cex.main=1)
-    owd <- setwd(tempdir())
-    on.exit({
-      animation::ani.options(oopt)
-      par(opar) 
-      setwd(owd)
-    }, add=TRUE)
-    for (i in 1:raster::nlayers(habitat)) {
-      coords.exist <- coords[coords$pop %in% names(which(Nscaled[i,] > 0)), ]
-      Nscaled.exist <- Nscaled[i, coords.exist$pop]
-      print(rasterVis::levelplot(
-        habitat, layers=i, col.regions=col.regions, margin=FALSE, 
-        at=seq(zlim[1], zlim[2], length.out=10), scales=list(draw=axes), 
-        ylim=c(e@ymin - 0.1 * (e@ymax - e@ymin), e@ymax), 
-        panel=function(...) {
-          lattice::panel.levelplot.raster(...)
-          sp::sp.points(coords.exist, pch=21, cex=pt.cex, col=1, 
-                        fill=col.pts(100)[Nscaled.exist], 
-                        data=list(Nscaled.exist=Nscaled.exist, 
-                                  coords.exist=coords.exist, col.pts=col.pts))
-          grid::grid.segments(0.1, 0.05, 0.9, 0.05, gp=grid::gpar(lwd=3))
-          grid::grid.segments(seq(0.1, 0.9, length.out=11), 
-                              grid::unit(0.05, "npc") - 
-                                grid::unit(1.5, "mm"), 
-                              seq(0.1, 0.9, length.out=11), 
-                              grid::unit(0.05, "npc") + 
-                                grid::unit(1.5, "mm"), 
-                              gp=grid::gpar(lwd=3))
-          grid::grid.text(seq(2000, 2100, length.out=11), 
-                          seq(0.1, 0.9, 0.08), 0.05, vjust=2)
-          grid::grid.points(seq(0.1, 0.9, length.out=101)[i], 
-                            0.05, pch=20, default.units="npc")
-        }))
-    }
-  }, movie.name=basename(outfile), ani.height=height, ani.width=width)
-  if(!dirname(outfile)=='.') ok <- file.rename(basename(outfile), outfile)
-  if(ok) message('Animation written to ', outfile) else 
-    warning('Could not move animation to directory ', dirname(outfile), 
-            '. File is at ', file.path(getwd(), basename(outfile)))
+  mapply(plot_t, seq_len(nl), as.character(unique(spdf$time))) 
+  dev.off()
+  oopt <- animation::ani.options(
+    ani.width=width, ani.height=height, interval=0.05, ani.dev='png', 
+    ani.type='png', nmax=nl, autobrowse=FALSE)
+  on.exit(animation::ani.options(oopt), add=TRUE)
+  ff <- list.files(tempdir(), sprintf('^%s.*\\.png$', prefix), full.names=TRUE)
+  animation::im.convert(ff, output=outfile, extra.opts='-dispose Background', 
+                        clean=TRUE)
   invisible(NULL)
 }

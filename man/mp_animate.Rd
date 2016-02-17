@@ -4,29 +4,27 @@
 \alias{mp_animate}
 \title{Animate the output of a RAMAS Metapop simulation.}
 \usage{
-mp_animate(res, coords, habitat, outfile, zlim, axes = FALSE,
-  col.regions = NULL, col.pts = NULL, pt.cex = 0.85, height = 800,
-  width = 820, interval = 0.05)
+mp_animate(dat, habitat, outfile, zlim, axes = FALSE, col.regions = NULL,
+  pt.col = NULL, pt.cex = 1, height = 800, width = 800,
+  interval = 0.05, label = TRUE, label.pos = c(0.98, 0.05),
+  label.just = "right", label.cex = 1.5, label.font = 2)
 }
 \arguments{
-\item{res}{An object containing the results of a RAMAS Metapop simulation. 
-This object can be created by using \code{\link{results}}.}
+\item{dat}{A \code{SpatialPointsDataFrame} object returned by 
+\code{\link{mp2xy}}.}
 
-\item{coords}{An object containing population coordinates. This object can be
-created by using \code{\link{mp2xy}}.}
-
-\item{habitat}{Either a file path containing habitat grids (names of grid 
-files must end in an underscore followed by a number, e.g. 
-example_001.asc), or a RasterStack or RasterBrick object. The number of 
-files, or Raster* layers, should equal the number of simulation time steps.
-If a file path is provided, files are ordered by the numeric component of 
-their names.}
+\item{habitat}{A RasterStack or RasterBrick object. The number of Raster 
+layers should equal the number of simulation time steps. Further, the 
+layers should be ordered temporally, and should correspond to the levels of
+\code{dat$time}. It is assumed that the time step between layers is 
+consistent (i.e., the interval between animation frames is constant).}
 
 \item{outfile}{A character string giving the desired output path and 
 filename.}
 
 \item{zlim}{A numeric vector of length 2 giving the lower and upper limits of
-the color scale indicating habitat quality.}
+the color scale indicating habitat quality. If this is not provided, a 
+pretty range will be calculated (though this will impact efficiency).}
 
 \item{axes}{Logical. Should axes be drawn?}
 
@@ -34,7 +32,7 @@ the color scale indicating habitat quality.}
 used to generate the colour ramp for grids. If \code{NULL}, a default 
 colour ramp based on \code{\link{terrain.colors}} is used.}
 
-\item{col.pts}{A \code{\link{colorRampPalette}} function that will be used
+\item{pt.col}{A \code{\link{colorRampPalette}} function that will be used
 to generate the colour ramp for points. These colours will be interpolated 
 into 100 colours, which indicate relative mean population size, ranging 
 from 1 (first element of the colour ramp) to the maximum mean population 
@@ -46,10 +44,30 @@ ramp ranging from white to black is used.}
 \item{height}{Numeric. The height of the animation, in pixels. Default is 
 800.}
 
-\item{width}{Numeric. The width of the animation, in pixels. Default is 820.}
+\item{width}{Numeric. The width of the animation, in pixels. Default is 800.}
 
 \item{interval}{The time interval of the animation, in seconds. Default is 
 0.05, i.e. 20 frames per second.}
+
+\item{label}{Should a time step counter be plotted?}
+
+\item{label.pos}{A vector of two numbers giving the normalised parent
+coordinates at which the time step counter will be plotted. The first
+number gives the x-coordinate (0 = left edge, 1 = right edge) and the
+second gives the y-coordinate (0 = bottom edge, 1 = top edge). The default
+value of \code{c(0.98, 0.05)} plots the label at the bottom right corner. 
+Ignored if \code{label} is \code{FALSE}.}
+
+\item{label.just}{Justification of the time step counter label, relative to
+\code{label.pos}. See the description of \code{just} at
+\code{\link{grid.text}}. Ignored if \code{label} is \code{FALSE}.}
+
+\item{label.cex}{Size of the time step counter text. Ignored if \code{label}
+is \code{FALSE}.}
+
+\item{label.font}{Font face of the time step counter text. See
+\code{fontface} at \code{\link{gpar}} for available options. Ignored if
+\code{label} is \code{FALSE}.}
 }
 \value{
 \code{NULL}. The animation is saved as an animated .gif file at the
@@ -70,18 +88,19 @@ An animated gif is created, with points indicating the location of
   cells.
 }
 \examples{
+library(raster)
 mp <- system.file('example.mp', package='mptools')
-res <- results(mp)
-r <- system.file('example_001.asc', package='mptools')
-xy <- mp2xy(mp, r, 9.975)
+coords <- mp2xy(mp, habitat, 9.975)
+spdf <- mp2sp(mp, coords, start=2000)
 tmp <- file.path(tempdir(), 'example.gif')
 
-# Provide a RasterStack containing habitat grids.
-library(raster)
-grids <- list.files(system.file(package='mptools'), pattern='_[0-9]+\\\\.asc$',
-                    full.names=TRUE)
-s <- stack(grids)
-mp_animate(res, coords=xy, habitat=s, outfile=tmp, zlim=c(0, 800))
+# Here we subset the stack to every fifth time step, for efficiency. A full 
+# example is given at https://github.com/johnbaums/mptools.
+s <- habitat[[seq(1, nlayers(habitat), 5)]]
+# Accordingly, we'll need to subset the object holding the abundance data...
+spdf <- subset(spdf, time \%in\% unique(time)[seq(1, nlayers(habitat), 5)])
+mp_animate(spdf, habitat=s, outfile=tmp, zlim=c(0, 800), pt.cex=1.5, 
+           interval=0.1)
 }
 \seealso{
 \code{\link{mp2sp}}
