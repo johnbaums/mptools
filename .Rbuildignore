@@ -1,0 +1,8 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+README.*
+README_files
+references.bib
+methods-in-ecology-and-evolution.csl
+cran-comments.md
+^\.travis\.yml$
