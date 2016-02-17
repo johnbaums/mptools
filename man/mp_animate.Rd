@@ -59,16 +59,23 @@ ramp ranging from white to black is used.}
 Mean population size is indicated by point color, and is overlaid on 
 temporally-dynamic grids of, e.g., habitat suitability.
 }
+\details{
+An animated gif is created, with points indicating the location of
+  populations with mean abundance greater than zero, overlaid upon a raster
+  grid indicating habitat suitability. Relative population size is
+  represented by point colour, with white corresponding to a population with 
+  mean abundance between 0 and 1% of the maximum mean abundance across all
+  populations and time steps, and black corresponding to the maximum mean
+  abundance. Colours for intermediate values are scaled linearly. The colour
+  key indicates carrying capacity, and corresponds to the colour of grid
+  cells.
+}
 \examples{
 mp <- system.file('example.mp', package='mptools')
 res <- results(mp)
 r <- system.file('example_001.asc', package='mptools')
 xy <- mp2xy(mp, r, 9.975)
 tmp <- file.path(tempdir(), 'example.gif')
-
-# Provide a file path containing habitat grids
-mp_animate(res, coords=xy, habitat=system.file(package='mptools'), 
-           outfile=tmp, zlim=c(0, 1225))
 
 # Provide a RasterStack containing habitat grids.
 library(raster)

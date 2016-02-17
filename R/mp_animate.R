@@ -35,6 +35,15 @@
 #'   0.05, i.e. 20 frames per second.
 #' @return \code{NULL}. The animation is saved as an animated .gif file at the
 #'   specified path (\code{outfile}).
+#' @details An animated gif is created, with points indicating the location of
+#'   populations with mean abundance greater than zero, overlaid upon a raster
+#'   grid indicating habitat suitability. Relative population size is
+#'   represented by point colour, with white corresponding to a population with 
+#'   mean abundance between 0 and 1% of the maximum mean abundance across all
+#'   populations and time steps, and black corresponding to the maximum mean
+#'   abundance. Colours for intermediate values are scaled linearly. The colour
+#'   key indicates carrying capacity, and corresponds to the colour of grid
+#'   cells.
 #' @keywords spatial
 #' @seealso \code{\link{mp2sp}}
 #' @importFrom raster stack extent nlayers
@@ -54,10 +63,6 @@
 #' xy <- mp2xy(mp, r, 9.975)
 #' tmp <- file.path(tempdir(), 'example.gif')
 #' 
-#' # Provide a file path containing habitat grids
-#' mp_animate(res, coords=xy, habitat=system.file(package='mptools'), 
-#'            outfile=tmp, zlim=c(0, 1225))
-#' 
 #' # Provide a RasterStack containing habitat grids.
 #' library(raster)
 #' grids <- list.files(system.file(package='mptools'), pattern='_[0-9]+\\.asc$',
@@ -67,6 +72,10 @@
 mp_animate <- function (res, coords, habitat, outfile, zlim, axes=FALSE, 
                         col.regions=NULL, col.pts=NULL, pt.cex=0.85,
                         height=800, width=820, interval=0.05) {
+  if(file.exists(outfile)) 
+    stop('File ', outfile, ' already exists.', call.=FALSE)
+  if(!dir.exists(dirname(outfile))) 
+    stop('Directory ', dirname(outfile), ' does not exist.', call.=FALSE)
   if (!methods::is(habitat, "Raster")) {
     if (is.character(habitat)) {
       f <- list.files(habitat, pattern="_[0-9]+\\.(asc|tif|grd)$", 
@@ -96,9 +105,13 @@ mp_animate <- function (res, coords, habitat, outfile, zlim, axes=FALSE,
   animation::saveGIF({
     oopt <- animation::ani.options(
       interval=interval, nmax=raster::nlayers(habitat))
-    on.exit(animation::ani.options(oopt))
     opar <- graphics::par(mar=c(3, 3, 2, 0.5), mgp=c(2, 0.5, 0), cex.main=1)
-    on.exit(par(opar), add=TRUE)
+    owd <- setwd(tempdir())
+    on.exit({
+      animation::ani.options(oopt)
+      par(opar) 
+      setwd(owd)
+    }, add=TRUE)
     for (i in 1:raster::nlayers(habitat)) {
       coords.exist <- coords[coords$pop %in% names(which(Nscaled[i,] > 0)), ]
       Nscaled.exist <- Nscaled[i, coords.exist$pop]
