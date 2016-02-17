@@ -32,6 +32,8 @@
 #' @seealso \code{\link{meta}}
 #' @note This has been tested for RAMAS version 5.1, and may produce unexpected 
 #'   results for other versions.
+#' @importFrom utils read.csv read.table
+#' @importFrom stats sd
 #' @export
 #' @examples 
 #' mp <- system.file('example.mp', package='mptools')
@@ -75,7 +77,8 @@ results <- function(mp) {
     stop(sprintf('Expected final line of %s to contain "-End of file-"', mp))
   }
   pops <- metapop[39:(grep('^Migration$', metapop) - 1)]
-  pop.names <- read.csv(text=pops, stringsAsFactors=FALSE, header=FALSE)[, 1]
+  pop.names <- utils::read.csv(
+    text=pops, stringsAsFactors=FALSE, header=FALSE)[, 1]
   sim.res <- metapop[grep('^Simulation results', 
                           metapop):(grep('^Occupancy', metapop)-1)]
   n_iters <- as.numeric(sub('(\\d*).*', '\\1', sim.res[2]))
@@ -98,12 +101,12 @@ results <- function(mp) {
   if(length(minmaxterm)==3) dim(minmaxterm) <- c(1, 3)
   colnames(minmaxterm) <- c('min', 'max', 'terminal')
   EMA <- mean(minmaxterm[, 'min'])
-  SDMA <- sd(minmaxterm[, 'min'])
+  SDMA <- stats::sd(minmaxterm[, 'min'])
   n_manage <- as.numeric(gsub('\\D', '', metapop[grep('pop mgmnt', metapop)]))
   qext_thr <- as.numeric(metapop[grep('pop mgmnt', metapop) + n_manage + 1])
   expl_thr <- as.numeric(metapop[grep('pop mgmnt', metapop) + n_manage + 2])
   
-  cross <- read.table(text=metapop[
+  cross <- utils::read.table(text=metapop[
     grep('Time to cross', metapop) + 
       ceiling(seq_len(n_steps)/as.numeric(
         metapop[grep('pop mgmnt', metapop) + n_manage + 3]))],

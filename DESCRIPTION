@@ -1,9 +1,14 @@
 Package: mptools
 Type: Package
 Title: RAMAS Metapop tools
-Version: 0.4.4.9000
+Version: 0.4.5.9000
 Depends:R (>= 3.2.0)
 Imports:
+    methods,
+    utils,
+    grDevices,
+    graphics,
+    stats,
     raster,
     sp,
     animation,

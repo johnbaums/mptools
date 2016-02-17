@@ -12,6 +12,7 @@
 #' @note This has been tested for RAMAS version 5.1, and may produce unexpected
 #'   results for other versions. Please verify that the returned coordinates are
 #'   sensible by referring to the plot that is returned by this function.
+#' @importFrom utils tail
 #' @export
 ths <- function(ptc) {
   ptcs <- list.files(ptc, pattern='\\.ptc$', ignore.case=TRUE, full.names=TRUE)
@@ -20,7 +21,8 @@ ths <- function(ptc) {
     txt <- readLines(ptc)[-1]
     if(any(grepl('^Results:', txt))) {
       txt <- txt[-(1:grep('^Results:', txt))]
-      txt <- txt[-(1:(tail(which(sapply(gregexpr(',', txt), length) == 25), 1) + 2))]
+      txt <- txt[-(1:(
+        utils::tail(which(sapply(gregexpr(',', txt), length) == 25), 1) + 2))]
       txt <- txt[1:(which(sapply(gregexpr(' ', txt), length) < 6)[1] - 1)]
       HS <- apply(do.call(rbind, strsplit(txt, ' ')), 2, as.numeric)
     } else {

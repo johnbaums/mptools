@@ -43,6 +43,9 @@
 #' @importFrom sp coordinates sp.points
 #' @importFrom grid grid.segments unit gpar grid.text grid.points
 #' @importFrom lattice panel.levelplot.raster
+#' @importFrom grDevices colorRampPalette terrain.colors
+#' @importFrom graphics par
+#' @importFrom methods is
 #' @export
 #' @examples 
 #' mp <- system.file('example.mp', package='mptools')
@@ -64,7 +67,7 @@
 mp_animate <- function (res, coords, habitat, outfile, zlim, axes=FALSE, 
                         col.regions=NULL, col.pts=NULL, pt.cex=0.85,
                         height=800, width=820, interval=0.05) {
-  if (!is(habitat, "Raster")) {
+  if (!methods::is(habitat, "Raster")) {
     if (is.character(habitat)) {
       f <- list.files(habitat, pattern="_[0-9]+\\.(asc|tif|grd)$", 
                       full.names=TRUE)
@@ -80,9 +83,10 @@ mp_animate <- function (res, coords, habitat, outfile, zlim, axes=FALSE,
               ' containing .asc, .tif, or .grd files.", call.=FALSE)
   }
   if (is.null(col.regions))   
-    col.regions <- colorRampPalette(c('#AAAAAA', rev(terrain.colors(10))[-1]))
+    col.regions <- grDevices::colorRampPalette(
+      c('#AAAAAA', rev(grDevices::terrain.colors(10))[-1]))
   if (is.null(col.pts)) 
-    col.pts <- colorRampPalette(c("white", "black"))
+    col.pts <- grDevices::colorRampPalette(c("white", "black"))
   N <- res$results[, "mean", ][, -grep("ALL", dimnames(res$results)[[3]])]
   Nmax <- max(N, na.rm=TRUE)
   Nscaled <- ceiling(N * 100/Nmax)
@@ -93,7 +97,8 @@ mp_animate <- function (res, coords, habitat, outfile, zlim, axes=FALSE,
     oopt <- animation::ani.options(
       interval=interval, nmax=raster::nlayers(habitat))
     on.exit(animation::ani.options(oopt))
-    par(mar=c(3, 3, 2, 0.5), mgp=c(2, 0.5, 0), cex.main=1)
+    opar <- graphics::par(mar=c(3, 3, 2, 0.5), mgp=c(2, 0.5, 0), cex.main=1)
+    on.exit(par(opar), add=TRUE)
     for (i in 1:raster::nlayers(habitat)) {
       coords.exist <- coords[coords$pop %in% names(which(Nscaled[i,] > 0)), ]
       Nscaled.exist <- Nscaled[i, coords.exist$pop]

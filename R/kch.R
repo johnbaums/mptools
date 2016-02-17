@@ -8,6 +8,7 @@
 #'   containing .kch files referred to in object \code{meta}.
 #' @return A \code{matrix} containing one column per population, giving the
 #'   carrying capacity at each time step (i.e. each row).
+#' @importFrom utils tail
 #' @export
 #' @examples
 #' mp <- system.file('example.mp', package='mptools')
@@ -28,7 +29,7 @@ kch <- function (meta, path) {
   max.len <- max(len)
   kch <- sapply(kch, function(x) {
     l <- length(x)
-    if(l < max.len) c(x, rep(tail(x, 1), max.len - l)) else x
+    if(l < max.len) c(x, rep(utils::tail(x, 1), max.len - l)) else x
   })
   colnames(kch) <- meta$popName
   kch

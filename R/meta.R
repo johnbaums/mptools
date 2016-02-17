@@ -39,6 +39,7 @@
 #'   \item{relVarSurv}{Variation in survival rates of this population, relative
 #'   to those given in the standard deviation matrix.}
 #' @seealso \code{\link{results}}
+#' @importFrom utils count.fields read.csv
 #' @export
 #' @examples
 #' mp <- system.file('example.mp', package='mptools')
@@ -53,11 +54,11 @@ meta <- function(mp) {
                  mp))
   }
   pops <- metapop[39:(grep('^Migration$', metapop) - 1)]
-  if(count.fields(textConnection(pops[1]), sep = ',') != 28)
+  if(utils::count.fields(textConnection(pops[1]), sep = ',') != 28)
     warning('It looks like you might have used a custom RAMAS dll.', 
             ' Only the standard set of 27 fields are returned.',
             call.=FALSE)
-  pop.details <- read.csv(text = pops, stringsAsFactors = FALSE, 
+  pop.details <- utils::read.csv(text = pops, stringsAsFactors = FALSE, 
                           header = FALSE)[, 1:27]
   colnames(pop.details) <- 
     c('popName', 'xMetapop', 'yMetapop', 'initN', 'ddType', 'Rmax', 'K', 'Ksd', 

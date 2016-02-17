@@ -23,6 +23,8 @@
 #' @importFrom rasterVis levelplot
 #' @importFrom latticeExtra layer
 #' @importFrom sp sp.points SpatialPoints
+#' @importFrom utils read.csv
+#' @importFrom grDevices colorRampPalette terrain.colors
 #' @export
 #' @examples
 #' mp <- system.file('example.mp', package='mptools')
@@ -36,7 +38,7 @@ mp2xy <- function (mp, r, cell.length, plot = TRUE) {
                  mp))
   }
   pops <- metapop[39:(grep('^Migration$', metapop) - 1)]
-  pops <- read.csv(text = pops, stringsAsFactors = FALSE, 
+  pops <- utils::read.csv(text = pops, stringsAsFactors = FALSE, 
                    header = FALSE)[, 1:3]
   r <- raster::raster(r)
   x0 <- raster::xmin(r)
@@ -50,7 +52,8 @@ mp2xy <- function (mp, r, cell.length, plot = TRUE) {
   pops$y <- (y1 + 0.5 * cellsize) - scl * pops$y_mp
   if (plot) {
     p <- rasterVis::levelplot(
-      r, col.regions=colorRampPalette(rev(terrain.colors(1000))), 
+      r, col.regions=grDevices::colorRampPalette(rev(
+        grDevices::terrain.colors(1000))), 
       margin=FALSE, colorkey=list(height=0.6),
       at=seq(raster::cellStats(r, min), raster::cellStats(r, max), len=1001)) + 
       latticeExtra::layer(sp::sp.points(sp::SpatialPoints(pops[, c('x', 'y')]), 
