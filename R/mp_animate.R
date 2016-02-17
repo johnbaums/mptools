@@ -64,7 +64,7 @@
 #' @importFrom rasterVis levelplot
 #' @importFrom sp sp.points
 #' @importFrom grid grid.segments unit gpar grid.text grid.points
-#' @importFrom grDevices colorRampPalette terrain.colors png
+#' @importFrom grDevices colorRampPalette terrain.colors png dev.off
 #' @importFrom latticeExtra layer
 #' @importFrom graphics par
 #' @importFrom methods is
@@ -139,7 +139,7 @@ mp_animate <- function(dat, habitat, outfile, zlim, axes=FALSE,
     print(p)
   }
   mapply(plot_t, seq_len(nl), as.character(unique(dat$time))) 
-  dev.off()
+  grDevices::dev.off()
   oopt <- animation::ani.options(
     ani.width=width, ani.height=height, interval=0.05, ani.dev='png', 
     ani.type='png', nmax=nl, autobrowse=FALSE)
