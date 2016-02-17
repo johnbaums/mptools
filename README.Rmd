@@ -31,15 +31,21 @@ extraction of results via the GUI is awkward.
 **The `mptools` package provides several useful functions for extracting and
 processing data from RAMAS Metapop .mp files.**
 
-## Examples
+## Function overview:
 
-`mptools` comes packaged with some data relating to a RAMAS Metapop model. The
-model is of a metapopulation of a hypothetical species, comprising 263
-populations, the population dynamics of which have been simulated over 100
-years. In reality, the number of populations, iterations, and time steps are
-only limited by RAMAS Metapop itself, and the amount of memory available to R.
+Function      | Description 
+------------- | ------------- 
+`actions()`   | Extract management action details from .mp files 
+`kch()`       | Extract carrying capacity times series from .kch files 
+`knt()`       | Plot the carrying capacity and abundance dynamics of one or more populations
+`meta()`      | Extract population details from .mp files
+`mp2sp()`     | Create a `SpatialPointsDataFrame` representing the centroid of each population, with attributes `pop` (population name), `time` (the time step), and `N` (the mean population size)
+`mp2xy()`     | Extract coordinates for populations from .mp files, and transform them to the original coordinate reference system
+`mp_animate()`| Animate temporal habitat and abundance dynamics on a gridded landscape
+`results()`   | Extract simulation results (mean, sd, min and max of population size), as well as expected minimum abundance (EMA) and its standard deviation, from .mp files
+`ths()`       | Extract total habitat suitability from .ptc files.
 
-### Installation
+## Installation
 
 First of all, we install and load the `mptools` package. This requires the
 `devtools` package to be present, which can be installed with
@@ -56,6 +62,14 @@ library(devtools)
 install_github('johnbaums/mptools')
 library(mptools)
 ```
+
+## Examples
+
+`mptools` comes packaged with some data relating to a RAMAS Metapop model. The
+model is of a metapopulation of a hypothetical species, comprising 263
+populations, the population dynamics of which have been simulated over 100
+years. In reality, the number of populations, iterations, and time steps are
+only limited by RAMAS Metapop itself, and the amount of memory available to R.
 
 Most functions in the mptools package operate on RAMAS Metapop .mp files that
 have been run and contain simulation results. An example .mp file representing

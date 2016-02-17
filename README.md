@@ -8,12 +8,62 @@ In recent years, spatially-explicit, coupled habitat-demographic models have bee
 
 **The `mptools` package provides several useful functions for extracting and processing data from RAMAS Metapop .mp files.**
 
-Examples
---------
+Function overview:
+------------------
 
-`mptools` comes packaged with some data relating to a RAMAS Metapop model. The model is of a metapopulation of a hypothetical species, comprising 263 populations, the population dynamics of which have been simulated over 100 years. In reality, the number of populations, iterations, and time steps are only limited by RAMAS Metapop itself, and the amount of memory available to R.
+<table style="width:39%;">
+<colgroup>
+<col width="19%" />
+<col width="19%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Function</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>actions()</code></td>
+<td align="left">Extract management action details from .mp files</td>
+</tr>
+<tr class="even">
+<td align="left"><code>kch()</code></td>
+<td align="left">Extract carrying capacity times series from .kch files</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>knt()</code></td>
+<td align="left">Plot the carrying capacity and abundance dynamics of one or more populations</td>
+</tr>
+<tr class="even">
+<td align="left"><code>meta()</code></td>
+<td align="left">Extract population details from .mp files</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>mp2sp()</code></td>
+<td align="left">Create a <code>SpatialPointsDataFrame</code> representing the centroid of each population, with attributes <code>pop</code> (population name), <code>time</code> (the time step), and <code>N</code> (the mean population size)</td>
+</tr>
+<tr class="even">
+<td align="left"><code>mp2xy()</code></td>
+<td align="left">Extract coordinates for populations from .mp files, and transform them to the original coordinate reference system</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>mp_animate()</code></td>
+<td align="left">Animate temporal habitat and abundance dynamics on a gridded landscape</td>
+</tr>
+<tr class="even">
+<td align="left"><code>results()</code></td>
+<td align="left">Extract simulation results (mean, sd, min and max of population size), as well as expected minimum abundance (EMA) and its standard deviation, from .mp files</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>ths()</code></td>
+<td align="left">Extract total habitat suitability from .ptc files.</td>
+</tr>
+</tbody>
+</table>
 
-### Installation
+Installation
+------------
 
 First of all, we install and load the `mptools` package. This requires the `devtools` package to be present, which can be installed with `install.packages(devtools)`.
 
@@ -22,6 +72,11 @@ library(devtools)
 install_github('johnbaums/mptools')
 library(mptools)
 ```
+
+Examples
+--------
+
+`mptools` comes packaged with some data relating to a RAMAS Metapop model. The model is of a metapopulation of a hypothetical species, comprising 263 populations, the population dynamics of which have been simulated over 100 years. In reality, the number of populations, iterations, and time steps are only limited by RAMAS Metapop itself, and the amount of memory available to R.
 
 Most functions in the mptools package operate on RAMAS Metapop .mp files that have been run and contain simulation results. An example .mp file representing our hypothetical metapopulation is included in the package. The path to this file is given by `system.file('example.mp', package='mptools')`. Here we assign that path to the object `mp`.
 
