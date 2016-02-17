@@ -27,7 +27,7 @@ Most functions in the mptools package operate on RAMAS Metapop .mp files that ha
 mp <- system.file('example.mp', package='mptools')
 ```
 
-### `results()`: extracting simulation results
+### `results()`: extract simulation results
 
 To extract the simulation results, we use the `results` function, pointing it to the .mp file. This extracts time series of the mean, minimum, maximum and standard deviation (across iterations) of abundance for each population; the minimum, maximum and terminal metapopulation abundance for each iteration; and calculates the expected minimum abundance (EMA; McCarthy & Thompson 2001) and the standard deviation of minimum abundance.
 
@@ -76,7 +76,7 @@ head(res$results[,, 'Pop 40'])
     ## [5,] 29690 3606 15225 32677
     ## [6,] 30024 3662 13546 32839
 
-### `meta()`: extracting Metapop settings
+### `meta()`: extract Metapop settings
 
 The `meta` function returns a `data.frame` containing information about RAMAS Metapop settings for each population, including their names, initial abundances, density dependence types, carrying capacities, and maximum growth rates. Here the first few rows are shown for brevity.
 
@@ -114,7 +114,7 @@ head(met)
     ## 5                1          0          0       1         1          1
     ## 6                1          0          0       1         1          1
 
-### `mp2xy()`: extracting patch coordinates
+### `mp2xy()`: extract patch coordinates
 
 RAMAS Metapop simulations are often based on spatial grids describing the distribution of habitat (i.e., when using the Spatial Data module to identify patch structure). In these cases, spatial coordinates are converted by RAMAS such that they describe the position relative to the top left corner of the grid. Such coordinates are returned by the `meta` function in the columns `xMetapop` and `yMetapop`. In order to relate simulation results to the true landscape, the original (untransformed) coordinates can be recovered with `mp2xy`. This requires one of the original grids used by Spatial Data, and knowledge of the cell length setting passed to that module. By default, `mp2xy` creates a plot of the points, overlaid upon the provided raster data.
 
@@ -223,7 +223,7 @@ knt(meta=met, kch=k, pops=c('Pop 169', 'Pop 170', 'Pop 174', 'Pop 175'),
 
 ![](README_files/knt-1.svg)<!-- -->
 
-### `mp_animate()`: animation of habitat and abundance dynamics
+### `mp_animate()`: animate of habitat and abundance dynamics
 
 With `mp_animate`, we can create a gif animation showing temporal dynamics in habitat suitability and in carrying capacity. This can reveal lags in response to changing habitat suitability.
 
@@ -236,8 +236,6 @@ grids <- list.files(system.file(package='mptools'), pattern='_[0-9]+\\.asc$',
 s <- stack(grids)
 mp_animate(res, coords=xy, habitat=s, zlim=c(0, 800), outfile='README_files/dynamics.gif')
 ```
-
-    ## [1] TRUE
 
 ![](README_files/dynamics.gif)
 
