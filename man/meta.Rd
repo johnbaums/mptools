@@ -7,8 +7,10 @@
 meta(mp)
 }
 \arguments{
-\item{mp}{A character string containing the path to a RAMAS Metapop .mp file.
-E.g. file='/path/to/metapop.mp'}
+\item{mp}{A character string containing the path to a RAMAS Metapop .mp file 
+containing simulation results. Metapop .mp files are plain text files that
+store settings describing RAMAS metapopulation models, and the results of 
+simulating population dynamics according to those models.}
 }
 \value{
 A \code{data.frame} containing one row per population, with columns: 
@@ -49,10 +51,25 @@ A \code{data.frame} containing one row per population, with columns:
 \description{
 Extract population details from RAMAS Metapop .mp files.
 }
+\note{
+This has been tested for RAMAS version 5, and may produce unexpected 
+  results for other versions.
+}
 \examples{
 mp <- system.file('example.mp', package='mptools')
 res <- meta(mp)
 head(res)
+}
+\references{
+\itemize{
+  \item{Akcakaya, H. R., Burgman, M. A., Kindvall, O., Wood, C. C., 
+  Sjogren-Gulve, P., Hatfield, J. S., & McCarthy, M. A. (2004). \emph{Species
+  Conservation and Management: Case Studies}. New York: Oxford University
+  Press.}
+  \item{\href{https://www.ramas.com/ramas.htm#metapop}{RAMAS Software}}
+  \item{\href{https://www.ramas.com/gis-faq.htm}{RAMAS GIS and RAMAS Metapop
+  Frequently Asked Questions}}
+}
 }
 \seealso{
 \code{\link{results}}

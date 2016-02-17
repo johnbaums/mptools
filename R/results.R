@@ -5,7 +5,9 @@
 #' Metapop .mp file.
 #' 
 #' @param mp A character string containing the path to a RAMAS Metapop .mp file 
-#'   containing simulation results. E.g. file='/path/to/metapop.mp'
+#'   containing simulation results. Metapop .mp files are plain text files that
+#'   store settings describing RAMAS metapopulation models, and the results of 
+#'   simulating population dynamics according to those models. 
 #' @return A \code{list} containing: \item{results}{An array containing 
 #'   simulation results extracted from \code{file}. The number of rows is equal 
 #'   to the number of time steps in the simulation. The array has four columns, 
@@ -30,8 +32,17 @@
 #'   \item{duration}{The number of time steps in the simulation} 
 #'   \item{n_iters}{The number of iterations performed.}
 #' @seealso \code{\link{meta}}
-#' @note This has been tested for RAMAS version 5.1, and may produce unexpected 
+#' @note This has been tested for RAMAS version 5, and may produce unexpected 
 #'   results for other versions.
+#' @references \itemize{
+#'   \item{Akcakaya, H. R., Burgman, M. A., Kindvall, O., Wood, C. C., 
+#'   Sjogren-Gulve, P., Hatfield, J. S., & McCarthy, M. A. (2004). \emph{Species
+#'   Conservation and Management: Case Studies}. New York: Oxford University
+#'   Press.}
+#'   \item{\href{https://www.ramas.com/ramas.htm#metapop}{RAMAS Software}}
+#'   \item{\href{https://www.ramas.com/gis-faq.htm}{RAMAS GIS and RAMAS Metapop
+#'   Frequently Asked Questions}}
+#' }
 #' @importFrom utils read.csv read.table
 #' @importFrom stats sd
 #' @export
