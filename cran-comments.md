@@ -1,6 +1,8 @@
 ## Test environments
-* local windows install, R 3.2.3 and devel
+* local windows 8.1, R 3.2.3 and devel
+* build_win R 3.2.3 and devel
 * ubuntu 12.04 (on travis-ci), R 3.2.3
+* local OS X 10.11.3, R 3.2.3
 
 ## R CMD check results
 There were no ERRORs or WARNINGs. 
