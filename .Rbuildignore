@@ -4,5 +4,4 @@
 README_files
 ^cran-comments\.md$
 ^\.travis\.yml$
-^NEWS\.md$
 ^\.Rhistory$
