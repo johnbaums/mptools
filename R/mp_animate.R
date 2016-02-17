@@ -1,8 +1,7 @@
 #' Animate the output of a RAMAS Metapop simulation.
 #' 
-#' Mean population size is indicated by point color, and is overlaid on 
-#' temporally-dynamic grids of, e.g., habitat suitability.
-#' 
+#' Animate temporal habitat and abundance dynamics on a gridded landscape.
+#'  
 #' @param res An object containing the results of a RAMAS Metapop simulation. 
 #'   This object can be created by using \code{\link{results}}.
 #' @param coords An object containing population coordinates. This object can be

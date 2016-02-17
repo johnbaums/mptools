@@ -1,8 +1,8 @@
 #' Create a SpatialPointsDataFrame describing Metapop population centroids
 #' 
-#' Creates a \code{SpatialPointsDataFrame} shapefile representing the centroid 
-#' of each population, with attributes: \code{pop} (population name),
-#' \code{time} (the time step), and \code{N} (the mean population size).
+#' Create a \code{SpatialPointsDataFrame} representing the centroid of each
+#' population, with attributes: \code{pop} (population name), \code{time} (the
+#' time step), and \code{N} (the mean population size).
 #' 
 #' @param mp A RAMAS Metapop .mp file containing simulation results.
 #' @param coords An object containing population coordinates. This object can be

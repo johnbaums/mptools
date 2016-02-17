@@ -36,9 +36,9 @@ A \code{list} containing: \item{results}{An array containing
   \item{n_iters}{The number of iterations performed.}
 }
 \description{
-Extracts population size simulation results (mean, sd, min and max),
-including expected minimum abundance (EMA) and its standard deviation, from a
-RAMAS Metapop .mp file.
+Extract population size simulation results (mean, sd, min and max), including 
+expected minimum abundance (EMA) and its standard deviation, from a RAMAS 
+Metapop .mp file.
 }
 \note{
 This has been tested for RAMAS version 5.1, and may produce unexpected 

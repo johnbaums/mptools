@@ -1,8 +1,8 @@
 #' Extract simulation results from RAMAS Metapop .mp files
 #' 
-#' Extracts population size simulation results (mean, sd, min and max),
-#' including expected minimum abundance (EMA) and its standard deviation, from a
-#' RAMAS Metapop .mp file.
+#' Extract population size simulation results (mean, sd, min and max), including 
+#' expected minimum abundance (EMA) and its standard deviation, from a RAMAS 
+#' Metapop .mp file.
 #' 
 #' @param mp A character string containing the path to a RAMAS Metapop .mp file 
 #'   containing simulation results. E.g. file='/path/to/metapop.mp'

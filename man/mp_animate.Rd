@@ -56,8 +56,7 @@ ramp ranging from white to black is used.}
   specified path (\code{outfile}).
 }
 \description{
-Mean population size is indicated by point color, and is overlaid on 
-temporally-dynamic grids of, e.g., habitat suitability.
+Animate temporal habitat and abundance dynamics on a gridded landscape.
 }
 \details{
 An animated gif is created, with points indicating the location of

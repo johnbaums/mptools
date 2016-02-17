@@ -29,9 +29,9 @@ coordinates will be projected, if supplied. These can be supplied as a
 A \code{SpatialPointsDataFrame}.
 }
 \description{
-Creates a \code{SpatialPointsDataFrame} shapefile representing the centroid 
-of each population, with attributes: \code{pop} (population name),
-\code{time} (the time step), and \code{N} (the mean population size).
+Create a \code{SpatialPointsDataFrame} representing the centroid of each
+population, with attributes: \code{pop} (population name), \code{time} (the
+time step), and \code{N} (the mean population size).
 }
 \examples{
 mp <- system.file('example.mp', package='mptools')
