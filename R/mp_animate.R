@@ -138,7 +138,7 @@ mp_animate <- function(dat, habitat, outfile, zlim, axes=FALSE,
                   label.cex=label.cex))
     print(p)
   }
-  mapply(plot_t, seq_len(nl), as.character(unique(spdf$time))) 
+  mapply(plot_t, seq_len(nl), as.character(unique(dat$time))) 
   dev.off()
   oopt <- animation::ani.options(
     ani.width=width, ani.height=height, interval=0.05, ani.dev='png', 
