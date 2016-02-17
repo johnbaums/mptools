@@ -186,7 +186,7 @@ the value of an attribute:
 ```{r plot_spplot, echo=c(1, 2, 4), results='hide'}
 library(sp)
 library(viridis)
-svg('README_files/plot_spplot-1.svg')
+svg('README_files/plot_spplot-1.svg', height=3.75)
 spplot(subset(spdf, time==2000), zcol='N', 
        cuts=c(-Inf, 0, 10^(0:6)), key.space='right', 
        col.regions=c('gray80', viridis(100)))
