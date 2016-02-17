@@ -216,7 +216,7 @@ knt(meta=met, kch=k, pops=c('Pop 169', 'Pop 170', 'Pop 174', 'Pop 175'),
 
 ![](https://rawgit.com/johnbaums/mptools/master/README_files/knt-1.svg)
 
-### `mp_animate()`: animate of habitat and abundance dynamics
+### `mp_animate()`: animate habitat and abundance dynamics
 
 With `mp_animate`, we can create a gif animation showing temporal dynamics in habitat suitability and in carrying capacity. This can reveal lags in response to changing habitat suitability.
 
