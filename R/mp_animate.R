@@ -45,6 +45,7 @@
 #' @param label.font Font face of the time step counter text. See
 #'   \code{fontface} at \code{\link{gpar}} for available options. Ignored if
 #'   \code{label} is \code{FALSE}.
+#' @param overwrite Should \code{outfile} be overwritten if it already exists?
 #' @return \code{NULL}. The animation is saved as an animated .gif file at the
 #'   specified path (\code{outfile}).
 #' @details An animated gif is created, with points indicating the location of
@@ -78,16 +79,17 @@
 #' 
 #' # Here we subset the stack to every fifth time step, for efficiency. A full 
 #' # example is given at https://github.com/johnbaums/mptools.
-#' s <- habitat[[seq(1, nlayers(habitat), 5)]]
+#' i <-seq(1, nlayers(habitat), 5)
+#' s <- habitat[[i]]
 #' # Accordingly, we'll need to subset the object holding the abundance data...
-#' spdf <- subset(spdf, time %in% unique(time)[seq(1, nlayers(habitat), 5)])
+#' spdf <- spdf[spdf$time %in% unique(spdf$time)[i], ]
 #' mp_animate(spdf, habitat=s, outfile=tmp, zlim=c(0, 800), pt.cex=1.5, 
 #'            interval=0.1)
 mp_animate <- function(dat, habitat, outfile, zlim, axes=FALSE, 
                        col.regions=NULL, pt.col=NULL, pt.cex=1, height=800, 
                        width=800, interval=0.05, label=TRUE, 
                        label.pos=c(0.98, 0.05), label.just='right', 
-                       label.cex=1.5, label.font=2) {
+                       label.cex=1.5, label.font=2, overwrite=FALSE) {
   nl <- raster::nlayers(habitat)
   if(nl != length(unique(dat$time))) 
     stop('The number of unique levels of time in dat (',  
@@ -100,7 +102,7 @@ mp_animate <- function(dat, habitat, outfile, zlim, axes=FALSE,
            'label text will be plotted.', call.=FALSE)  
     label.pos <- grid::unit(label.pos, 'npc')
   }
-  if(file.exists(outfile)) 
+  if(!overwrite & file.exists(outfile)) 
     stop('File ', outfile, ' already exists.', call.=FALSE)
   if(!dir.exists(dirname(outfile))) 
     stop('Directory ', dirname(outfile), ' does not exist.', call.=FALSE)
@@ -119,7 +121,7 @@ mp_animate <- function(dat, habitat, outfile, zlim, axes=FALSE,
   grDevices::png(sprintf('%s/%s_%%0%sd.png', tempdir(), prefix, nchar(nl)), 
                  type='cairo', width=width, height=height)
   plot_t <- function(i, z) {
-    d <- subset(dat, time==z & N > 0)
+    d <- dat[dat$time==z & dat$N > 0, ]
     p <- rasterVis::levelplot(
       habitat[[i]], margin=FALSE, col.regions=col.regions, ylim=ylims,
       at=seq(zlim[[1]], zlim[[2]], length.out=101), scales=list(draw=axes)) +

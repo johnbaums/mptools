@@ -26,7 +26,8 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown,
-    rgdal
+    rgdal,
+    devtools
 VignetteBuilder: knitr
 License: GPL-3
 LazyData: true

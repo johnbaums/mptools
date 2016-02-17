@@ -7,7 +7,8 @@
 mp_animate(dat, habitat, outfile, zlim, axes = FALSE, col.regions = NULL,
   pt.col = NULL, pt.cex = 1, height = 800, width = 800,
   interval = 0.05, label = TRUE, label.pos = c(0.98, 0.05),
-  label.just = "right", label.cex = 1.5, label.font = 2)
+  label.just = "right", label.cex = 1.5, label.font = 2,
+  overwrite = FALSE)
 }
 \arguments{
 \item{dat}{A \code{SpatialPointsDataFrame} object returned by 
@@ -68,6 +69,8 @@ is \code{FALSE}.}
 \item{label.font}{Font face of the time step counter text. See
 \code{fontface} at \code{\link{gpar}} for available options. Ignored if
 \code{label} is \code{FALSE}.}
+
+\item{overwrite}{Should \code{outfile} be overwritten if it already exists?}
 }
 \value{
 \code{NULL}. The animation is saved as an animated .gif file at the
@@ -96,9 +99,10 @@ tmp <- file.path(tempdir(), 'example.gif')
 
 # Here we subset the stack to every fifth time step, for efficiency. A full 
 # example is given at https://github.com/johnbaums/mptools.
-s <- habitat[[seq(1, nlayers(habitat), 5)]]
+i <-seq(1, nlayers(habitat), 5)
+s <- habitat[[i]]
 # Accordingly, we'll need to subset the object holding the abundance data...
-spdf <- subset(spdf, time \%in\% unique(time)[seq(1, nlayers(habitat), 5)])
+spdf <- spdf[spdf$time \%in\% unique(spdf$time)[i], ]
 mp_animate(spdf, habitat=s, outfile=tmp, zlim=c(0, 800), pt.cex=1.5, 
            interval=0.1)
 }
