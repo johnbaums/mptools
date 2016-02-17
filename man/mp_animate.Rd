@@ -67,7 +67,7 @@ xy <- mp2xy(mp, r, 9.975)
 tmp <- file.path(tempdir(), 'example.gif')
 
 # Provide a file path containing habitat grids
-mp_animate(res, coords, habitat=system.file(package='mptools'), 
+mp_animate(res, coords=xy, habitat=system.file(package='mptools'), 
            outfile=tmp, zlim=c(0, 1225))
 
 # Provide a RasterStack containing habitat grids.
