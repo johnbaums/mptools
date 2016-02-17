@@ -153,13 +153,7 @@ spdf <- mp2sp(mp=mp, coords=xy, start=2000,
 
 Above, we indicated that the source CRS is Australian Albers (EPSG 3577) and the target CRS is WGS 84 (EPSG 4326). (These could also be passed as [`CRS` objects](http://www.inside-r.org/packages/cran/sp/docs/CRS) rather than as PROJ.4 strings.)
 
-We can plot the output using the default `plot` method:
-
-``` r
-#plot(spdf)
-```
-
-or with `sp::spplot`, which can colour points according to the value of an attribute:
+We can plot the output with `sp::spplot`, which can colour points according to the value of an attribute:
 
 ``` r
 library(sp)
