@@ -20,6 +20,8 @@ Authors@R: person('John', 'Baumgartner', email='johnbaums@gmail.com',
                   role = c("aut", "cre"))    
 Description: Extract and present metadata and simulation results from RAMAS 
     Metapop .mp files.
+URL: https://github.com/johnbaums/mptools
+BugReports: https://github.com/johnbaums/mptools/issues
 License: GPL-3
 LazyData: true
 RoxygenNote: 5.0.1
