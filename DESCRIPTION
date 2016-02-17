@@ -1,7 +1,7 @@
 Package: mptools
 Type: Package
-Title: RAMAS Metapop tools
-Version: 0.4.5.9000
+Title: RAMAS Metapop Tools
+Version: 0.4.6.9000
 Depends:R (>= 3.2.0)
 Imports:
     methods,
@@ -18,8 +18,8 @@ Imports:
     latticeExtra
 Authors@R: person('John', 'Baumgartner', email='johnbaums@gmail.com', 
                   role = c("aut", "cre"))    
-Description: Extraction and presentation of metadata and simulation results from
-    RAMAS Metapop .mp files.
+Description: Extract and present metadata and simulation results from RAMAS 
+    Metapop .mp files.
 License: GPL-3
 LazyData: true
 RoxygenNote: 5.0.1
