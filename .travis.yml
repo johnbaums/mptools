@@ -12,10 +12,6 @@ apt_packages:
   - libhdf5-serial-dev
   - libgdal-dev
   - libgdal1-dev
-before_install:
-  - sudo apt-get update
-  - sudo apt-get install libgdal1h
-  - sudo apt-get install libgdal1
 install:
   - Rscript -e 'if(!"rgdal" %in% rownames(installed.packages())) install.packages("rgdal", dependencies = TRUE)'
   - Rscript -e 'if(!"devtools" %in% rownames(installed.packages())) install.packages("devtools", dependencies = TRUE)'
