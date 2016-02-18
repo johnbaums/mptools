@@ -25,7 +25,8 @@
 #' @export
 #' @examples
 #' mp <- system.file('example.mp', package='mptools')
-#' coords <- mp2xy(mp, habitat, 9.975)
+#' r <- system.file('example_001.tif', package='mptools')
+#' coords <- mp2xy(mp, r, 9.975)
 #' spdf <- mp2sp(mp, coords, start=2000)
 #' spdf
 mp2sp <- function(mp, coords, start, s_p4s, t_p4s) {

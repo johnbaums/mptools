@@ -32,7 +32,8 @@
 #' @export
 #' @examples
 #' mp <- system.file('example.mp', package='mptools')
-#' coords <- mp2xy(mp, habitat, 9.975)
+#' r <- system.file('example_001.tif', package='mptools')
+#' coords <- mp2xy(mp, r, 9.975)
 mp2xy <- function (mp, r, cell.length, plot = TRUE) {
   if(!file.exists(mp)) stop(mp, ' doesn\'t exist.', call.=FALSE)
   metapop <- readLines(mp)[-(1:6)]

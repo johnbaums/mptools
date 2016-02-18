@@ -35,7 +35,8 @@ time step), and \code{N} (the mean population size).
 }
 \examples{
 mp <- system.file('example.mp', package='mptools')
-coords <- mp2xy(mp, habitat, 9.975)
+r <- system.file('example_001.tif', package='mptools')
+coords <- mp2xy(mp, r, 9.975)
 spdf <- mp2sp(mp, coords, start=2000)
 spdf
 }

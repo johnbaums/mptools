@@ -73,14 +73,16 @@
 #' @examples 
 #' library(raster)
 #' mp <- system.file('example.mp', package='mptools')
-#' coords <- mp2xy(mp, habitat, 9.975)
+#' s <- stack(list.files(system.file(package='mptools'), '\\.tif$', 
+#'            full.names=TRUE))
+#' coords <- mp2xy(mp, s, 9.975)
 #' spdf <- mp2sp(mp, coords, start=2000)
 #' tmp <- file.path(tempdir(), 'example.gif')
 #' 
 #' # Here we subset the stack to every fifth time step, for efficiency. A full 
 #' # example is given at https://github.com/johnbaums/mptools.
-#' i <-seq(1, nlayers(habitat), 5)
-#' s <- habitat[[i]]
+#' i <-seq(1, nlayers(s), 5)
+#' s <- s[[i]]
 #' # Accordingly, we'll need to subset the object holding the abundance data...
 #' spdf <- spdf[spdf$time %in% unique(spdf$time)[i], ]
 #' mp_animate(spdf, habitat=s, outfile=tmp, zlim=c(0, 800), pt.cex=1.5, 

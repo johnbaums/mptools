@@ -39,7 +39,8 @@ This has been tested for RAMAS version 5.1, and may produce unexpected
 }
 \examples{
 mp <- system.file('example.mp', package='mptools')
-coords <- mp2xy(mp, habitat, 9.975)
+r <- system.file('example_001.tif', package='mptools')
+coords <- mp2xy(mp, r, 9.975)
 }
 \seealso{
 \code{\link{mp2sp}}
