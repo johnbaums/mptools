@@ -1,19 +1,9 @@
 language: r
 warnings_are_errors: true
 sudo: required
-dist: trusty
-#apt_packages:
-#  - libgdal1-dev
-#  - libgdal1h
-#  - libgdal-dev
-#  - gdal-bin
-before_install:
-  - sudo apt-get install aptitude # install aptitude as an alternative to apt-get
-  - sudo aptitude -y install libicu-dev
-  - sudo aptitude -y install libgdal-dev # install the package (you may have to respond to queries here)
-  - sudo aptitude -y install libproj-dev # install the proj.4 projection library
+r_binary_packages:
+  - rgdal
+  - rmarkdown
 install:
-  - Rscript -e 'if(!"rgdal" %in% rownames(installed.packages())) install.packages("rgdal", dependencies = TRUE)'
   - Rscript -e 'if(!"devtools" %in% rownames(installed.packages())) install.packages("devtools", dependencies = TRUE)'
-  - Rscript -e 'if(!"rmarkdown" %in% rownames(installed.packages())) install.packages("rmarkdown", dependencies = TRUE)'
   - Rscript -e 'devtools::install_deps(pkg=".", dependencies = TRUE)'
