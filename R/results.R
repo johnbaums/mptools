@@ -75,12 +75,12 @@
 results <- function(mp) {
   if(!file.exists(mp)) stop(mp, ' doesn\'t exist.', call.=FALSE)
   message('Extracting simulation results from file:\n', mp)
-  v <- readLines(mp)[1]
-  title <- readLines(mp)[2]
-  comment <- paste(readLines(mp)[3:6], collapse='\n')
+  v <- readLines(mp, encoding='latin1')[1]
+  title <- readLines(mp, encoding='latin1')[2]
+  comment <- paste(readLines(mp, encoding='latin1')[3:6], collapse='\n')
   if(!grepl('\\(5', v)) 
     warning('mp not created with Metapop version 5; results may be inaccurate.')
-  metapop <- readLines(mp)[-(1:6)]
+  metapop <- readLines(mp, encoding='latin1')[-(1:6)]
   if(!length(grep('Simulation results', metapop))) {
     stop(sprintf('There are no simulation results in %s.', mp), call.=FALSE)
   }
