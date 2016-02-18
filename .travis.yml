@@ -9,9 +9,10 @@ before_install:
   libhdf5-7 libhdf5-dev
   libgdal1h libnetcdf-dev
   gdal-bin libproj-dev libgdal-dev
+  imagemagick
   
 install:
-  - Rscript -e 'install.packages("viridis", dependencies = TRUE)'
+  - Rscript -e 'install.packages(c("viridis", "animation"), dependencies = TRUE)'
 
 notifications:
   on_success: change
