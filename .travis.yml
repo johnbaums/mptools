@@ -2,16 +2,15 @@ language: r
 warnings_are_errors: true
 sudo: required
 dist: trusty
-apt_packages:
-  - libproj-dev
-  - libcurl4-gnutls-dev
-  - libdap-dev
-  - libgdal-dev
-  - libgdal1h
-  - libhdf5-dev
-  - libhdf5-serial-dev
-  - libgdal-dev
-  - libgdal1-dev
+#apt_packages:
+#  - libgdal1-dev
+#  - libgdal1h
+#  - libgdal-dev
+#  - gdal-bin
+before_install:
+  - sudo apt-get install aptitude # install aptitude as an alternative to apt-get
+  - sudo aptitude install libgdal-dev # install the package (you may have to respond to queries here)
+  - sudo aptitude install libproj-dev # install the proj.4 projection library
 install:
   - Rscript -e 'if(!"rgdal" %in% rownames(installed.packages())) install.packages("rgdal", dependencies = TRUE)'
   - Rscript -e 'if(!"devtools" %in% rownames(installed.packages())) install.packages("devtools", dependencies = TRUE)'
