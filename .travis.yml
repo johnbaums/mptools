@@ -10,8 +10,8 @@ before_install:
   libgdal1h libnetcdf-dev
   gdal-bin libproj-dev libgdal-dev
   
-r_binary_packages:
-  - viridis
+install:
+  - Rscript -e 'install.packages("viridis", dependencies = TRUE)'
 
 notifications:
   on_success: change
