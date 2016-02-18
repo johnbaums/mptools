@@ -9,6 +9,7 @@ dist: trusty
 #  - gdal-bin
 before_install:
   - sudo apt-get install aptitude # install aptitude as an alternative to apt-get
+  - sudo aptitude -y install libicu48
   - sudo aptitude -y install libgdal-dev # install the package (you may have to respond to queries here)
   - sudo aptitude -y install libproj-dev # install the proj.4 projection library
 install:
