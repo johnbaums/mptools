@@ -10,10 +10,7 @@ before_install:
   libgdal1h libnetcdf-dev
   gdal-bin libproj-dev libgdal-dev
 
-r_binary_packages:
-  - pandoc
-  - rmarkdown
-
 notifications:
   on_success: change
   on_failure: always
+  
