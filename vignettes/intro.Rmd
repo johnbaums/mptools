@@ -130,11 +130,12 @@ passed to that module. By default, `mp2xy` creates a plot of the points,
 overlaid upon the provided raster data.
 
 The raster grids that were originally used to define the patch structure are
-included with `mptools` as a `RasterStack` object, `habitat`. We refer to this 
-below.
+included with `mptools`. We pass one of them to `mp2xy`, below.
 
 ```{r xy, fig.width=6.6, fig.height=4.7}
-xy <- mp2xy(mp=mp, r=habitat, cell.length=9.975)
+library(raster)
+tifs <- list.files(system.file(package='mptools'), '\\.tif$', full.names=TRUE)
+xy <- mp2xy(mp=mp, r=tifs[1], cell.length=9.975)
 head(xy)
 ```
 
@@ -247,13 +248,14 @@ to changing habitat suitability.
 
 The function requires a `RasterStack` or `RasterBrick` with layers, describing
 habitat change, in temporal order. The interval between successive rasters (i.e.,
-the interval between time steps) is assumed to be constant. Below, we pass the 
-`RasterStack` included with `mptools` (i.e., `habitat`) to `mp_animate`.
+the interval between time steps) is assumed to be constant. Below, we pass a 
+`RasterStack` to `mp_animate`, comprising the rasters included with `mptools`.
 
 ```{r animate, message=FALSE}
 library(raster)
+tifs <- list.files(system.file(package='mptools'), '\\.tif$', full.names=TRUE)
 spdf <- mp2sp(mp=mp, coords=xy, start=2000)
-mp_animate(spdf, habitat=habitat, outfile='dynamics.gif', zlim=c(0, 800), 
+mp_animate(spdf, habitat=stack(tifs), outfile='dynamics.gif', zlim=c(0, 800), 
            width=630, height=615, overwrite=TRUE)
 ```
 
