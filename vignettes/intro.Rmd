@@ -193,7 +193,7 @@ writeOGR(spdf, dsn=tempdir(), layer='mp', driver='ESRI Shapefile',
 
 The shapefile was written out to a file called "mp.shp" (along with its
 accessory files) within the current temporary directory, which can be viewed
-with `browseURL(tempdir)`.
+with `browseURL(tempdir())`.
 
 To write out to KML, we include the output file name in the string passed to the
 `dsn` argument, and specify the KML driver. Note that below, we subset the data
