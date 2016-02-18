@@ -2,7 +2,10 @@ language: r
 warnings_are_errors: true
 sudo: required
 before_install:
-  - sudo apt-get install -y gdal-bin
+  - sudo apt-get update
+  - sudo apt-get install aptitude # aptitude = alternative to apt-get
+  - sudo aptitude install libgdal-dev -y
+  - sudo aptitude install libproj-dev -y
 install:
   - Rscript -e 'if(!"devtools" %in% rownames(installed.packages())) install.packages("devtools", dependencies = TRUE)'
   - Rscript -e 'if(!"rmarkdown" %in% rownames(installed.packages())) install.packages("rmarkdown", dependencies = TRUE)'
