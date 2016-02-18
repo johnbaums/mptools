@@ -186,7 +186,8 @@ GIS or Google Earth. For example, to write out as a shapefile, we can use:
 
 ```{r write_shp, message=FALSE}
 library(rgdal)
-writeOGR(spdf, dsn=tempdir(), layer='mp', driver='ESRI Shapefile')
+writeOGR(spdf, dsn=tempdir(), layer='mp', driver='ESRI Shapefile', 
+         overwrite_layer=TRUE)
 ```
 
 The shapefile was written out to a file called "mp.shp" (along with its
