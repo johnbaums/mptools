@@ -11,6 +11,7 @@ before_install:
   gdal-bin libproj-dev libgdal-dev
 
 r_binary_packages:
+  - pandoc
   - rmarkdown
 
 notifications:
