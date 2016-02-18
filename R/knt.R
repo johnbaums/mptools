@@ -51,9 +51,9 @@ knt <- function(meta, kch, pops, samelims=FALSE, show_N=FALSE, results, ...) {
   }
   hasInitN <- meta$initN > 0
   Strip <- function(which.panel, factor.levels, ...) {
-    lattice::panel.rect(0, 0, 1, 1,
-                        col = ifelse(hasInitN, 'lightsteelblue2', 'gray90')[which.panel],
-                        border = 1)
+    lattice::panel.rect(
+      0, 0, 1, 1, border = 1,
+      col=ifelse(hasInitN, 'lightsteelblue2', 'gray90')[which.panel])
     lattice::panel.text(x = 0.5, y = 0.5, lab = factor.levels[which.panel],
                         font = ifelse(hasInitN, 2, 1)[which.panel])
   }
