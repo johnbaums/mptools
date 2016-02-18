@@ -2,4 +2,6 @@ language: r
 warnings_are_errors: true
 sudo: required
 install:
-  - Rscript -e 'install.packages(c("devtools", "knitr", "raster", "sp", "animation", "zoo", "rasterVis", "latticeExtra", "viridis"), repos = "http://cran.rstudio.com")'
+  - Rscript -e 'if(!"devtools" %in% rownames(installed.packages())) install.packages("devtools", dependencies = TRUE)'
+  - Rscript -e 'if(!"rmarkdown" %in% rownames(installed.packages())) install.packages("rmarkdown", dependencies = TRUE)'
+  - Rscript -e 'devtools::install_deps(pkg=".", dependencies = TRUE)'
