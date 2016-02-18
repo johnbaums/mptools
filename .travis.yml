@@ -11,10 +11,8 @@ before_install:
   gdal-bin libproj-dev libgdal-dev
   imagemagick
   
--r_binary_packages:		
-  - devtools
-  
 install:
+  - Rscript -e 'if(!"devtools" %in% rownames(installed.packages())) install.packages("devtools", dependencies = TRUE)'
   - Rscript -e 'install.packages(c("viridis", "animation", "rmarkdown", "rgdal"), dependencies = TRUE)'
 
 notifications:
