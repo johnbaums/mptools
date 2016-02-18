@@ -9,6 +9,9 @@ before_install:
   libhdf5-7 libhdf5-dev
   libgdal1h libnetcdf-dev
   gdal-bin libproj-dev libgdal-dev
+  
+r_binary_packages:
+  viridis
 
 notifications:
   on_success: change
