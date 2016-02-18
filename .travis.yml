@@ -12,7 +12,7 @@ before_install:
   imagemagick
   
 install:
-  - Rscript -e 'install.packages(c("viridis", "animation", "rmarkdown"), dependencies = TRUE)'
+  - Rscript -e 'install.packages(c("viridis", "animation", "rmarkdown", "rgdal"), dependencies = TRUE)'
 
 notifications:
   on_success: change
