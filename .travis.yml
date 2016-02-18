@@ -11,7 +11,7 @@ before_install:
   gdal-bin libproj-dev libgdal-dev
   
 r_binary_packages:
-  viridis
+  - viridis
 
 notifications:
   on_success: change
