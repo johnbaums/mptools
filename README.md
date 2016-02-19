@@ -277,16 +277,16 @@ knt(meta=met, kch=k, pops=c('Pop 169', 'Pop 170', 'Pop 174', 'Pop 175'),
 
 ### `mp_animate()`: animate habitat and abundance dynamics
 
-With `mp_animate`, we can create a gif animation showing temporal dynamics in habitat suitability and in carrying capacity. This can reveal lags in response to changing habitat suitability.
+With `mp_animate`, we can create a gif animation showing temporal dynamics in habitat suitability and mean abundance. This can reveal lags in response to changing habitat suitability.
 
-The function requires a `RasterStack` or `RasterBrick` with layers, describing habitat change, in temporal order. The interval between successive rasters (i.e., the interval between time steps) is assumed to be constant. Below, we create a `RasterStack` rasters included with `mptools`, and pass it to `mp_animate`.
+The function requires a `RasterStack` or `RasterBrick` with layers, describing habitat change, in temporal order. The interval between successive rasters (i.e., the interval between time steps) is assumed to be constant. Below, we create a `RasterStack` of rasters included with `mptools`, and pass it to `mp_animate`.
 
 ``` r
 library(raster)
 tifs <- list.files(system.file(package='mptools'), '\\.tif$', full.names=TRUE)
 spdf <- mp2sp(mp=mp, coords=xy, start=2000)
-mp_animate(spdf, habitat=stack(tifs), outfile='README_files/dynamics.gif', zlim=c(0, 800), 
-           width=630, height=615)
+mp_animate(spdf, habitat=stack(tifs), outfile='README_files/dynamics.gif', 
+           zlim=c(0, 800), width=630, height=615)
 ```
 
 ![](README_files/dynamics.gif)
