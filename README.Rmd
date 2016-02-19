@@ -141,10 +141,10 @@ passed to that module. By default, `mp2xy` creates a plot of the points,
 overlaid upon the provided raster data.
 
 The raster grids that were originally used to define the patch structure are
-included with `mptools`. We pass one of them to `mp2xy`, below.
+included with `mptools`. We identify the file path of one of these, and pass it
+to `mp2xy`, below.
 
 ```{r xy, echo=c(1, 2, 4), results='hide'}
-library(raster)
 r <- system.file('example_001.tif', package='mptools')
 svg('README_files/xy-1.svg')
 xy <- mp2xy(mp=mp, r=r, cell.length=9.975)
