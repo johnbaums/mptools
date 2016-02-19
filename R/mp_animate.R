@@ -126,7 +126,8 @@ mp_animate <- function(dat, habitat, outfile, zlim, axes=FALSE,
     d <- dat[dat$time==z & dat$N > 0, ]
     p <- rasterVis::levelplot(
       habitat[[i]], margin=FALSE, col.regions=col.regions, ylim=ylims,
-      at=seq(zlim[[1]], zlim[[2]], length.out=101), scales=list(draw=axes)) +
+      at=seq(zlim[[1]], zlim[[2]], length.out=101), scales=list(draw=axes),
+      useRaster=TRUE) +
       latticeExtra::layer(
         sp::sp.points(d, pch=21, col=1, fill=pt.col(101)[d$N.scl + 1], 
                       cex=pt.cex), 
