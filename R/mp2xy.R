@@ -57,10 +57,9 @@ mp2xy <- function (mp, r, cell.length, plot = TRUE) {
   if (plot) {
     p <- rasterVis::levelplot(
       r[[1]], col.regions=viridis::viridis, 
-      margin=FALSE, colorkey=list(height=0.6),
+      margin=FALSE, colorkey=list(height=0.6, raster=TRUE),
       at=seq(raster::cellStats(r[[1]], min), 
-             raster::cellStats(r[[1]], max), len=101),
-      useRaster=TRUE) + 
+             raster::cellStats(r[[1]], max), len=101)) + 
       latticeExtra::layer(sp::sp.points(
         sp::SpatialPoints(pops[, c('x', 'y')]), col=1, fill='#ffffff80', pch=21), 
         data=list(pops=pops))
