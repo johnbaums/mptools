@@ -134,8 +134,8 @@ included with `mptools`. We pass one of them to `mp2xy`, below.
 
 ```{r xy, fig.width=6.6, fig.height=4.7}
 library(raster)
-tifs <- list.files(system.file(package='mptools'), '\\.tif$', full.names=TRUE)
-xy <- mp2xy(mp=mp, r=tifs[1], cell.length=9.975)
+r <- system.file('example_001.tif', package='mptools')
+xy <- mp2xy(mp=mp, r=r, cell.length=9.975)
 head(xy)
 ```
 
