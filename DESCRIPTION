@@ -32,8 +32,7 @@ Suggests:
     knitr,
     rmarkdown,
     rgdal,
-    devtools,
-    gridSVG
+    devtools
 VignetteBuilder: knitr
 License: GPL-3
 LazyData: true
