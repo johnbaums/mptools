@@ -36,7 +36,7 @@ Plot each population's carrying capacity and abundance over time.
 }
 \note{
 When plotting many populations, \code{layout} should be set 
-  appropriately, and it may be useful to plot to, e.g., a `pdf` device.
+  appropriately, and it may be useful to plot to, e.g., a \code{pdf} device.
 }
 \examples{
 mp <- system.file('example.mp', package='mptools')
