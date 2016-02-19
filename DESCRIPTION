@@ -1,6 +1,6 @@
 Package: mptools
 Type: Package
-Version: 1.0.0
+Version: 1.0.0.9000
 Title: RAMAS Metapop Tools
 Description: RAMAS Metapop (https://www.ramas.com/ramas.htm#metapop) is a 
     popular tool for performing spatially-explicit population viability 
