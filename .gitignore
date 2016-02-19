@@ -4,3 +4,4 @@
 example/
 *.Rproj
 inst/doc
+cran-comments\.md
