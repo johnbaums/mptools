@@ -282,8 +282,8 @@ create a `RasterStack` of rasters included with `mptools`, and pass it to
 library(raster)
 tifs <- list.files(system.file(package='mptools'), '\\.tif$', full.names=TRUE)
 spdf <- mp2sp(mp=mp, coords=xy, start=2000)
-mp_animate(spdf, habitat=stack(tifs), outfile='README_files/dynamics.gif', zlim=c(0, 800), 
-           width=630, height=615, overwrite=TRUE)
+mp_animate(spdf, habitat=stack(tifs), outfile='README_files/dynamics.gif', 
+           zlim=c(0, 800), width=630, height=615, overwrite=TRUE)
 ```
 
 ```{r animate_echo, message=FALSE, eval=FALSE}
