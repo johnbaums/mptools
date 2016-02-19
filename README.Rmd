@@ -141,20 +141,21 @@ passed to that module. By default, `mp2xy` creates a plot of the points,
 overlaid upon the provided raster data.
 
 The raster grids that were originally used to define the patch structure are
-included with `mptools` as a `RasterStack` object, `habitat`. We refer to this 
-below.
+included with `mptools`. We pass one of them to `mp2xy`, below.
 
-```{r xy, echo=FALSE}
-xy <- mp2xy(mp=mp, r=habitat, cell.length=9.975, plot=FALSE)
-head(xy)
-```
-
-```{r xy_echo, eval=FALSE}
-xy <- mp2xy(mp=mp, r=habitat, cell.length=9.975)
-head(xy)
+```{r xy, echo=c(1, 2, 4), results='hide'}
+library(raster)
+r <- system.file('example_001.tif', package='mptools')
+svg('README_files/xy-1.svg')
+xy <- mp2xy(mp=mp, r=r, cell.length=9.975)
+dev.off()
 ```
 
 ![](https://rawgit.com/johnbaums/mptools/master/README_files/xy-1.svg)
+
+```{r xy_head}
+head(xy)
+```
 
 Above we see that the `data.frame` returned by `mp2xy` includes the populations'
 names, their RAMAS coordinates, and their original coordinates. In this case,
@@ -276,11 +277,20 @@ habitat change, in temporal order. The interval between successive rasters (i.e.
 the interval between time steps) is assumed to be constant. Below, we create a
 `RasterStack` rasters included with `mptools`, and pass it to `mp_animate`.
 
-```{r animate, message=FALSE}
+```{r animate, message=FALSE, echo=FALSE}
 library(raster)
+tifs <- list.files(system.file(package='mptools'), '\\.tif$', full.names=TRUE)
 spdf <- mp2sp(mp=mp, coords=xy, start=2000)
-mp_animate(spdf, habitat=habitat, outfile='README_files/dynamics.gif', 
-           zlim=c(0, 800), width=630, height=615, overwrite=TRUE)
+mp_animate(spdf, habitat=stack(tifs), outfile='README_files/dynamics.gif', zlim=c(0, 800), 
+           width=630, height=615, overwrite=TRUE)
+```
+
+```{r animate_echo, message=FALSE, eval=FALSE}
+library(raster)
+tifs <- list.files(system.file(package='mptools'), '\\.tif$', full.names=TRUE)
+spdf <- mp2sp(mp=mp, coords=xy, start=2000)
+mp_animate(spdf, habitat=stack(tifs), outfile='README_files/dynamics.gif', zlim=c(0, 800), 
+           width=630, height=615)
 ```
 
 ![](README_files/dynamics.gif)

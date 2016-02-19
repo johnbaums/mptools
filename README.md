@@ -175,7 +175,24 @@ head(met)
 
 RAMAS Metapop simulations are often based on spatial grids describing the distribution of habitat (i.e., when using the Spatial Data module to identify patch structure). In these cases, spatial coordinates are converted by RAMAS such that they describe the position relative to the top left corner of the grid. Such coordinates are returned by the `meta` function in the columns `xMetapop` and `yMetapop`. In order to relate simulation results to the true landscape, the original (untransformed) coordinates can be recovered with `mp2xy`. This requires one of the original grids used by Spatial Data (or its `Raster*` object representation), and knowledge of the cell length setting passed to that module. By default, `mp2xy` creates a plot of the points, overlaid upon the provided raster data.
 
-The raster grids that were originally used to define the patch structure are included with `mptools` as a `RasterStack` object, `habitat`. We refer to this below.
+The raster grids that were originally used to define the patch structure are included with `mptools`. We pass one of them to `mp2xy`, below.
+
+``` r
+library(raster)
+```
+
+    ## Loading required package: sp
+
+``` r
+r <- system.file('example_001.tif', package='mptools')
+xy <- mp2xy(mp=mp, r=r, cell.length=9.975)
+```
+
+![](https://rawgit.com/johnbaums/mptools/master/README_files/xy-1.svg)
+
+``` r
+head(xy)
+```
 
     ##     pop    x_mp    y_mp       x        y
     ## 1 Pop 1 199.500 279.300 1326093 -4044288
@@ -184,13 +201,6 @@ The raster grids that were originally used to define the patch structure are inc
     ## 4 Pop 4 269.325 289.275 1395918 -4054263
     ## 5 Pop 5 279.300 289.275 1405893 -4054263
     ## 6 Pop 6 289.275 289.275 1415868 -4054263
-
-``` r
-xy <- mp2xy(mp=mp, r=habitat, cell.length=9.975)
-head(xy)
-```
-
-![](https://rawgit.com/johnbaums/mptools/master/README_files/xy-1.svg)
 
 Above we see that the `data.frame` returned by `mp2xy` includes the populations' names, their RAMAS coordinates, and their original coordinates. In this case, the original coordinates were defined by the Australian Albers equal area coordinate system.
 
@@ -278,9 +288,10 @@ The function requires a `RasterStack` or `RasterBrick` with layers, describing h
 
 ``` r
 library(raster)
+tifs <- list.files(system.file(package='mptools'), '\\.tif$', full.names=TRUE)
 spdf <- mp2sp(mp=mp, coords=xy, start=2000)
-mp_animate(spdf, habitat=habitat, outfile='README_files/dynamics.gif', 
-           zlim=c(0, 800), width=630, height=615, overwrite=TRUE)
+mp_animate(spdf, habitat=stack(tifs), outfile='README_files/dynamics.gif', zlim=c(0, 800), 
+           width=630, height=615)
 ```
 
 ![](README_files/dynamics.gif)
