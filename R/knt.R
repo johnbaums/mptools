@@ -6,7 +6,8 @@
 #'   \code{\link{meta}}.
 #' @param kch The R object holding kch data returned by \code{\link{kch}}.
 #' @param pops (Optional) A character vector of population names. The
-#'   metapopulation will be subset to these populations before plotting.
+#'   metapopulation will be subset to these populations before plotting. If not
+#'   provided, all populations will be plotted (see Note below).
 #' @param samelims (logical) If \code{TRUE}, the y-axis limits will be constant
 #'   across plots.
 #' @param show_N (logical) If \code{TRUE}, mean population abundance will be
@@ -19,6 +20,8 @@
 #' @importFrom zoo zoo
 #' @importFrom lattice xyplot panel.rect panel.text
 #' @export
+#' @note When plotting many populations, \code{layout} should be set 
+#'   appropriately, and it may be useful to plot to, e.g., a \code{pdf} device. 
 #' @examples
 #' mp <- system.file('example.mp', package='mptools')
 #' met <- meta(mp)
@@ -27,13 +30,6 @@
 #' knt(met, pops=c('Pop 169', 'Pop 170', 'Pop 174', 'Pop 175'), 
 #'     kch(met, dirname(mp)), show_N=TRUE, results=results(mp),
 #'     layout=c(2, 2), samelims=TRUE)
-#'     
-#' # All populations - set layout appropriately!
-#' pdf(f <- tempfile(fileext='.pdf'))
-#' knt(met, kch(met, dirname(mp)), show_N=TRUE, results=results(mp), 
-#'     layout=c(5, 6))
-#' dev.off()
-#' file.show(f)
 knt <- function(meta, kch, pops, samelims=FALSE, show_N=FALSE, results, ...) {
   if(!missing(pops)) {
     if(any(!pops %in% meta$popName)) {

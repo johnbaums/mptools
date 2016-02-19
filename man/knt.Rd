@@ -13,7 +13,8 @@ knt(meta, kch, pops, samelims = FALSE, show_N = FALSE, results, ...)
 \item{kch}{The R object holding kch data returned by \code{\link{kch}}.}
 
 \item{pops}{(Optional) A character vector of population names. The
-metapopulation will be subset to these populations before plotting.}
+metapopulation will be subset to these populations before plotting. If not
+provided, all populations will be plotted (see Note below).}
 
 \item{samelims}{(logical) If \code{TRUE}, the y-axis limits will be constant
 across plots.}
@@ -33,6 +34,10 @@ A lattice object is returned invisibly, and plotted if not assigned.
 \description{
 Plot each population's carrying capacity and abundance over time.
 }
+\note{
+When plotting many populations, \code{layout} should be set 
+  appropriately, and it may be useful to plot to, e.g., a `pdf` device.
+}
 \examples{
 mp <- system.file('example.mp', package='mptools')
 met <- meta(mp)
@@ -41,12 +46,5 @@ met <- meta(mp)
 knt(met, pops=c('Pop 169', 'Pop 170', 'Pop 174', 'Pop 175'), 
     kch(met, dirname(mp)), show_N=TRUE, results=results(mp),
     layout=c(2, 2), samelims=TRUE)
-    
-# All populations - set layout appropriately!
-pdf(f <- tempfile(fileext='.pdf'))
-knt(met, kch(met, dirname(mp)), show_N=TRUE, results=results(mp), 
-    layout=c(5, 6))
-dev.off()
-file.show(f)
 }
 
