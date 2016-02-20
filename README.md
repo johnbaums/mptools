@@ -175,7 +175,7 @@ head(met)
 
 RAMAS Metapop simulations are often based on spatial grids describing the distribution of habitat (i.e., when using the Spatial Data module to identify patch structure). In these cases, spatial coordinates are converted by RAMAS such that they describe the position relative to the top left corner of the grid. Such coordinates are returned by the `meta` function in the columns `xMetapop` and `yMetapop`. In order to relate simulation results to the true landscape, the original (untransformed) coordinates can be recovered with `mp2xy`. This requires one of the original grids used by Spatial Data (or its `Raster*` object representation), and knowledge of the cell length setting passed to that module. By default, `mp2xy` creates a plot of the points, overlaid upon the provided raster data.
 
-The raster grids that were originally used to define the patch structure are included with `mptools`. We pass one of them to `mp2xy`, below.
+The raster grids that were originally used to define the patch structure are included with `mptools`. We identify the file path of one of these, and pass it to `mp2xy`, below.
 
 ``` r
 library(raster)
@@ -236,7 +236,7 @@ library(rgdal)
 writeOGR(spdf, dsn=tempdir(), layer='mp', driver='ESRI Shapefile')
 ```
 
-The shapefile was written out to a file called "mp.shp" (along with its accessory files) within the current temporary directory, which can be viewed with `browseURL(tempdir)`.
+The shapefile was written out to a file called "mp.shp" (along with its accessory files) within the current temporary directory, which can be viewed with `browseURL(tempdir())`.
 
 To write out to KML, we include the output file name in the string passed to the `dsn` argument, and specify the KML driver. Note that below, we subset the data to the first time step (2000), to reduce the size of the output.
 
@@ -282,7 +282,7 @@ knt(meta=met, kch=k, pops=c('Pop 169', 'Pop 170', 'Pop 174', 'Pop 175'),
 
 ### `mp_animate()`: animate habitat and abundance dynamics
 
-With `mp_animate`, we can create a gif animation showing temporal dynamics in habitat suitability and in carrying capacity. This can reveal lags in response to changing habitat suitability.
+With `mp_animate`, we can create a gif animation showing temporal dynamics in habitat suitability and mean abundance. This can reveal lags in response to changing habitat suitability.
 
 The function requires a `RasterStack` or `RasterBrick` with layers, describing habitat change, in temporal order. The interval between successive rasters (i.e., the interval between time steps) is assumed to be constant. Below, we create a `RasterStack` rasters included with `mptools`, and pass it to `mp_animate`.
 
@@ -290,8 +290,8 @@ The function requires a `RasterStack` or `RasterBrick` with layers, describing h
 library(raster)
 tifs <- list.files(system.file(package='mptools'), '\\.tif$', full.names=TRUE)
 spdf <- mp2sp(mp=mp, coords=xy, start=2000)
-mp_animate(spdf, habitat=stack(tifs), outfile='README_files/dynamics.gif', zlim=c(0, 800), 
-           width=630, height=615)
+mp_animate(spdf, habitat=stack(tifs), outfile='README_files/dynamics.gif', 
+           zlim=c(0, 800), width=630, height=615)
 ```
 
 ![](README_files/dynamics.gif)
