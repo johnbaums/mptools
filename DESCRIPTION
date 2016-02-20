@@ -2,13 +2,13 @@ Package: mptools
 Type: Package
 Version: 1.0.0
 Title: RAMAS Metapop Tools
-Description: RAMAS Metapop (https://www.ramas.com/ramas.htm#metapop) is a 
-    popular tool for performing spatially-explicit population viability 
-    analysis. It stores population model parameter settings and simulation 
-    results in plain text (.mp) files. RAMAS software is GUI-driven, and offers 
-    limited flexibility with respect to extraction of results for further 
-    analysis/visualisation in, e.g., GIS or R. This package provides a means to 
-    access, summarise and visualise model outputs.
+Description: 'RAMAS Metapop' <https://www.ramas.com/ramas.htm#metapop> is a 
+    popular software package for performing spatially-explicit population 
+    viability analysis. It is primarily GUI-driven, but stores metapopulation 
+    model parameter settings and simulation results in plain text files (.mp 
+    files). This package facilitates access, summary and visualisation of 
+    'Metapop' outputs in order to better integrate 'RAMAS' analyses into an R 
+    workflow.
 Authors@R: person('John', 'Baumgartner', email='johnbaums@gmail.com', 
                   role = c("aut", "cre"))    
 URL: https://github.com/johnbaums/mptools
