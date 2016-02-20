@@ -20,7 +20,7 @@ A numeric vector with length equal to the number of .ptc files in the
 Extracts Total Habitat Suitability from RAMAS .ptc file.
 }
 \note{
-This has been tested for RAMAS version 5.1, and may produce unexpected
+This has been tested for RAMAS version 5, and may produce unexpected
   results for other versions. Please verify that the returned coordinates are
   sensible by referring to the plot that is returned by this function.
 }

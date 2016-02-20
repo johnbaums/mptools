@@ -24,7 +24,9 @@ plotted.}
 \value{
 A \code{data.frame} containing the names of all populations referred 
   to in the .mp file, as well as their coordinates (in both Metapop and 
-  original coordinate systems).
+  original coordinate systems). If \code{plot} is \code{TRUE}, a plot of the 
+  raster layer, \code{r}, overlaid with points for all populations in the 
+  metapopulation, is also produced.
 }
 \description{
 Extracts population coordinates from a RAMAS Metapop .mp file, and converts 
@@ -33,7 +35,7 @@ them back to the coordinate system of the original habitat suitability grids
 or, in more recent versions of RAMAS GIS, SpatialData.exe).
 }
 \note{
-This has been tested for RAMAS version 5.1, and may produce unexpected
+This has been tested for RAMAS version 5, and may produce unexpected
   results for other versions. Please verify that the returned coordinates are
   sensible by referring to the plot that is returned by this function.
 }

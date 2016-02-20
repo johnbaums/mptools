@@ -80,7 +80,13 @@ is \code{FALSE}.}
 Animate temporal habitat and abundance dynamics on a gridded landscape.
 }
 \details{
-An animated gif is created, with points indicating the location of
+\code{mp_animate} requires that either 
+  \href{ImageMagick}{http://www.imagemagick.org} or 
+  \href{GraphicsMagick}{http://www.graphicsmagick.org} are installed on the 
+  system. See the documentation for 
+  \code{animation::\link[animation]{im.convert}} for further details.
+  
+  An animated gif is created, with points indicating the location of
   populations with mean abundance greater than zero, overlaid upon a raster
   grid indicating habitat suitability. Relative population size is
   represented by point colour, with white corresponding to a population with 
@@ -89,24 +95,9 @@ An animated gif is created, with points indicating the location of
   abundance. Colours for intermediate values are scaled linearly. The colour
   key indicates carrying capacity, and corresponds to the colour of grid
   cells.
-}
-\examples{
-library(raster)
-mp <- system.file('example.mp', package='mptools')
-s <- stack(list.files(system.file(package='mptools'), '\\\\.tif$', 
-           full.names=TRUE))
-coords <- mp2xy(mp, s, 9.975)
-spdf <- mp2sp(mp, coords, start=2000)
-tmp <- file.path(tempdir(), 'example.gif')
-
-# Here we subset the stack to every fifth time step, for efficiency. A full 
-# example is given at https://github.com/johnbaums/mptools.
-i <-seq(1, nlayers(s), 5)
-s <- s[[i]]
-# Accordingly, we'll need to subset the object holding the abundance data...
-spdf <- spdf[spdf$time \%in\% unique(spdf$time)[i], ]
-mp_animate(spdf, habitat=s, outfile=tmp, zlim=c(0, 800), pt.cex=1.5, 
-           interval=0.1)
+ 
+  An example of this function's use is provided in the vignette "Introduction 
+  to mptools" (\code{vignette('intro', 'mptools')}).
 }
 \seealso{
 \code{\link{mp2sp}}
