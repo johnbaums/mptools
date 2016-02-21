@@ -19,9 +19,8 @@ kch <- function (meta, path) {
   if (any(!file.exists(kchs))) {
     kchs <- f[match(tolower(kchs), tolower(f))]
   } 
-  if (any(!file.exists(kchs[!is.na(kchs)]))) 
-    stop('Some file paths do not exist. Please contact the package maintainer',
-         call.=FALSE)
+  if (any(!file.exists(kchs[!is.na(kchs)])))
+    stop('Some file paths do not exist.')
   kch <- lapply(seq_along(kchs), function(x) {
     if (is.na(kchs[x])) meta[x, 'K'] else as.numeric(readLines(kchs[x]))
   })

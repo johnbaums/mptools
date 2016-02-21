@@ -10,8 +10,7 @@
 #'    directory specified by \code{ptc}.
 #' @seealso \code{\link{results}}
 #' @note This has been tested for RAMAS version 5, and may produce unexpected
-#'   results for other versions. Please verify that the returned coordinates are
-#'   sensible by referring to the plot that is returned by this function.
+#'   results for other versions.
 #' @importFrom utils tail
 #' @export
 ths <- function(ptc) {
@@ -24,13 +23,12 @@ ths <- function(ptc) {
       txt <- txt[-(1:(
         utils::tail(which(sapply(gregexpr(',', txt), length) == 25), 1) + 2))]
       txt <- txt[1:(which(sapply(gregexpr(' ', txt), length) < 6)[1] - 1)]
-      HS <- apply(do.call(rbind, strsplit(txt, ' ')), 2, as.numeric)
+      hs <- apply(do.call(rbind, strsplit(txt, ' ')), 2, as.numeric)
     } else {
-      HS <- matrix(0, ncol=7)
+      hs <- matrix(0, ncol=7)
     }
-    if (!is.matrix(HS)) HS[1] else sum(HS[, 1])
+    if (!is.matrix(hs)) hs[1] else sum(hs[, 1])
   }
-  
   message('Calculating total habitat suitability from ptc files in:\n', ptc)
   sapply(ptcs, get.ths, USE.NAMES=FALSE)
 }

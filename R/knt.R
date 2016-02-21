@@ -33,15 +33,13 @@
 knt <- function(meta, kch, pops, samelims=FALSE, show_N=FALSE, results, ...) {
   if(!missing(pops)) {
     if(any(!pops %in% meta$popName)) {
-      warning('Some populations not in meta:\n', 
-              setdiff(pops, meta$popName),
+      warning('Some populations not in meta:\n', setdiff(pops, meta$popName),
               call.=FALSE)
     }
     meta <- meta[meta$popName %in% pops, ]
     kch <- kch[, intersect(pops, colnames(kch))]
     if(any(!pops %in% colnames(kch))) {
-      warning('Some populations not in kch:\n', 
-              setdiff(pops, colnames(kch)),
+      warning('Some populations not in kch:\n', setdiff(pops, colnames(kch)),
               call.=FALSE)
     }
   }

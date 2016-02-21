@@ -21,8 +21,7 @@ Extracts Total Habitat Suitability from RAMAS .ptc file.
 }
 \note{
 This has been tested for RAMAS version 5, and may produce unexpected
-  results for other versions. Please verify that the returned coordinates are
-  sensible by referring to the plot that is returned by this function.
+  results for other versions.
 }
 \seealso{
 \code{\link{results}}
