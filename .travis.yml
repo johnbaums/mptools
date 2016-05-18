@@ -11,7 +11,6 @@ before_install:
   libgdal1h libnetcdf-dev
   gdal-bin libproj-dev libgdal-dev
   imagemagick
-- wget https://trac.osgeo.org/gdal/export/34243/trunk/gdal/swig/python/scripts/gdal_polygonize.py
   
 install:
   - Rscript -e 'if(!"devtools" %in% rownames(installed.packages())) install.packages("devtools", dependencies = TRUE)'
