@@ -14,6 +14,8 @@ opts_chunk$set(dev="svg", fig.path='README_files/')
 # mptools 
 
 [![Travis-CI Build Status](https://travis-ci.org/johnbaums/mptools.svg?branch=master)](https://travis-ci.org/johnbaums/mptools)
+[![CRAN](http://www.r-pkg.org/badges/version/mptools)](https://cran.r-project.org/package=mptools) 
+[![Downloads](http://cranlogs.r-pkg.org/badges/mptools?color=brightgreen)](http://www.r-pkg.org/pkg/mptools)
 
 In recent years, spatially-explicit, coupled habitat-demographic models have
 been developed to acknowledge the importance of population processes when
